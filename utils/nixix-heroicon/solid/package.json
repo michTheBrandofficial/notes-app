@@ -1,0 +1,13 @@
+{
+  "name": "lit-heroicons/solid",
+  "type": "module",
+  "module": "index.js",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "default": "./index.js"
+    }
+  },
+  "sideEffects": false
+}

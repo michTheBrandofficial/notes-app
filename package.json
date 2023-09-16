@@ -1,0 +1,36 @@
+{
+  "name": "notes-app",
+  "version": "1.0.0",
+  "description": "A notes app built with NixixJS, TailwindCSS and as a PWA.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "vite build",
+    "start": "vite",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michTheBrandofficial/notes-app.git"
+  },
+  "keywords": [
+    "nixix",
+    "js",
+    "javascript",
+    "notes"
+  ],
+  "author": "mich.thebrand",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/michTheBrandofficial/notes-app/issues"
+  },
+  "homepage": "https://github.com/michTheBrandofficial/notes-app#readme",
+  "dependencies": {
+    "nixix": "^1.5.12"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.22",
+    "tailwindcss": "^3.3.1"
+  }
+}

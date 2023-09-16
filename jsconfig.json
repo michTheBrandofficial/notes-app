@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@styles/*": ["./styles/*"],
+      "@components/*": ["./components/*"],
+      "@assets/*": ["./assets/*"],
+      "@utils/*": ["./utils/*"]
+    },
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "jsx": "react-jsxdev",
+    "jsxImportSource": "nixix/types",
+    "module": "es2022",
+    "target": "es2022",
+    "strict": true,
+    "types": ["nixix/router", "nixix/dom", "nixix/primitives", "nixix/hoc"],
+    "checkJs": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node"
+  }
+}
