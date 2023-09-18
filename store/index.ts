@@ -14,15 +14,7 @@ export const [sidebar, setSidebar] = callStore<SidebarType>({
 });
 
 export const [getStorageNotes, setStoreageNotes] = useStorage<TNotes>('notes');
-export const [notes, setNotes] = callStore<TNotes>(
-  getStorageNotes() || [
-    {
-      body: '',
-      title: '',
-      time: '',
-    },
-  ]
-);
+export const [notes, setNotes] = callStore<TNotes>(getStorageNotes() || []);
 callReaction(() => {
   setStoreageNotes(notes.$$__value);
 }, [notes]);
