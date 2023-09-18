@@ -14,9 +14,9 @@ declare global {
   type Themes = 'light' | 'dark' | (string & {});
   type StorageKey = 'notes' | 'theme' | (string & {});
   type TNote = {
-    title?: string;
-    body: string;
-    time: string;
+    title?: string | FormDataEntryValue | null;
+    body: string | FormDataEntryValue | null;
+    time?: string;
   };
   type TNotes = TNote[];
 

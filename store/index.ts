@@ -13,10 +13,10 @@ export const [sidebar, setSidebar] = callStore<SidebarType>({
   display: isSmallScreen ? 'none' : 'none',
 });
 
-export const [getStorageNotes, setStoreageNotes] = useStorage<TNotes>('notes');
-export const [notes, setNotes] = callStore<TNotes>(getStorageNotes() || []);
+export const [getStorageNotes, setStorageNotes] = useStorage<TNotes>('notes');
+export const [notes, setNotes] = callStore<TNotes>([]);
 callReaction(() => {
-  setStoreageNotes(notes.$$__value);
+  setStorageNotes(notes.$$__value);
 }, [notes]);
 
 export const [formDisplay, setFormDisplay] = callSignal<boolean>(false);

@@ -1,10 +1,7 @@
 import Icon from '@utils/nixix-heroicon';
 import { clock } from '@utils/nixix-heroicon/outline';
 
-type NoteProps = {
-  title?: string;
-  time: string;
-  body: string;
+type NoteProps = TNote & {
   key: number;
   createdDate?: Date;
 };
