@@ -16,6 +16,12 @@ type IconProps = {
 
 const Icon = (props: IconProps) => {
   const { className, stroke, size = 24, fill, path, ...rest } = props;
+  if ('stroke:width' in rest) {
+    path.path = path.path.replace(
+      `stroke-width="2"`,
+      `stroke-width="${rest['stroke:width']}"`
+    );
+  }
   const svg = (
     <svg
       viewBox={'0 0 24 24'}

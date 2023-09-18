@@ -11,13 +11,17 @@ declare global {
     };
   }>;
 
-  interface ThemeProps {
-    theme: SignalObject<'dark' | 'light'>;
-    setTheme: SetSignalDispatcher<'dark' | 'light'>;
-  }
+  type Themes = 'light' | 'dark' | (string & {});
+  type StorageKey = 'notes' | 'theme' | (string & {});
+  type TNote = {
+    title?: string;
+    body: string;
+    time: string;
+  };
+  type TNotes = TNote[];
 
-  interface DisplayType {
-    moon: 'none' | 'block';
-    sun: 'none' | 'block';
+  interface ThemeProps {
+    theme: SignalObject<Themes>;
+    setTheme: SetSignalDispatcher<Themes>;
   }
 }

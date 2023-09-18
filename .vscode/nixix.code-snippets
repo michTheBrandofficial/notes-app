@@ -1,7 +1,7 @@
 {
   "Nixix default Functional Component": {
     "prefix": "edfc",
-    "body": "const ${1:${TM_FILENAME_BASE}} = (${2:props}) => {\n\treturn (\n\t\t${3:<div />}\n\t)\n}\n\nexport default ${1:${TM_FILENAME_BASE}};",
+    "body": "type ${1:${TM_FILENAME_BASE}}Props = {\n\n$0}; \n\nconst ${1:${TM_FILENAME_BASE}} = (${2:props}: ${1:${TM_FILENAME_BASE}}Props) => {\n\treturn (\n\t\t${3:<div />}\n\t)\n}\n\nexport default ${1:${TM_FILENAME_BASE}};",
     "scope": "typescriptreact,javascriptreact",
     "description": "Functional Component to return JSX."
   },

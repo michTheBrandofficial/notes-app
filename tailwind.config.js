@@ -18,6 +18,11 @@ module.exports = {
           DEFAULT: '#081b33',
         },
       },
+      screens: {
+        bsm: {
+          min: '350px',
+        },
+      },
     },
   },
   plugins: [],

@@ -1,27 +1,13 @@
-import { callStore } from 'nixix/primitives';
 import Header from './Header';
-import { useStorage } from '@utils/useStorage';
-import { For } from 'nixix/hoc';
+import Notes from './Notes';
+import Quicktools from './Quicktools';
 
 const Body = () => {
-  const [getNotes] = useStorage<'notes', [string, string][]>('notes');
-  const [notes, setNotes] = callStore<[string, string][]>(
-    getNotes() || [['name', 'name']]
-  );
-  console.log(notes);
   return (
-    <section className="flex-1 w-[75%] h-full flex flex-col px-12 py-5 font-HantenGrotesk bg-white tr-3 dark:bg-darkBlue ">
+    <section className="flex-1 relative z-[5] w-[75%] h-full flex flex-col py-4 pl-4 font-HantenGrotesk text-gray-800 dark:text-gray-300 bg-white dark:bg-darkBlue tr-4 lg:pl-12 ">
       <Header />
-      <For each={notes}>
-        {(e: typeof notes, i: number) => {
-          return (
-            <section className={'dark:text-gray-300'}>
-              <h1> {e[i][0]} </h1>
-              <p> {e[i][1]} </p>
-            </section>
-          );
-        }}
-      </For>
+      <Notes />
+      <Quicktools />
     </section>
   );
 };

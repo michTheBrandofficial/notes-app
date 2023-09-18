@@ -1,8 +1,8 @@
 type StorageGetter<T> = () => T | null;
 type StorageSetter<T> = (value: T) => T;
 
-export const useStorage = <T extends 'theme' | 'notes' | (string & {}), O>(
-  key: T
+export const useStorage = <O, K extends StorageKey = StorageKey>(
+  key: K
 ): [StorageGetter<O>, StorageSetter<O>] => {
   const getItem: StorageGetter<O> = () => {
     const data = localStorage.getItem(key);

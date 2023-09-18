@@ -54,6 +54,10 @@ html {
     transition: all ease 0.3s;
   }
 
+  .tr-4 {
+    transition: all ease-in-out 0.4s;
+  }
+
   .filterActive {
     @apply text-gray-200 shadow-sm shadow-blue-500 bg-blue-500 rounded-full py-1 px-4 dark:text-darkBlue dark:bg-white 
     dark:shadow-none;

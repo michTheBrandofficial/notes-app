@@ -1,4 +1,5 @@
 import { MouseEvent } from 'nixix/types/eventhandlers';
+import { MenuIcon } from './buttons';
 
 const Header = () => {
   const filters = ['All', '1h', '2h', 'Work'];
@@ -17,7 +18,7 @@ const Header = () => {
         on:click={filterActive}
         className={`${
           i === 0 ? 'filterActive' : 'filterNotActive'
-        } cursor-pointer text-[14px]`}
+        } cursor-pointer hidden text-[14px] lg:block `}
       >
         {filter}
       </button>
@@ -25,10 +26,14 @@ const Header = () => {
   }
 
   return (
-    <header className="w-full h-fit flex items-center justify-between text-gray-800 dark:text-gray-300">
-      <h1 className="text-inherit text-[35px] ">Design</h1>
+    <header className="w-full h-fit flex items-center pr-4 justify-between lg:pr-12 ">
+      <h1 className=" text-[35px] ">Design</h1>
       {/* filters */}
-      <section className="w-fit flex items-center space-x-2">
+      <section className="w-fit flex items-center stroke-blue-300 fill-none dark:stroke-blue-500 space-x-2  ">
+        <div className={'w-fit flex lg:hidden relative '}>
+          <MenuIcon close />
+          <MenuIcon close={false} />
+        </div>
         {getFilters()}
       </section>
     </header>
