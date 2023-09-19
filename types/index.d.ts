@@ -17,6 +17,7 @@ declare global {
     title?: string | FormDataEntryValue | null;
     body: string | FormDataEntryValue | null;
     time?: string;
+    createdDate?: string;
   };
   type TNotes = TNote[];
 

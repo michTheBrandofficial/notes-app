@@ -28,7 +28,7 @@ const Notes = () => {
         <For each={notes} fallback={<NotesFallback />}>
           {(item: typeof notes, i: number) => {
             const note = item[i];
-            return <Note {...note} key={i} />;
+            return <Note {...note} createdDate={note.createdDate} key={i} />;
           }}
         </For>
       </section>

@@ -1,15 +1,9 @@
 import Icon from '@utils/nixix-heroicon';
 import { check, chevronLeft } from '@utils/nixix-heroicon/outline';
-import { setFormDisplay, setNotes } from 'store';
-import { formRef } from '@utils/refs';
+import { setNotes } from 'store';
+import { formRef, sectionRef } from '@utils/refs';
 import { FormEvent } from 'nixix/types/eventhandlers';
-import { getUpdateTime } from '@utils/functions';
-
-type FormProps = {
-  data?: TNote & {
-    key?: number;
-  };
-};
+import { getCreationDate, getUpdateTime, removeValue } from '@utils/functions';
 
 // on:submit function
 const Form = () => {
@@ -23,24 +17,33 @@ const Form = () => {
 
     if (data.title === '') return;
     else {
-      const time = getUpdateTime();
-      data.time = time;
+      data.time = getUpdateTime();
+      data.createdDate = getCreationDate();
     }
-    setFormDisplay(false);
+    const inputs = [
+      e.currentTarget.querySelector('input'),
+      e.currentTarget.querySelector('textarea'),
+    ];
     setNotes((prev) => {
       prev?.unshift(data);
       return prev as TNotes;
     });
-    return;
+    sectionRef.current?.classList.remove('right-t');
+    removeValue(...(inputs as any));
   }
 
   return (
-    <section className={'w-full tr-3 h-full bg-white p-2 lg:px-12 '}>
+    <section
+      className={
+        'w-full tr-3 h-full bg-white absolute left-t z-50 tr-6 p-2 lg:px-12 '
+      }
+      bind:ref={sectionRef}
+    >
       <section className={'w-full h-full flex flex-col '}>
         <div className={'w-full h-fit flex items-center justify-between '}>
           <button
             on:click={() => {
-              setFormDisplay(false);
+              sectionRef.current?.classList.remove('right-t');
             }}
           >
             <Icon

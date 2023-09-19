@@ -3,7 +3,7 @@ import { clock } from '@utils/nixix-heroicon/outline';
 
 type NoteProps = TNote & {
   key: number;
-  createdDate?: Date;
+  createdDate?: string;
 };
 
 // pink, lime, blue. shade 200
@@ -24,7 +24,8 @@ const Note = ({ title, time, body, key, createdDate }: NoteProps) => {
           'w-full relative text-darkBlue after:w-4/5 after:mt-3 after:h-[2px] after:bg-[#081b336b] after:absolute after:right-0 after:rounded-full after:block '
         }
       >
-        <h1 className={'w-full line-clamp-1 text-[19px]'}>{title}</h1>
+        <h1 className={'text-[#081b336b] text-xs '}>{createdDate}</h1>
+        <h1 className={'w-full line-clamp-1 mt-1 text-[19px]'}>{title}</h1>
       </div>
 
       <div className={'mt-8'}>

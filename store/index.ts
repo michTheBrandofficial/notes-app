@@ -1,4 +1,4 @@
-import { callSignal, callReaction, callStore } from 'nixix/primitives';
+import { callReaction, callStore } from 'nixix/primitives';
 import { useStorage } from '@utils/useStorage';
 
 type SidebarType = {
@@ -18,5 +18,3 @@ export const [notes, setNotes] = callStore<TNotes>(getStorageNotes() || []);
 callReaction(() => {
   setStorageNotes(notes.$$__value);
 }, [notes]);
-
-export const [formDisplay, setFormDisplay] = callSignal<boolean>(false);

@@ -54,6 +54,18 @@ html {
     transition: all ease 0.3s;
   }
 
+  .left-t {
+    transform: translateX(100%);
+  }
+
+  .left-t.right-t {
+    transform: translateX(0%);
+  }
+
+  .tr-6 {
+    transition: transform ease 1s;
+  }
+
   .tr-4 {
     transition: all ease-in-out 0.4s;
   }
