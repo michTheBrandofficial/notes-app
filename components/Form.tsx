@@ -1,12 +1,25 @@
 import Icon from '@utils/nixix-heroicon';
 import { check, chevronLeft } from '@utils/nixix-heroicon/outline';
-import { setNotes } from 'store';
-import { formRef, sectionRef } from '@utils/refs';
+import { editedNote, formDisplay, setEditedNote, setNotes } from 'store';
+import { displayRefs, formRef } from '@utils/refs';
 import { FormEvent } from 'nixix/types/eventhandlers';
-import { getCreationDate, getUpdateTime, removeValue } from '@utils/functions';
+import {
+  closeForm,
+  getCreationDate,
+  getUpdateTime,
+  removeValue,
+  splice,
+} from '@utils/functions';
+import { effect } from 'nixix/primitives';
 
 // on:submit function
 const Form = () => {
+  let inputs: Inputs = [];
+  effect(() => {
+    inputs[0] = formRef?.current?.querySelector('input');
+    inputs[1] = formRef?.current?.querySelector('textarea');
+  }, 'once');
+
   function handleSubmbit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -15,35 +28,64 @@ const Form = () => {
       body: formData.get('body'),
     };
 
-    if (data.title === '') return;
+    if (data.title === '') return closeForm();
     else {
       data.time = getUpdateTime();
+    }
+
+    const key = editedNote.$$__value.key;
+    if (key === null) {
       data.createdDate = getCreationDate();
     }
-    const inputs = [
-      e.currentTarget.querySelector('input'),
-      e.currentTarget.querySelector('textarea'),
-    ];
     setNotes((prev) => {
+      if (typeof key === 'number') {
+        const update = splice(prev as TNotes, key);
+        editedNote.$$__value.key = null;
+        if (update) {
+          update.body = data.body;
+          update.title = data.title;
+          update.time = data.time;
+        }
+        prev?.unshift(update as TNote);
+        return prev as TNotes;
+      }
       prev?.unshift(data);
       return prev as TNotes;
     });
-    sectionRef.current?.classList.remove('right-t');
     removeValue(...(inputs as any));
+    closeForm();
   }
 
   return (
     <section
       className={
-        'w-full tr-3 h-full bg-white absolute left-t z-50 tr-6 p-2 lg:px-12 '
+        'w-full h-screen bg-white absolute top-0 z-30 tr-1 p-2 lg:px-12 '
       }
-      bind:ref={sectionRef}
+      style={{
+        display: 'none',
+        transform: formDisplay.transform,
+        opacity: formDisplay.opacity,
+      }}
+      bind:ref={displayRefs.formRef}
     >
       <section className={'w-full h-full flex flex-col '}>
         <div className={'w-full h-fit flex items-center justify-between '}>
           <button
             on:click={() => {
-              sectionRef.current?.classList.remove('right-t');
+              if (Boolean(inputs[0]?.value) || Boolean(inputs[1]?.value)) {
+                const check = confirm('Do you want to discard');
+                if (check) {
+                  setEditedNote({
+                    bodyValue: '',
+                    inputValue: '',
+                    key: null,
+                  });
+                  closeForm();
+                } else {
+                  return inputs[0]?.focus();
+                }
+              }
+              closeForm();
             }}
           >
             <Icon
@@ -76,6 +118,7 @@ const Form = () => {
         >
           <input
             type="text"
+            value={editedNote.inputValue}
             className={
               'w-full h-12 font-semibold  text-lg pl-2 focus:outline-none border-none '
             }
@@ -86,6 +129,7 @@ const Form = () => {
           />
           <textarea
             spellcheck
+            value={editedNote.bodyValue}
             autocapitalize={'sentences'}
             name="body"
             cols={30}

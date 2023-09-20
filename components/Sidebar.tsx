@@ -4,24 +4,16 @@ import { useStorage } from '@utils/useStorage';
 import { callReaction, callRef, callSignal } from 'nixix/primitives';
 import { sidebar } from 'store';
 import { ThemeButton, MenuButtons } from './buttons';
+import { displayRefs } from '@utils/refs';
 
 const Sidebar = () => {
   const [getTheme, setTheme] = useStorage<'light' | 'dark'>('theme');
-
   const [themeState, setThemeState] = callSignal<'light' | 'dark'>(
     getTheme() || 'light'
   );
   callReaction(() => {
     setTheme(themeState.value);
   }, [themeState]);
-  const asdieRef = callRef<HTMLElement>();
-  callReaction(() => {
-    if (sidebar.$$__value.sidebar === 0) {
-      asdieRef.current?.classList.replace('z-20', 'z-0');
-    } else {
-      asdieRef.current?.classList.replace('z-0', 'z-20');
-    }
-  }, [sidebar]);
 
   function switchTheme() {
     document.body.classList.toggle('dark');
@@ -32,11 +24,8 @@ const Sidebar = () => {
 
   return (
     <aside
-      className="w-[25%] min-w-[250px] max-w-[300px] h-full font-HantenGrotesk flex flex-col content-between items-center border-r px-6 py-10 tr-4 absolute z-0 bg-white dark:bg-darkBlue dark:border-none bsm:min-w-[270px] lg:static"
-      style={{
-        opacity: sidebar.sidebar,
-      }}
-      bind:ref={asdieRef}
+      className="w-[25%] min-w-[250px] max-w-[300px] h-screen font-HantenGrotesk flex-col content-between items-center border-r px-6 py-10 absolute top-0 z-20 bg-white dark:bg-darkBlue dark:border-none bsm:min-w-[270px] hidden left-t md:right-t md:flex "
+      bind:ref={displayRefs.asideRef}
     >
       {/* quick menu */}
       <MenuButtons />

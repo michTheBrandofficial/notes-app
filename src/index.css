@@ -55,19 +55,22 @@ html {
   }
 
   .left-t {
-    transform: translateX(100%);
+    transform: translateX(-100%);
+    opacity: 0;
+    transition: all ease 0.9s;
   }
 
   .left-t.right-t {
     transform: translateX(0%);
+    opacity: 1;
   }
 
-  .tr-6 {
-    transition: transform ease 1s;
+  .tr-1 {
+    transition: all ease 1s;
   }
 
-  .tr-4 {
-    transition: all ease-in-out 0.4s;
+  .selected {
+    @apply after:w-full after:h-full after:rounded-[inherit] after:opacity-[.3] after:bg-black after:absolute after:top-0;
   }
 
   .filterActive {

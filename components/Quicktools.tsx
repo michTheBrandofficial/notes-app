@@ -1,18 +1,13 @@
-import { createNewNote } from '@utils/functions';
+import { createNewNote, deleteNotes } from '@utils/functions';
 import Icon from '@utils/nixix-heroicon';
-import { plus, search, x } from '@utils/nixix-heroicon/outline';
+import { plus, x } from '@utils/nixix-heroicon/outline';
 
-type QuicktoolsProps = {};
-
-const Quicktools = (props: QuicktoolsProps) => {
+const Quicktools = () => {
   const quicktools = [
-    {
-      path: search,
-      color: 'stroke-purple-400 bg-purple-200',
-    },
     {
       path: x,
       color: 'stroke-red-400 bg-red-200',
+      onclick: deleteNotes,
     },
     {
       path: plus,

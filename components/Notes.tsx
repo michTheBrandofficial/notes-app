@@ -1,11 +1,11 @@
 import { For } from 'nixix/hoc';
-import { effect, callRef } from 'nixix/primitives';
+import { effect } from 'nixix/primitives';
 import { Note } from './display';
+import { notesRef } from '@utils/refs';
 import { NotesFallback } from './buttons';
 import { notes } from 'store';
 
 const Notes = () => {
-  const notesRef = callRef<HTMLElement>();
   effect(() => {
     if (notes.$$__value.length === 0) {
       notesRef.current?.classList.add('pr-4', 'lg:pr-12');

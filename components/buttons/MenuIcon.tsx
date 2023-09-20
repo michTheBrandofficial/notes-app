@@ -1,19 +1,39 @@
 import Icon from '@utils/nixix-heroicon';
 import { x, menuAlt_3 } from '@utils/nixix-heroicon/outline';
+import { displayRefs } from '@utils/refs';
 import { setSidebar, sidebar } from 'store';
 
 const MenuIcon = ({ close }: { close: boolean }) => {
-  const opacity = close ? 0 : 1;
+  const transform = close ? 'translateX(-100%)' : 'translateX(0)';
   const display = close ? 'none' : 'flex';
+  const opacity = close ? 0 : 1;
 
   return (
     <div
       on:click={(e) => {
-        setSidebar({
-          sidebar: opacity,
-          menu: Number(!opacity),
-          display: display,
-        });
+        const asideEl = displayRefs.asideRef.current;
+        if (!close) {
+          asideEl?.classList.replace('hidden', 'flex');
+          setTimeout(() => {
+            asideEl?.classList.add('right-t');
+            setSidebar({
+              menu: Number(!opacity),
+              x: Number(opacity),
+            });
+          }, 50);
+        } else {
+          // this is the close button
+          asideEl?.classList.remove('right-t');
+          setSidebar({
+            menu: Number(!opacity),
+            x: Number(opacity),
+          });
+          setTimeout(() => {
+            asideEl?.classList.replace('flex', 'hidden');
+          }, 1500);
+        }
+
+        // switch the button;
         const el = e.currentTarget;
         const contains = el.classList.contains('absolute');
         const classes = ['absolute', 'z-10'];
@@ -29,7 +49,7 @@ const MenuIcon = ({ close }: { close: boolean }) => {
         !close ? 'absolute left-0 z-10' : 'right-0'
       } `}
       style={{
-        opacity: close ? sidebar.sidebar : sidebar.menu,
+        opacity: close ? sidebar.x : sidebar.menu,
       }}
       on:keyup={(e) => {
         if (e.key === 'Enter') {

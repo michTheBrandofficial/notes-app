@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/michTheBrandofficial/notes-app#readme",
   "dependencies": {
-    "nixix": "^1.5.15"
+    "nixix": "^1.5.16"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.14",

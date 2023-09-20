@@ -2,6 +2,7 @@ import Body from '@components/Body';
 import Sidebar from '@components/Sidebar';
 import { useStorage } from '@utils/useStorage';
 import { effect } from 'nixix/primitives';
+import { Notification } from '@components/display';
 import Form from '@components/Form';
 
 const App = () => {
