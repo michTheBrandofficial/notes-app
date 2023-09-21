@@ -18,6 +18,7 @@ export default defineConfig({
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
       manifest: {
         start_url: '/',
+        short_name: 'NotesRus',
         name: 'NotesRus',
         description: 'A Note taking app with rich features',
         icons: [
