@@ -33,3 +33,12 @@ export const [editedNote, setEditedNote] = callStore<EditedNote>({
 });
 
 export const [selectedNotes, setSelectedNotes] = callStore<number[]>([]);
+
+interface Notification {
+  message?: string;
+  transform?: 'translateY(0)' | 'translateY(-100%)';
+}
+export const [notification, setNotification] = callStore<Notification>({
+  message: '',
+  transform: 'translateY(-100%)',
+});

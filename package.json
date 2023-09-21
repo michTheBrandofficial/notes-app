@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "vite build",
+    "build": "vite build && cp -r assets/pwa/*.png assets/pwa/*.ico dist/ ",
     "start": "vite",
-    "preview": "vite preview"
+    "pwa": "cp -r assets/pwa/*.png assets/pwa/*.ico dist/",
+    "preview": "vite preview --port 5174"
   },
   "repository": {
     "type": "git",
@@ -31,6 +32,7 @@
   "devDependencies": {
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.22",
-    "tailwindcss": "^3.3.1"
+    "tailwindcss": "^3.3.1",
+    "vite-plugin-pwa": "^0.16.5"
   }
 }

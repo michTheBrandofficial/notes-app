@@ -32,7 +32,7 @@ const Sidebar = () => {
 
       <section className="w-full h-fit flex justify-between items-center mt-auto">
         {/* add collection button */}
-        <button className="p-3 w-fit ml-auto rounded-full shadow-lg theme-switcher tr-4">
+        <button className="p-3 w-fit ml-auto rounded-full shadow-lg collections tr-4">
           <Icon path={plus} size={30} className="stroke-inherit "></Icon>
         </button>
         {/* theme switcher button */}

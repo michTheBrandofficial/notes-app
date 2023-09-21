@@ -26,28 +26,21 @@ html {
 }
 
 @layer components {
-  .all-fit {
-    @apply h-fit w-fit;
-  }
-
-  .theme-switcher {
+  .collections {
     @apply shadow-blue-300 bg-blue-500 stroke-white dark:shadow-none dark:bg-gray-200 dark:stroke-blue-500;
-  }
-
-  .section-notes {
-    height: 400px;
-  }
-
-  .w-inherit {
-    min-width: inherit;
-  }
-  .h-inherit {
-    min-height: inherit;
   }
 
   .center {
     left: 50%;
     transform: translateX(-50%);
+  }
+
+  .letter-1 {
+    letter-spacing: 0.05em;
+  }
+
+  .shadow-round {
+    box-shadow: 0 0 1px 0 rgb(249 250 251);
   }
 
   .tr-3 {
@@ -81,14 +74,5 @@ html {
 
   .filterNotActive {
     @apply text-gray-500 dark:text-blue-400;
-  }
-
-  .linkActive {
-    @apply text-gray-700 border-blue-600;
-    transition: all ease 1s;
-  }
-
-  .linkNotActive {
-    @apply text-gray-400 border-white;
   }
 }

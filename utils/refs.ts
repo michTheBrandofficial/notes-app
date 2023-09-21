@@ -8,4 +8,5 @@ export const displayRefs = {
   asideRef: callRef<HTMLElement>(),
   sectionRef: callRef<HTMLElement>(),
   formRef: callRef<HTMLElement>(),
+  notificationRef: callRef<HTMLElement>(),
 };

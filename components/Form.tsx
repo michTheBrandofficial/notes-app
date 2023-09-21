@@ -129,7 +129,7 @@ const Form = () => {
           />
           <textarea
             spellcheck
-            value={editedNote.bodyValue}
+            value={editedNote.bodyValue as any}
             autocapitalize={'sentences'}
             name="body"
             cols={30}
