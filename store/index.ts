@@ -1,4 +1,4 @@
-import { callReaction, callStore } from 'nixix/primitives';
+import { callReaction, callSignal, callStore } from 'nixix/primitives';
 import { useStorage } from '@utils/useStorage';
 
 type SidebarType = {
@@ -33,12 +33,11 @@ export const [editedNote, setEditedNote] = callStore<EditedNote>({
 });
 
 export const [selectedNotes, setSelectedNotes] = callStore<number[]>([]);
+export const [selectOp, setSelectOp] = callSignal<'0' | '1'>('0');
 
 interface Notification {
   message?: string;
-  transform?: 'translateY(0)' | 'translateY(-100%)';
 }
 export const [notification, setNotification] = callStore<Notification>({
   message: '',
-  transform: 'translateY(-100%)',
 });

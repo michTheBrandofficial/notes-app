@@ -3,6 +3,7 @@ import Sidebar from '@components/Sidebar';
 import { useStorage } from '@utils/useStorage';
 import { effect } from 'nixix/primitives';
 import Form from '@components/Form';
+import { Notification } from '@components/display';
 
 const App = () => {
   // state for theme.
@@ -16,6 +17,7 @@ const App = () => {
   return (
     <>
       <Sidebar />
+      <Notification />
       <Body />
       <Form />
     </>

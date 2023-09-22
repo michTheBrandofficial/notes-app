@@ -7,10 +7,7 @@ import { notification } from 'store';
 const Notification = () => {
   return (
     <section
-      className="h-16 w-full max-w-[370px] px-2 tr-3 absolute top-2 z-30 center "
-      style={{
-        transform: notification.transform,
-      }}
+      className="h-16 w-full max-w-[370px] px-2 tr-3 absolute z-30 no-notifi center "
       bind:ref={displayRefs.notificationRef}
     >
       <section
@@ -24,7 +21,7 @@ const Notification = () => {
           className={'fill-blue-400 stroke-none '}
         />
         <p className={'text-[#081b336b] mt-[-7px] font-semibold letter-1 '}>
-          PlaceHolder
+          {notification.message}
         </p>
       </section>
     </section>

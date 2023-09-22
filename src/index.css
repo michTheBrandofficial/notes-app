@@ -47,6 +47,30 @@ html {
     transition: all ease 0.3s;
   }
 
+  .no-notifi {
+    top: -200px;
+  }
+
+  .no-notifi.notifi {
+    animation: bounce 0.5s ease;
+    animation-fill-mode: forwards;
+  }
+
+  @keyframes bounce {
+    0% {
+      top: -200px;
+    }
+    70% {
+      top: 1.4rem;
+    }
+    85% {
+      top: -0.3rem;
+    }
+    100% {
+      top: 0.5rem;
+    }
+  }
+
   .left-t {
     transform: translateX(-100%);
     opacity: 0;

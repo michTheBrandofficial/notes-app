@@ -2,7 +2,7 @@ import Icon from '@utils/nixix-heroicon';
 import { check, chevronLeft } from '@utils/nixix-heroicon/outline';
 import { editedNote, formDisplay, setEditedNote, setNotes } from 'store';
 import { displayRefs, formRef } from '@utils/refs';
-import { FormEvent } from 'nixix/types/eventhandlers';
+import { FormEvent, TransitionEvent } from 'nixix/types/eventhandlers';
 import {
   closeForm,
   getCreationDate,
@@ -56,11 +56,22 @@ const Form = () => {
     closeForm();
   }
 
+  /**
+   * focuses on the input element only after the form is transitioned into the dom.
+   */
+  function focusInput(e: TransitionEvent<HTMLElement>) {
+    // if the form opacity is 0, return;
+    if (formDisplay.$$__value.opacity === '0') return;
+    const form = formRef.current;
+    form?.querySelector('input')?.focus();
+  }
+
   return (
     <section
       className={
         'w-full h-screen bg-white absolute top-0 z-30 tr-1 p-2 lg:px-12 '
       }
+      on:transitionend={focusInput}
       style={{
         display: 'none',
         transform: formDisplay.transform,

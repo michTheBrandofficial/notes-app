@@ -2,11 +2,16 @@ import ClickAndHold from '@utils/clickandhold';
 import { createNewNote } from '@utils/functions';
 import Icon from '@utils/nixix-heroicon';
 import { clock } from '@utils/nixix-heroicon/outline';
-import { formRef } from '@utils/refs';
 import { getStoreValue } from 'nixix/dom';
 import { callRef, effect } from 'nixix/primitives';
 import { MouseEvent } from 'nixix/types/eventhandlers';
-import { selectedNotes, setEditedNote, setSelectedNotes } from 'store';
+import {
+  selectOp,
+  selectedNotes,
+  setEditedNote,
+  setSelectOp,
+  setSelectedNotes,
+} from 'store';
 
 type NoteProps = TNote & {
   key: number;
@@ -37,13 +42,16 @@ const Note = ({ title, time, body, key, createdDate }: NoteProps) => {
   function selectNote() {
     const article = articleRef?.current;
     article?.parentElement?.classList.add('selected');
+    if (selectOp.value === '0') {
+      setSelectOp('1');
+    }
     setSelectedNotes((prev) => {
       prev = [...(prev as any), key];
       return prev as number[];
     });
   }
   effect(() => {
-    const clickandhold = new ClickAndHold(selectNote, 1000, handleClick);
+    const clickandhold = new ClickAndHold(selectNote, 500, handleClick);
     clickandhold.apply(articleRef.current as any);
   }, 'once');
 
