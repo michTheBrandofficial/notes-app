@@ -4,14 +4,20 @@ import { editedNote, formDisplay, setEditedNote, setNotes } from 'store';
 import { displayRefs, formRef } from '@utils/refs';
 import { FormEvent, TransitionEvent } from 'nixix/types/eventhandlers';
 import {
+  addClassList,
   closeForm,
   getCreationDate,
   getUpdateTime,
+  removeClassList,
   removeValue,
   splice,
 } from '@utils/functions';
-import { effect } from 'nixix/primitives';
+import { callReaction, callRef, callSignal, effect } from 'nixix/primitives';
+import Popup from './Popup';
 
+/**
+ * isPopup state for changing state
+ */
 // on:submit function
 const Form = () => {
   let inputs: Inputs = [];
@@ -19,6 +25,22 @@ const Form = () => {
     inputs[0] = formRef?.current?.querySelector('input');
     inputs[1] = formRef?.current?.querySelector('textarea');
   }, 'once');
+
+  const popupRef = callRef<HTMLElement>();
+  const [accepted, setAccepted] = callSignal<boolean>(false, { equals: true });
+  callReaction(() => {
+    removeClassList(popupRef, 'scale-up');
+    setTimeout(() => {
+      if (accepted.value) {
+        setEditedNote({
+          bodyValue: '',
+          inputValue: '',
+          key: null,
+        });
+        closeForm();
+      } else focusInput();
+    }, 170);
+  }, [accepted]);
 
   function handleSubmbit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -59,18 +81,15 @@ const Form = () => {
   /**
    * focuses on the input element only after the form is transitioned into the dom.
    */
-  function focusInput(e: TransitionEvent<HTMLElement>) {
+  function focusInput(e?: TransitionEvent<HTMLElement>) {
     // if the form opacity is 0, return;
     if (formDisplay.$$__value.opacity === '0') return;
-    const form = formRef.current;
-    form?.querySelector('input')?.focus();
+    inputs[0]?.focus();
   }
 
   return (
     <section
-      className={
-        'w-full h-screen bg-white absolute top-0 z-30 tr-1 p-2 lg:px-12 '
-      }
+      className={'w-full h-screen bg-white absolute top-0 z-30 tr-1 lg:px-12 '}
       on:transitionend={focusInput}
       style={{
         display: 'none',
@@ -79,22 +98,15 @@ const Form = () => {
       }}
       bind:ref={displayRefs.formRef}
     >
-      <section className={'w-full h-full flex flex-col '}>
+      <Popup ref={popupRef} setAccepted={setAccepted} />
+      <section className={'w-full h-full flex flex-col p-2 '}>
         <div className={'w-full h-fit flex items-center justify-between '}>
           <button
             on:click={() => {
               if (Boolean(inputs[0]?.value) || Boolean(inputs[1]?.value)) {
-                const check = confirm('Do you want to discard');
-                if (check) {
-                  setEditedNote({
-                    bodyValue: '',
-                    inputValue: '',
-                    key: null,
-                  });
-                  closeForm();
-                } else {
-                  return inputs[0]?.focus();
-                }
+                addClassList(popupRef, 'scale-up');
+                inputs?.forEach((el) => el?.blur());
+                return;
               }
               closeForm();
             }}
@@ -131,7 +143,7 @@ const Form = () => {
             type="text"
             value={editedNote.inputValue}
             className={
-              'w-full h-12 font-semibold  text-lg pl-2 focus:outline-none border-none '
+              'w-full h-12 font-semibold text-lg pl-2 focus:outline-none border-none '
             }
             autocapitalize={'sentences'}
             spellcheck
@@ -146,7 +158,9 @@ const Form = () => {
             cols={30}
             rows={10}
             placeholder={'Take a note...'}
-            className={'w-full h-full p-2 font-semibold focus:outline-none '}
+            className={
+              'w-full h-full text-[15px] p-2 font-semibold focus:outline-none '
+            }
           ></textarea>
         </form>
       </section>

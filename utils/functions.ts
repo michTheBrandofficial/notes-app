@@ -8,6 +8,7 @@ import {
 } from 'store';
 import { displayRefs, notesRef } from './refs';
 import { useStorage } from './useStorage';
+import { MutableRefObject } from 'nixix/primitives';
 // make the form to be tied to localStorage
 export function createNewNote() {
   displayRefs.formRef.current?.style.setProperty('display', 'block');
@@ -50,7 +51,7 @@ export function deleteNotes() {
     deselectNotes(toDelete);
     setSelectedNotes([]);
   } else {
-    showNotification('Please select the notes');
+    showNotification('Please select notes to delete');
   }
 }
 
@@ -70,6 +71,20 @@ export function showNotification(message: string) {
   setTimeout(() => {
     notifiEl?.classList.remove('notifi');
   }, 3000);
+}
+
+export function addClassList(
+  ref: MutableRefObject<HTMLElement | null>,
+  ...classList: string[]
+) {
+  ref.current?.classList.add(...classList);
+}
+
+export function removeClassList(
+  ref: MutableRefObject<HTMLElement | null>,
+  ...classList: string[]
+) {
+  ref.current?.classList.remove(...classList);
 }
 
 const DayMap: any = {

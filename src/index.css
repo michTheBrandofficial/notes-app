@@ -43,6 +43,16 @@ html {
     box-shadow: 0 0 1px 0 rgb(249 250 251);
   }
 
+  .opa-black {
+    background-color: rgba(0, 0, 0, 0.7);
+    transition: all ease 0.4s;
+    transform: scale(0);
+  }
+
+  .opa-black.scale-up {
+    transform: scale(1);
+  }
+
   .tr-3 {
     transition: all ease 0.3s;
   }

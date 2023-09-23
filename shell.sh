@@ -1,3 +1,3 @@
 git add .
-git commit -m "[updated] Added the Notification component and the functionality to deselect notes "
+git commit -m "[added] Popup for showing a messages"
 git push -u origin main
