@@ -1,15 +1,8 @@
-import {
-  selectedNotes,
-  setNotes,
-  setNotification,
-  setSelectOp,
-  setSelectedNotes,
-  setformDisplay,
-} from 'store';
+import { selectedNotes, setNotes, setSelectedNotes } from 'store';
+import { setNotification, setSelectOp, setformDisplay } from 'store/display';
+import { getTrash, setTrash } from 'store/trash';
 import { displayRefs, notesRef } from './refs';
-import { useStorage } from './useStorage';
-import { MutableRefObject } from 'nixix/primitives';
-// make the form to be tied to localStorage
+
 export function createNewNote() {
   displayRefs.formRef.current?.style.setProperty('display', 'block');
   setTimeout(() => {
@@ -30,8 +23,6 @@ export function closeForm() {
   }, 500);
 }
 
-const [getTrash, setTrash] = useStorage<TTrash>('trash');
-
 export function deleteNotes() {
   const toDelete = selectedNotes.$$__value;
   if (Boolean(toDelete.length)) {
@@ -44,7 +35,7 @@ export function deleteNotes() {
           return !includes;
         } else return includes;
       }) as TNotes;
-      setTrash([...(getTrash() || []), ...trash]);
+      setTrash([...trash, ...(getTrash() || [])]);
       return persistentNotes as TNotes;
     });
     setSelectOp('0');
@@ -62,61 +53,6 @@ export function deselectNotes(indexArray: number[]) {
   });
 }
 
-export function showNotification(message: string) {
-  setNotification({
-    message,
-  });
-  const notifiEl = displayRefs.notificationRef.current;
-  notifiEl?.classList.add('notifi');
-  setTimeout(() => {
-    notifiEl?.classList.remove('notifi');
-  }, 3000);
-}
-
-export function addClassList(
-  ref: MutableRefObject<HTMLElement | null>,
-  ...classList: string[]
-) {
-  ref.current?.classList.add(...classList);
-}
-
-export function removeClassList(
-  ref: MutableRefObject<HTMLElement | null>,
-  ...classList: string[]
-) {
-  ref.current?.classList.remove(...classList);
-}
-
-const DayMap: any = {
-  '0': 'Sunday',
-  '1': 'Monday',
-  '2': 'Tuesday',
-  '3': 'Wednesday',
-  '4': 'Thursday',
-  '5': 'Friday',
-  '6': 'Saturday',
-};
-
-export function getCreationDate(): string {
-  const date = new Date();
-  return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
-}
-
-export function getUpdateTime(): string {
-  const now = new Date();
-  const updateTime = {
-    hours: now.getHours() % 12,
-    minutes: now.getMinutes(),
-    meridian: () => {
-      return now.getHours() >= 12 ? 'PM' : 'AM';
-    },
-  };
-  const day = DayMap[`${now.getDay()}` as any];
-  return `${updateTime.hours} : ${
-    updateTime.minutes >= 10 ? updateTime.minutes : `0${updateTime.minutes}`
-  } ${updateTime.meridian()} ${day}`;
-}
-
 export function removeValue(
   ...elements: (HTMLInputElement | HTMLTextAreaElement)[]
 ) {
@@ -129,3 +65,16 @@ export function splice<T extends any[]>(array: T, index: number): T[number] {
   const value = array.splice(index, 1)[0];
   return value;
 }
+
+export function showNotification(message: string) {
+  setNotification({
+    message,
+  });
+  const notifiEl = displayRefs.notificationRef.current;
+  notifiEl?.classList.add('notifi');
+  setTimeout(() => {
+    notifiEl?.classList.remove('notifi');
+  }, 3000);
+}
+
+export function showTrash() {}

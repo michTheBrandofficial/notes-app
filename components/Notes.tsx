@@ -1,13 +1,13 @@
-import { For } from 'nixix/hoc';
-import { effect } from 'nixix/primitives';
-import { Note } from './display';
-import { notesRef } from '@utils/refs';
-import { NotesFallback } from './buttons';
-import { notes, selectOp, setSelectOp } from 'store';
+import { deselectNotes } from '@utils/functions';
 import Icon from '@utils/nixix-heroicon';
 import { x } from '@utils/nixix-heroicon/outline';
-import { deselectNotes } from '@utils/functions';
-import { selectedNotes, setSelectedNotes } from 'store';
+import { notesRef } from '@utils/refs';
+import { For } from 'nixix/hoc';
+import { effect } from 'nixix/primitives';
+import { notes, selectedNotes, setSelectedNotes } from 'store';
+import { selectOp, setSelectOp } from 'store/display';
+import { NotesFallback } from './buttons';
+import { Note } from './display';
 
 const Notes = () => {
   effect(() => {

@@ -26,7 +26,7 @@ const Popup = ({ ref, setAccepted }: PopupProps) => {
     >
       <div
         className={
-          'w-[300px] bg-blue-300 opacity-[1] rounded-sm flex flex-col justify-between text-white font-HantenGrotesk shadow-sm py-4 px-6 '
+          'w-[300px] bg-blue-500 opacity-[1] rounded-sm flex flex-col justify-between text-white font-HantenGrotesk shadow-sm py-4 px-6 '
         }
       >
         <h1 className={'text-2xl font-semibold '}>Discard Note?</h1>

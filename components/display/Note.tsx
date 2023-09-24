@@ -5,13 +5,8 @@ import { clock } from '@utils/nixix-heroicon/outline';
 import { getStoreValue } from 'nixix/dom';
 import { callRef, effect } from 'nixix/primitives';
 import { MouseEvent } from 'nixix/types/eventhandlers';
-import {
-  selectOp,
-  selectedNotes,
-  setEditedNote,
-  setSelectOp,
-  setSelectedNotes,
-} from 'store';
+import { selectedNotes, setEditedNote, setSelectedNotes } from 'store';
+import { setSelectOp, selectOp } from 'store/display';
 
 type NoteProps = TNote & {
   key: number;

@@ -1,18 +1,12 @@
+import { ClassList, CreateNote } from '@utils/classes';
+import { closeForm, removeValue, splice } from '@utils/functions';
 import Icon from '@utils/nixix-heroicon';
 import { check, chevronLeft } from '@utils/nixix-heroicon/outline';
-import { editedNote, formDisplay, setEditedNote, setNotes } from 'store';
-import { displayRefs, formRef } from '@utils/refs';
-import { FormEvent, TransitionEvent } from 'nixix/types/eventhandlers';
-import {
-  addClassList,
-  closeForm,
-  getCreationDate,
-  getUpdateTime,
-  removeClassList,
-  removeValue,
-  splice,
-} from '@utils/functions';
+import { displayRefs, formRef, notesRef } from '@utils/refs';
 import { callReaction, callRef, callSignal, effect } from 'nixix/primitives';
+import { FormEvent, TransitionEvent } from 'nixix/types/eventhandlers';
+import { editedNote, setEditedNote, setNotes } from 'store';
+import { formDisplay } from 'store/display';
 import Popup from './Popup';
 
 /**
@@ -29,7 +23,7 @@ const Form = () => {
   const popupRef = callRef<HTMLElement>();
   const [accepted, setAccepted] = callSignal<boolean>(false, { equals: true });
   callReaction(() => {
-    removeClassList(popupRef, 'scale-up');
+    ClassList.remove(popupRef, 'scale-up');
     setTimeout(() => {
       if (accepted.value) {
         setEditedNote({
@@ -52,12 +46,12 @@ const Form = () => {
 
     if (data.title === '') return closeForm();
     else {
-      data.time = getUpdateTime();
+      data.time = CreateNote.getUpdateTime();
     }
 
     const key = editedNote.$$__value.key;
     if (key === null) {
-      data.createdDate = getCreationDate();
+      data.createdDate = CreateNote.getCreationDate();
     }
     setNotes((prev) => {
       if (typeof key === 'number') {
@@ -74,22 +68,24 @@ const Form = () => {
       prev?.unshift(data);
       return prev as TNotes;
     });
-    removeValue(...(inputs as any));
-    closeForm();
+    notesRef.current?.scroll({
+      behavior: 'smooth',
+      left: 0,
+    });
+    setTimeout(() => {
+      removeValue(...(inputs as any));
+      closeForm();
+    }, 100);
   }
 
-  /**
-   * focuses on the input element only after the form is transitioned into the dom.
-   */
   function focusInput(e?: TransitionEvent<HTMLElement>) {
-    // if the form opacity is 0, return;
     if (formDisplay.$$__value.opacity === '0') return;
     inputs[0]?.focus();
   }
 
   return (
     <section
-      className={'w-full h-screen bg-white absolute top-0 z-30 tr-1 lg:px-12 '}
+      className={'w-full h-screen bg-white absolute top-0 z-30 tr-1 '}
       on:transitionend={focusInput}
       style={{
         display: 'none',
@@ -99,13 +95,12 @@ const Form = () => {
       bind:ref={displayRefs.formRef}
     >
       <Popup ref={popupRef} setAccepted={setAccepted} />
-      <section className={'w-full h-full flex flex-col p-2 '}>
+      <section className={'w-full h-full flex flex-col p-2 lg:px-12 '}>
         <div className={'w-full h-fit flex items-center justify-between '}>
           <button
             on:click={() => {
               if (Boolean(inputs[0]?.value) || Boolean(inputs[1]?.value)) {
-                addClassList(popupRef, 'scale-up');
-                inputs?.forEach((el) => el?.blur());
+                ClassList.add(popupRef, 'scale-up');
                 return;
               }
               closeForm();

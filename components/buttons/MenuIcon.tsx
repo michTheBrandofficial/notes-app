@@ -1,11 +1,9 @@
 import Icon from '@utils/nixix-heroicon';
-import { x, menuAlt_3 } from '@utils/nixix-heroicon/outline';
+import { menuAlt_3, x } from '@utils/nixix-heroicon/outline';
 import { displayRefs } from '@utils/refs';
-import { setSidebar, sidebar } from 'store';
+import { setSidebar, sidebar } from 'store/display';
 
 const MenuIcon = ({ close }: { close: boolean }) => {
-  const transform = close ? 'translateX(-100%)' : 'translateX(0)';
-  const display = close ? 'none' : 'flex';
   const opacity = close ? 0 : 1;
 
   return (

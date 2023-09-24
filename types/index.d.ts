@@ -1,4 +1,5 @@
 import { SignalObject, SetSignalDispatcher } from 'nixix/primitives';
+import { MouseEventHandler } from 'nixix/types/eventhandlers';
 
 export {};
 
@@ -11,6 +12,7 @@ declare global {
       path: string;
       outline: boolean;
     };
+    onclick?: MouseEventHandler<HTMLButtonElement>;
   }>;
 
   type Themes = 'light' | 'dark' | (string & {});

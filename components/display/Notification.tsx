@@ -1,7 +1,7 @@
 import Icon from '@utils/nixix-heroicon';
 import { informationCircle } from '@utils/nixix-heroicon/solid';
 import { displayRefs } from '@utils/refs';
-import { notification } from 'store';
+import { notification } from 'store/display';
 
 // download vite-plugin-pwa and workbox-window
 const Notification = () => {

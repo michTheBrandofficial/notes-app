@@ -1,8 +1,7 @@
 import Icon from '@utils/nixix-heroicon';
 import { plus } from '@utils/nixix-heroicon/outline';
 import { useStorage } from '@utils/useStorage';
-import { callReaction, callRef, callSignal } from 'nixix/primitives';
-import { sidebar } from 'store';
+import { callReaction, callSignal } from 'nixix/primitives';
 import { ThemeButton, MenuButtons } from './buttons';
 import { displayRefs } from '@utils/refs';
 

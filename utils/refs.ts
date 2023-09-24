@@ -9,4 +9,5 @@ export const displayRefs = {
   sectionRef: callRef<HTMLElement>(),
   formRef: callRef<HTMLElement>(),
   notificationRef: callRef<HTMLElement>(),
+  trashRef: callRef<HTMLElement>(),
 };
