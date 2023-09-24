@@ -26,8 +26,8 @@ const Form = () => {
     ClassList.remove(popupRef, 'scale-up');
     setTimeout(() => {
       if (accepted.value) {
-        closeForm();
         removeValue(...(inputs as any));
+        closeForm();
       } else focusInput();
     }, 170);
   }, [accepted]);
