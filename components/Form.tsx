@@ -26,12 +26,8 @@ const Form = () => {
     ClassList.remove(popupRef, 'scale-up');
     setTimeout(() => {
       if (accepted.value) {
-        setEditedNote({
-          bodyValue: '',
-          inputValue: '',
-          key: null,
-        });
         closeForm();
+        removeValue(...(inputs as any));
       } else focusInput();
     }, 170);
   }, [accepted]);
