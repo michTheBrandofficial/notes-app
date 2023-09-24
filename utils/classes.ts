@@ -2,20 +2,16 @@ import { MutableRefObject } from 'nixix/primitives';
 
 export class CreateNote {
   static DayMap: {
-    [key: string]: string;
+    [index: string]: string;
+  } = {
+    '0': 'Sunday',
+    '1': 'Monday',
+    '2': 'Tuesday',
+    '3': 'Wednesday',
+    '4': 'Thursday',
+    '5': 'Friday',
+    '6': 'Saturday',
   };
-
-  constructor() {
-    CreateNote.DayMap = {
-      '0': 'Sunday',
-      '1': 'Monday',
-      '2': 'Tuesday',
-      '3': 'Wednesday',
-      '4': 'Thursday',
-      '5': 'Friday',
-      '6': 'Saturday',
-    };
-  }
 
   static getCreationDate(): string {
     const date = new Date();
@@ -31,7 +27,7 @@ export class CreateNote {
         return now.getHours() >= 12 ? 'PM' : 'AM';
       },
     };
-    const day = CreateNote.DayMap[`${now.getDay()}` as any];
+    const day = this.DayMap[`${now.getDay()}`];
     return `${updateTime.hours} : ${
       updateTime.minutes >= 10 ? updateTime.minutes : `0${updateTime.minutes}`
     } ${updateTime.meridian()} ${day}`;
