@@ -1,5 +1,6 @@
 import { MouseEvent } from 'nixix/types/eventhandlers';
 import { MenuIcon } from './buttons';
+import { displayRefs } from '@utils/refs';
 
 const Header = () => {
   const filters = ['All', '1h', '2h', 'Work'];
@@ -31,7 +32,7 @@ const Header = () => {
       {/* filters */}
       <section className="w-fit flex items-center stroke-blue-300 fill-none dark:stroke-blue-500 space-x-2  ">
         <div className={'w-fit flex lg:hidden relative '}>
-          <MenuIcon close />
+          <MenuIcon close xButtonRef={displayRefs.xButtonRef} />
           <MenuIcon close={false} />
         </div>
         {getFilters()}

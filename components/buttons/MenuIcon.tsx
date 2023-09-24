@@ -1,10 +1,21 @@
 import Icon from '@utils/nixix-heroicon';
 import { menuAlt_3, x } from '@utils/nixix-heroicon/outline';
 import { displayRefs } from '@utils/refs';
+import { NixixAttributes } from 'nixix';
+import { MutableRefObject } from 'nixix/primitives';
 import { setSidebar, sidebar } from 'store/display';
 
-const MenuIcon = ({ close }: { close: boolean }) => {
+type MenuIconProps = {
+  close: boolean;
+  xButtonRef?: MutableRefObject<HTMLDivElement | null>;
+};
+
+type Props = Pick<NixixAttributes<HTMLDivElement>, 'bind:ref'>;
+
+const MenuIcon = ({ close, xButtonRef }: MenuIconProps) => {
   const opacity = close ? 0 : 1;
+  const props: Props = {};
+  if (xButtonRef) props['bind:ref'] = xButtonRef;
 
   return (
     <div
@@ -55,6 +66,7 @@ const MenuIcon = ({ close }: { close: boolean }) => {
           (e.currentTarget.nextElementSibling as HTMLDivElement)?.focus();
         }
       }}
+      {...props}
     >
       <Icon
         path={close ? x : menuAlt_3}

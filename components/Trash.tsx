@@ -6,16 +6,15 @@ import { trashStore } from 'store/trash';
 import Deleted from './display/Deleted';
 import { displayRefs } from '@utils/refs';
 
-// continue later
+/**
+ * @todo remove trash, home screen button empty all trash
+ */
 const Trash = () => {
   return (
     <section
       className={
-        'w-full h-full flex flex-col font-HantenGrotesk bg-white absolute top-0 md:w-[calc(100vw-300px)] md:right-0 '
+        'w-full h-full flex flex-col font-HantenGrotesk bg-white tr-d-3 no-trash absolute top-0 md:w-[calc(100vw-300px)] md:right-0 '
       }
-      style={{
-        display: 'none',
-      }}
       bind:ref={displayRefs.trashRef}
     >
       <section className="w-full h-fit mb-auto bg-white space-y-2 flex flex-col pb-4 border-b pl-4 pr-2 py-4 md:pl-2 lg:px-12 lg:pb-8 lg:space-y-6 ">

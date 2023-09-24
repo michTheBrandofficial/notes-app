@@ -57,6 +57,21 @@ html {
     transition: all ease 0.3s;
   }
 
+  .tr-d-3 {
+    transition: opacity ease 0.7s;
+    transition-delay: 0.1s;
+  }
+
+  .no-trash {
+    opacity: 0;
+    z-index: 0;
+  }
+
+  .no-trash.show-trash {
+    opacity: 1;
+    z-index: 10;
+  }
+
   .no-notifi {
     top: -200px;
   }

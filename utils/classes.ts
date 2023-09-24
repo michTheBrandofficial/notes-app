@@ -1,3 +1,4 @@
+import { CSSProperties } from 'nixix';
 import { MutableRefObject } from 'nixix/primitives';
 
 export class CreateNote {
@@ -38,20 +39,33 @@ export class ClassList {
   /**
    * removes classes from the ref passed to it
    */
-  static remove(
-    ref: MutableRefObject<HTMLElement | null>,
+  static remove<T extends HTMLElement | null>(
+    ref: MutableRefObject<T> | T,
     ...classList: string[]
   ) {
-    ref.current?.classList.remove(...classList);
+    if (ref instanceof Node)
+      (ref as HTMLElement).classList.remove(...classList);
+    else (ref as MutableRefObject<T>).current?.classList.remove(...classList);
   }
 
   /**
    * add classes to the ref passed to it
    */
-  static add(
-    ref: MutableRefObject<HTMLElement | null>,
+  static add<T extends HTMLElement | null>(
+    ref: MutableRefObject<T> | T,
     ...classList: string[]
   ) {
-    ref.current?.classList.add(...classList);
+    if (ref instanceof Node) (ref as HTMLElement).classList.add(...classList);
+    else (ref as MutableRefObject<T>).current?.classList.add(...classList);
+  }
+}
+
+export class Style {
+  static set<
+    P extends keyof CSSProperties,
+    T extends HTMLElement | null = HTMLElement
+  >(ref: MutableRefObject<T> | T, prop: P, value: CSSProperties[P]) {
+    if (ref instanceof Node) (ref as T)?.style?.setProperty(prop, value as any);
+    else ref?.current?.style?.setProperty(prop, value as any);
   }
 }

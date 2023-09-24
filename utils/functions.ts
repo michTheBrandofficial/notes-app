@@ -1,10 +1,11 @@
 import { selectedNotes, setNotes, setSelectedNotes } from 'store';
 import { setNotification, setSelectOp, setformDisplay } from 'store/display';
 import { getTrash, setTrash } from 'store/trash';
+import { ClassList, Style } from './classes';
 import { displayRefs, notesRef } from './refs';
 
 export function createNewNote() {
-  displayRefs.formRef.current?.style.setProperty('display', 'block');
+  Style.set(displayRefs.formRef, 'display', 'block');
   setTimeout(() => {
     setformDisplay({
       transform: 'translateX(0)',
@@ -19,7 +20,7 @@ export function closeForm() {
     opacity: '0',
   });
   setTimeout(() => {
-    displayRefs.formRef.current?.style.setProperty('display', 'none');
+    Style.set(displayRefs.formRef, 'display', 'none');
   }, 500);
 }
 
@@ -41,15 +42,19 @@ export function deleteNotes() {
     setSelectOp('0');
     deselectNotes(toDelete);
     setSelectedNotes([]);
+    notesRef.current?.scroll({
+      behavior: 'smooth',
+      left: 0,
+    });
   } else {
     showNotification('Please select notes to delete');
   }
 }
 
 export function deselectNotes(indexArray: number[]) {
-  const selectedNotes = notesRef.current?.children;
+  const selectedNotes = notesRef.current?.children as HTMLCollection;
   indexArray.forEach((index) => {
-    selectedNotes?.item(index)?.classList.remove('selected');
+    ClassList.remove(selectedNotes?.item(index) as any, 'selected');
   });
 }
 
@@ -77,4 +82,8 @@ export function showNotification(message: string) {
   }, 3000);
 }
 
-export function showTrash() {}
+export function showTrash() {
+  const trashRef = displayRefs.trashRef;
+  ClassList.add(trashRef, 'show-trash');
+  displayRefs.xButtonRef.current?.click();
+}
