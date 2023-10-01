@@ -1,3 +1,3 @@
 git add .
-git commit -m "[fixed] Sidebar transition issue"
-git checkout main
+git commit -m "[added] Storage using IndexedDB"
+git checkout idb-storage
