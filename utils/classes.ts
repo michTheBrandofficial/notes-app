@@ -65,7 +65,8 @@ export class Style {
     P extends keyof CSSProperties,
     T extends HTMLElement | null = HTMLElement
   >(ref: MutableRefObject<T> | T, prop: P, value: CSSProperties[P]) {
-    if (ref instanceof Node) (ref as T)?.style?.setProperty(prop, value as any);
-    else ref?.current?.style?.setProperty(prop, value as any);
+    if (ref instanceof Node) (ref as any).style[prop] = value;
+    // @ts-ignore
+    else ref.current.style[prop] = value;
   }
 }

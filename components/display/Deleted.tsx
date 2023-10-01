@@ -1,14 +1,25 @@
+import { splice } from '@utils/functions';
 import Icon from '@utils/nixix-heroicon';
 import { trash as trashIcon } from '@utils/nixix-heroicon/outline';
+import { setTrashStore } from 'store/trash';
 
-type DeletedProps = TNote;
+type DeletedProps = TNote & {
+  key: number;
+};
 
-const Deleted = ({ body, createdDate, title }: DeletedProps) => {
+const Deleted = ({ body, createdDate, title, key }: DeletedProps) => {
+  function permanentDelete() {
+    setTrashStore((prev) => {
+      splice(prev as TTrash, key);
+      return prev as TTrash;
+    });
+  }
+
   return (
-    <section className="w-full h-fit flex items-start space-x-5 ">
-      <div>
+    <section className="w-full h-fit flex items-start space-x-5 pl-2 pr-3 pt-2 pb-3 rounded-lg hover:bg-slate-100 cursor-pointer ">
+      <button on:click={permanentDelete} className={'border-none '}>
         <Icon path={trashIcon} className={'stroke-yellow-200  fill-none'} />
-      </div>
+      </button>
 
       <article className="flex-grow h-fit space-y-1 ">
         <div className="flex w-full h-fit text-darkBlue items-center justify-between">

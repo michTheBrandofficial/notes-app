@@ -19,7 +19,7 @@ const Popup = ({ ref, setAccepted }: PopupProps) => {
   return (
     <section
       className={
-        'w-full h-full flex items-center justify-center absolute top-0 z-[60] opa-black '
+        'w-full h-full items-center justify-center absolute top-0 z-[60] opa-black '
       }
       on:transitionend={buttonFocus}
       bind:ref={ref}

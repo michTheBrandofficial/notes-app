@@ -10,5 +10,5 @@ export const displayRefs = {
   formRef: callRef<HTMLElement>(),
   notificationRef: callRef<HTMLElement>(),
   trashRef: callRef<HTMLElement>(),
-  xButtonRef: callRef<HTMLDivElement>(),
+  xButtonRef: callRef<HTMLButtonElement>(),
 };

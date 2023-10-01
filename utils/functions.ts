@@ -1,6 +1,6 @@
 import { selectedNotes, setNotes, setSelectedNotes } from 'store';
 import { setNotification, setSelectOp, setformDisplay } from 'store/display';
-import { getTrash, setTrash } from 'store/trash';
+import { getTrash, setTrashStore } from 'store/trash';
 import { ClassList, Style } from './classes';
 import { displayRefs, notesRef } from './refs';
 
@@ -36,7 +36,7 @@ export function deleteNotes() {
           return !includes;
         } else return includes;
       }) as TNotes;
-      setTrash([...trash, ...(getTrash() || [])]);
+      setTrashStore([...trash, ...(getTrash() || [])]);
       return persistentNotes as TNotes;
     });
     setSelectOp('0');
@@ -84,6 +84,19 @@ export function showNotification(message: string) {
 
 export function showTrash() {
   const trashRef = displayRefs.trashRef;
-  ClassList.add(trashRef, 'show-trash');
+  const opacity = trashRef.current?.style.opacity!;
+  if (opacity === '1') return;
+  Style.set(trashRef, 'zIndex', '10');
+  Style.set(trashRef, 'opacity', '1');
   displayRefs.xButtonRef.current?.click();
+}
+
+export function showHome() {
+  const trashRef = displayRefs.trashRef;
+  const opacity = trashRef.current?.style.opacity!;
+  if (opacity === '0') return;
+  Style.set(trashRef, 'opacity', '0');
+  setTimeout(() => {
+    Style.set(trashRef, 'zIndex', '0');
+  }, 800);
 }

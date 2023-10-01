@@ -1,24 +1,52 @@
+import { ClassList } from '@utils/classes';
 import Icon from '@utils/nixix-heroicon';
-import { trash as trashIcon } from '@utils/nixix-heroicon/outline';
-import { TrashButton } from './buttons';
-import { For } from 'nixix/hoc';
-import { trashStore } from 'store/trash';
-import Deleted from './display/Deleted';
+import { chevronLeft, trash as trashIcon } from '@utils/nixix-heroicon/outline';
 import { displayRefs } from '@utils/refs';
+import { For } from 'nixix/hoc';
+import { callEffect, callSignal } from 'nixix/primitives';
+import { MouseEvent } from 'nixix/types/eventhandlers';
+import { setTrashStore, trashStore } from 'store/trash';
+import { TrashButton } from './buttons';
+import Deleted from './display/Deleted';
+import TrashFallback from './display/TrashFallback';
+import { showHome } from '@utils/functions';
 
 /**
- * @todo remove trash, home screen button empty all trash
+ * @todo home screen button make it look better
  */
 const Trash = () => {
+  const [disabled, setDisabled] = callSignal<boolean>(false, { equals: true });
+  callEffect(() => {
+    setDisabled(!Boolean(trashStore.$$__value.length));
+  }, [trashStore]);
+
   return (
     <section
       className={
-        'w-full h-full flex flex-col font-HantenGrotesk bg-white tr-d-3 no-trash absolute top-0 md:w-[calc(100vw-300px)] md:right-0 '
+        'w-full h-full flex flex-col font-HantenGrotesk bg-white tr-d-3 absolute top-0 md:w-[calc(100vw-300px)] md:right-0 '
       }
+      style={{
+        zIndex: '0',
+        opacity: '0',
+      }}
       bind:ref={displayRefs.trashRef}
     >
-      <section className="w-full h-fit mb-auto bg-white space-y-2 flex flex-col pb-4 border-b pl-4 pr-2 py-4 md:pl-2 lg:px-12 lg:pb-8 lg:space-y-6 ">
-        <h1 className=" text-[35px] ">Trash</h1>
+      <section className="w-full h-fit mb-auto bg-white space-y-2 flex flex-col pb-4 border-b pl-4 pr-2 py-4 md:pl-2 lg:px-12   lg:pb-8 lg:space-y-6 ">
+        <section
+          className={'w-full h-fit flex justify-normal space-x-5 items-center '}
+        >
+          <button
+            on:click={showHome}
+            className="w-fit h-fit border-none lg:hidden "
+          >
+            <Icon
+              className="stroke-blue-300 fill-none"
+              path={chevronLeft}
+              stroke:width={2.4}
+            ></Icon>
+          </button>
+          <h1 className=" text-[32px] ">Trash</h1>
+        </section>
         <section className="flex justify-between items-start w-full px-3 h-fit lg:justify-normal ">
           <div className={'w-fit h-fit pr-3'}>
             <Icon
@@ -32,7 +60,9 @@ const Trash = () => {
               Items that have been in Trash more than 30 days will be
               automatically deleted.
             </p>
-            <TrashButton on:click={() => ''}>Empty trash now</TrashButton>
+            <TrashButton on:click={() => setTrashStore([])} disabled={disabled}>
+              Empty trash now
+            </TrashButton>
           </section>
         </section>
       </section>
@@ -41,9 +71,9 @@ const Trash = () => {
           'w-full flex-grow bg-white space-y-2 px-4 py-4 md:pl-2 lg:px-12 lg:space-y-6 '
         }
       >
-        <For each={trashStore}>
+        <For each={trashStore} fallback={<TrashFallback />}>
           {(item: typeof trashStore, i: number) => {
-            return <Deleted {...item[i]} />;
+            return <Deleted {...item[i]} key={i} />;
           }}
         </For>
       </section>

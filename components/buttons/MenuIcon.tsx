@@ -3,14 +3,15 @@ import { menuAlt_3, x } from '@utils/nixix-heroicon/outline';
 import { displayRefs } from '@utils/refs';
 import { NixixAttributes } from 'nixix';
 import { MutableRefObject } from 'nixix/primitives';
+import { MouseEventHandler } from 'nixix/types/eventhandlers';
 import { setSidebar, sidebar } from 'store/display';
 
 type MenuIconProps = {
   close: boolean;
-  xButtonRef?: MutableRefObject<HTMLDivElement | null>;
+  xButtonRef?: MutableRefObject<HTMLButtonElement | null>;
 };
 
-type Props = Pick<NixixAttributes<HTMLDivElement>, 'bind:ref'>;
+type Props = Pick<NixixAttributes<HTMLButtonElement>, 'bind:ref'>;
 
 const MenuIcon = ({ close, xButtonRef }: MenuIconProps) => {
   const opacity = close ? 0 : 1;
@@ -18,7 +19,7 @@ const MenuIcon = ({ close, xButtonRef }: MenuIconProps) => {
   if (xButtonRef) props['bind:ref'] = xButtonRef;
 
   return (
-    <div
+    <button
       on:click={(e) => {
         const asideEl = displayRefs.asideRef.current;
         if (!close) {
@@ -54,7 +55,7 @@ const MenuIcon = ({ close, xButtonRef }: MenuIconProps) => {
           contains && el.classList.remove(...classes);
         }
       }}
-      className={`stroke-inherit fill-inherit tr-4 cursor-pointer  ${
+      className={`stroke-inherit border-none fill-inherit tr-4 cursor-pointer  ${
         !close ? 'absolute left-0 z-10' : 'right-0'
       } `}
       style={{
@@ -75,7 +76,7 @@ const MenuIcon = ({ close, xButtonRef }: MenuIconProps) => {
         tabindex={1}
         stroke:width={1.5}
       />
-    </div>
+    </button>
   );
 };
 export default MenuIcon;

@@ -45,11 +45,15 @@ html {
 
   .opa-black {
     background-color: rgba(0, 0, 0, 0.2);
+    display: none;
+  }
+
+  .opa-black > div {
     transition: all ease 0.4s;
     transform: scale(0);
   }
 
-  .opa-black.scale-up {
+  .opa-black.scale-up > div {
     transform: scale(1);
   }
 
@@ -60,16 +64,6 @@ html {
   .tr-d-3 {
     transition: opacity ease 0.7s;
     transition-delay: 0.1s;
-  }
-
-  .no-trash {
-    opacity: 0;
-    z-index: 0;
-  }
-
-  .no-trash.show-trash {
-    opacity: 1;
-    z-index: 10;
   }
 
   .no-notifi {
@@ -94,6 +88,10 @@ html {
     100% {
       top: 0.5rem;
     }
+  }
+
+  .tr-4 {
+    transition: opacity ease 0.9s;
   }
 
   .left-t {

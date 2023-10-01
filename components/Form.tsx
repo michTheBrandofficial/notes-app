@@ -1,18 +1,14 @@
-import { ClassList, CreateNote } from '@utils/classes';
+import { ClassList, CreateNote, Style } from '@utils/classes';
 import { closeForm, removeValue, splice } from '@utils/functions';
 import Icon from '@utils/nixix-heroicon';
 import { check, chevronLeft } from '@utils/nixix-heroicon/outline';
 import { displayRefs, formRef, notesRef } from '@utils/refs';
 import { callReaction, callRef, callSignal, effect } from 'nixix/primitives';
 import { FormEvent, TransitionEvent } from 'nixix/types/eventhandlers';
-import { editedNote, setEditedNote, setNotes } from 'store';
+import { editedNote, setNotes } from 'store';
 import { formDisplay } from 'store/display';
 import Popup from './Popup';
 
-/**
- * isPopup state for changing state
- */
-// on:submit function
 const Form = () => {
   let inputs: Inputs = [];
   effect(() => {
@@ -25,11 +21,14 @@ const Form = () => {
   callReaction(() => {
     ClassList.remove(popupRef, 'scale-up');
     setTimeout(() => {
-      if (accepted.value) {
-        removeValue(...(inputs as any));
-        closeForm();
-      } else focusInput();
-    }, 170);
+      Style.set(popupRef, 'display', 'none');
+      setTimeout(() => {
+        if (accepted.value) {
+          closeForm();
+          removeValue(...(inputs as any));
+        } else focusInput();
+      }, 170);
+    }, 100);
   }, [accepted]);
 
   function handleSubmbit(e: FormEvent<HTMLFormElement>) {
@@ -96,8 +95,10 @@ const Form = () => {
           <button
             on:click={() => {
               if (Boolean(inputs[0]?.value) || Boolean(inputs[1]?.value)) {
-                ClassList.add(popupRef, 'scale-up');
-                return;
+                Style.set(popupRef, 'display', 'flex');
+                return setTimeout(() => {
+                  ClassList.add(popupRef, 'scale-up');
+                }, 100);
               }
               closeForm();
             }}
