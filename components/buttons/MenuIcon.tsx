@@ -7,13 +7,30 @@ import { MouseEventHandler } from 'nixix/types/eventhandlers';
 import { setSidebar, sidebar } from 'store/display';
 
 type MenuIconProps = {
-  close: boolean;
+  close?: boolean;
   xButtonRef?: MutableRefObject<HTMLButtonElement | null>;
 };
 
 type Props = Pick<NixixAttributes<HTMLButtonElement>, 'bind:ref'>;
 
-const MenuIcon = ({ close, xButtonRef }: MenuIconProps) => {
+const TRANSITION_TIME = 900;
+
+function scheduleDisable(el: HTMLButtonElement, close?: boolean) {
+  const elementToDisable = !close
+    ? (el.previousElementSibling as HTMLButtonElement)
+    : (el.nextElementSibling as HTMLButtonElement);
+  elementToDisable.disabled = true;
+  return new Promise<HTMLButtonElement>((resolve) => {
+    setTimeout(() => {
+      resolve(elementToDisable);
+    }, TRANSITION_TIME);
+  });
+}
+
+// <MenuIcon close /> X
+// <MenuIcon /> Menu
+const MenuIcon = (menuIconProps: MenuIconProps) => {
+  const { xButtonRef, close } = menuIconProps || {};
   const opacity = close ? 0 : 1;
   const props: Props = {};
   if (xButtonRef) props['bind:ref'] = xButtonRef;
@@ -22,16 +39,21 @@ const MenuIcon = ({ close, xButtonRef }: MenuIconProps) => {
     <button
       on:click={(e) => {
         const asideEl = displayRefs.asideRef.current;
+        const thisButton = e.currentTarget;
         if (!close) {
           asideEl?.classList.replace('hidden', 'flex');
           setTimeout(() => {
             asideEl?.classList.add('right-t');
+            scheduleDisable(thisButton!).then((val) => (val.disabled = false));
             setSidebar({
               menu: Number(!opacity),
               x: Number(opacity),
             });
           }, 50);
         } else {
+          scheduleDisable(thisButton!, true).then(
+            (val) => (val.disabled = false)
+          );
           // this is the close button
           asideEl?.classList.remove('right-t');
           setSidebar({
@@ -43,7 +65,7 @@ const MenuIcon = ({ close, xButtonRef }: MenuIconProps) => {
           }, 1500);
         }
 
-        // switch the button;
+        // transition the button;
         const el = e.currentTarget;
         const contains = el.classList.contains('absolute');
         const classes = ['absolute', 'z-10'];
