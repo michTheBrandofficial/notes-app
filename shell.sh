@@ -1,3 +1,3 @@
 git add .
-git commit -m "[updated] New trash navigation for the trash page"
-git push -u origin main
+git commit -m "[fixed] Sidebar transition issue"
+git checkout main

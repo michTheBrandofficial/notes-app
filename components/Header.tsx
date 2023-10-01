@@ -33,7 +33,7 @@ const Header = () => {
       <section className="w-fit flex items-center stroke-blue-300 fill-none dark:stroke-blue-500 space-x-2  ">
         <div className={'w-fit flex lg:hidden relative '}>
           <MenuIcon close xButtonRef={displayRefs.xButtonRef} />
-          <MenuIcon close={false} />
+          <MenuIcon />
         </div>
         {getFilters()}
       </section>

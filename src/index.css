@@ -97,7 +97,7 @@ html {
   .left-t {
     transform: translateX(-100%);
     opacity: 0;
-    transition: all ease 0.9s;
+    transition: all ease 900ms;
   }
 
   .left-t.right-t {
