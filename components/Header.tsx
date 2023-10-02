@@ -1,8 +1,17 @@
+import {
+  SetSignalDispatcher,
+  SignalObject,
+  callReaction,
+} from 'nixix/primitives';
 import { MouseEvent } from 'nixix/types/eventhandlers';
 import { MenuIcon } from './buttons';
-import { displayRefs } from '@utils/refs';
 
-const Header = () => {
+type HeaderProps<T = boolean> = {
+  toggleMenu: [SignalObject<T>, SetSignalDispatcher<T>];
+};
+
+const Header = ({ toggleMenu }: HeaderProps) => {
+  const [sidebar, setSidebar] = toggleMenu;
   const filters = ['All', '1h', '2h', 'Work'];
   function filterActive(e: MouseEvent<HTMLButtonElement>) {
     const sectionEl = e.currentTarget.parentElement;
@@ -32,8 +41,7 @@ const Header = () => {
       {/* filters */}
       <section className="w-fit flex items-center stroke-blue-300 fill-none dark:stroke-blue-500 space-x-2  ">
         <div className={'w-fit flex lg:hidden relative '}>
-          <MenuIcon close xButtonRef={displayRefs.xButtonRef} />
-          <MenuIcon />
+          <MenuIcon on:click={() => setSidebar(true)} sidebar={sidebar} />
         </div>
         {getFilters()}
       </section>

@@ -1,19 +1,14 @@
-import { ClassList } from '@utils/classes';
+import { showHome } from '@utils/functions';
 import Icon from '@utils/nixix-heroicon';
 import { chevronLeft, trash as trashIcon } from '@utils/nixix-heroicon/outline';
 import { displayRefs } from '@utils/refs';
 import { For } from 'nixix/hoc';
 import { callEffect, callSignal } from 'nixix/primitives';
-import { MouseEvent } from 'nixix/types/eventhandlers';
 import { setTrashStore, trashStore } from 'store/trash';
 import { TrashButton } from './buttons';
 import Deleted from './display/Deleted';
 import TrashFallback from './display/TrashFallback';
-import { showHome } from '@utils/functions';
 
-/**
- * @todo home screen button make it look better
- */
 const Trash = () => {
   const [disabled, setDisabled] = callSignal<boolean>(false, { equals: true });
   callEffect(() => {
