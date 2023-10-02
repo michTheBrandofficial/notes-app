@@ -44,7 +44,9 @@ const Notes = () => {
         />
       </section>
       <section
-        className={'w-full h-full flex mt-8 gap-3 overflow-x-scroll no-scroll '}
+        className={
+          'w-full h-full flex mt-8 gap-3 overflow-x-scroll no-scroll  '
+        }
         bind:ref={notesRef}
       >
         <For each={notes} fallback={<NotesFallback />}>

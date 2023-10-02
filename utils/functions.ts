@@ -37,10 +37,10 @@ export function deleteNotes() {
         } else return includes;
       }) as TNotes;
       setTrashStore([...trash, ...(getTrash() || [])]);
+      deselectNotes(toDelete);
       return persistentNotes as TNotes;
     });
     setSelectOp('0');
-    deselectNotes(toDelete);
     setSelectedNotes([]);
     notesRef.current?.scroll({
       behavior: 'smooth',

@@ -29,10 +29,15 @@ declare global {
     body: string | FormDataEntryValue | null;
     time?: string;
     createdDate?: string;
+    noteId: IDBValidKey;
   };
   type TNotes = TNote[];
 
-  type TTrash = TNote[];
+  type TrashType = Omit<TNote, 'noteId'> & {
+    trashId: IDBValidKey;
+  };
+
+  type TTrash = TrashType[];
 
   interface EditedNote {
     key?: number | null;
