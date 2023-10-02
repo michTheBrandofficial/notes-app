@@ -61,11 +61,6 @@ html {
     transition: all ease 0.3s;
   }
 
-  .tr-d-3 {
-    transition: opacity ease 0.7s;
-    transition-delay: 0.1s;
-  }
-
   .no-notifi {
     top: -200px;
   }
@@ -94,15 +89,12 @@ html {
     transition: opacity ease 0.9s;
   }
 
-  .left-t {
-    transform: translateX(-100%);
-    opacity: 0;
-    transition: all ease 900ms;
+  .left-side {
+    margin-left: -100%;
   }
 
-  .left-t.right-t {
-    transform: translateX(0%);
-    opacity: 1;
+  .left-side.right {
+    margin-left: 0;
   }
 
   .tr-1 {

@@ -5,23 +5,11 @@ import { ClassList, Style } from './classes';
 import { displayRefs, notesRef } from './refs';
 
 export function createNewNote() {
-  Style.set(displayRefs.formRef, 'display', 'block');
-  setTimeout(() => {
-    setformDisplay({
-      transform: 'translateX(0)',
-      opacity: '1',
-    });
-  }, 50);
+  setformDisplay(true);
 }
 
 export function closeForm() {
-  setformDisplay({
-    transform: 'translateX(100%)',
-    opacity: '0',
-  });
-  setTimeout(() => {
-    Style.set(displayRefs.formRef, 'display', 'none');
-  }, 500);
+  setformDisplay(false);
 }
 
 export function deleteNotes() {
@@ -84,19 +72,10 @@ export function showNotification(message: string) {
 
 export function showTrash() {
   const trashRef = displayRefs.trashRef;
-  const opacity = trashRef.current?.style.opacity!;
-  if (opacity === '1') return;
-  Style.set(trashRef, 'zIndex', '10');
-  Style.set(trashRef, 'opacity', '1');
-  displayRefs.xButtonRef.current?.click();
+  ClassList.remove(trashRef, 'opacity-0', 'ml-[100%]');
 }
 
 export function showHome() {
   const trashRef = displayRefs.trashRef;
-  const opacity = trashRef.current?.style.opacity!;
-  if (opacity === '0') return;
-  Style.set(trashRef, 'opacity', '0');
-  setTimeout(() => {
-    Style.set(trashRef, 'zIndex', '0');
-  }, 800);
+  ClassList.add(trashRef, 'opacity-0', 'ml-[100%]');
 }

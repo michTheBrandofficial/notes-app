@@ -27,7 +27,7 @@ const Quicktools = () => {
               className={`w-fit h-fit p-3 rounded-[16px] ${color} ${
                 last && 'ml-auto'
               } `}
-              on:click={onclick || (() => 'jeje')}
+              on:click={onclick || (() => undefined)}
             >
               <Icon
                 path={path}

@@ -1,19 +1,14 @@
-import { ClassList } from '@utils/classes';
+import { showHome } from '@utils/functions';
 import Icon from '@utils/nixix-heroicon';
 import { chevronLeft, trash as trashIcon } from '@utils/nixix-heroicon/outline';
 import { displayRefs } from '@utils/refs';
 import { For } from 'nixix/hoc';
 import { callEffect, callSignal } from 'nixix/primitives';
-import { MouseEvent } from 'nixix/types/eventhandlers';
 import { setTrashStore, trashStore } from 'store/trash';
 import { TrashButton } from './buttons';
 import Deleted from './display/Deleted';
 import TrashFallback from './display/TrashFallback';
-import { showHome } from '@utils/functions';
 
-/**
- * @todo home screen button make it look better
- */
 const Trash = () => {
   const [disabled, setDisabled] = callSignal<boolean>(false, { equals: true });
   callEffect(() => {
@@ -23,12 +18,8 @@ const Trash = () => {
   return (
     <section
       className={
-        'w-full h-full flex flex-col font-HantenGrotesk bg-white tr-d-3 absolute top-0 md:w-[calc(100vw-300px)] md:right-0 '
+        'w-full h-full flex flex-col font-HantenGrotesk bg-white tr-1 absolute top-0 z-30 md:w-[calc(100vw-300px)] ml-[100%] opacity-0 md:right-0 '
       }
-      style={{
-        zIndex: '0',
-        opacity: '0',
-      }}
       bind:ref={displayRefs.trashRef}
     >
       <section className="w-full h-fit mb-auto bg-white space-y-2 flex flex-col pb-4 border-b pl-4 pr-2 py-4 md:pl-2 lg:px-12   lg:pb-8 lg:space-y-6 ">
