@@ -1,5 +1,10 @@
 import { ClassList, CreateNote, Style } from '@utils/classes';
-import { closeForm, removeValue, splice } from '@utils/functions';
+import {
+  closeForm,
+  removeValue,
+  showNotification,
+  splice,
+} from '@utils/functions';
 import Icon from '@utils/nixix-heroicon';
 import { check, chevronLeft } from '@utils/nixix-heroicon/outline';
 import { notesRef } from '@utils/refs';
@@ -13,8 +18,8 @@ const Form = () => {
   const sectionRef = callRef<HTMLElement>();
   callReaction(() => {
     if (formDisplay.value)
-      ClassList.remove(sectionRef.current, 'opacity-0', 'ml-[100%]');
-    else ClassList.add(sectionRef.current, 'opacity-0', 'ml-[100%]');
+      ClassList.remove(sectionRef.current, 'opacity-0', 'translate-x-[100%]');
+    else ClassList.add(sectionRef.current, 'opacity-0', 'translate-x-[100%]');
   }, [formDisplay]);
 
   let inputs: Inputs = [];
@@ -46,10 +51,11 @@ const Form = () => {
       body: formData.get('body'),
     };
 
-    if (data.title === '') return closeForm();
-    else {
-      data.time = CreateNote.getUpdateTime();
+    if (data.title === '') {
+      closeForm();
+      return showNotification('Note titles cannot be empty');
     }
+    data.time = CreateNote.getUpdateTime();
 
     const key = editedNote.$$__value.key;
     if (key === null) {
@@ -89,7 +95,7 @@ const Form = () => {
   return (
     <section
       className={
-        'w-full h-screen bg-white absolute top-0 z-30 tr-1 ml-[100%]  opacity-0'
+        'w-full h-full bg-white absolute top-0 z-30 tr-1 translate-x-[100%]  opacity-0'
       }
       bind:ref={sectionRef}
       on:transitionend={focusInput}

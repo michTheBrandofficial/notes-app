@@ -18,7 +18,7 @@ const Trash = () => {
   return (
     <section
       className={
-        'w-full h-full flex flex-col font-HantenGrotesk bg-white tr-1 absolute top-0 z-30 md:w-[calc(100vw-300px)] ml-[100%] opacity-0 md:right-0 '
+        'w-full h-full flex flex-col font-HantenGrotesk bg-white tr-1 absolute top-0 z-30 md:w-[calc(100vw-300px)] translate-x-[100%] opacity-0 md:right-0 '
       }
       bind:ref={displayRefs.trashRef}
     >

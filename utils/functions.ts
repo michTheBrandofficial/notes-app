@@ -72,10 +72,11 @@ export function showNotification(message: string) {
 
 export function showTrash() {
   const trashRef = displayRefs.trashRef;
-  ClassList.remove(trashRef, 'opacity-0', 'ml-[100%]');
+  ClassList.remove(trashRef, 'opacity-0', 'translate-x-[100%]');
+  trashRef.current?.querySelector('button')?.focus();
 }
 
 export function showHome() {
   const trashRef = displayRefs.trashRef;
-  ClassList.add(trashRef, 'opacity-0', 'ml-[100%]');
+  ClassList.add(trashRef, 'opacity-0', 'translate-x-[100%]');
 }
