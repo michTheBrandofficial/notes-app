@@ -18,12 +18,8 @@ const Trash = () => {
   return (
     <section
       className={
-        'w-full h-full flex flex-col font-HantenGrotesk bg-white tr-d-3 absolute top-0 md:w-[calc(100vw-300px)] md:right-0 '
+        'w-full h-full flex flex-col font-HantenGrotesk bg-white tr-1 absolute top-0 z-30 md:w-[calc(100vw-300px)] ml-[100%] opacity-0 md:right-0 '
       }
-      style={{
-        zIndex: '0',
-        opacity: '0',
-      }}
       bind:ref={displayRefs.trashRef}
     >
       <section className="w-full h-fit mb-auto bg-white space-y-2 flex flex-col pb-4 border-b pl-4 pr-2 py-4 md:pl-2 lg:px-12   lg:pb-8 lg:space-y-6 ">

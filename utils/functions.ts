@@ -72,19 +72,10 @@ export function showNotification(message: string) {
 
 export function showTrash() {
   const trashRef = displayRefs.trashRef;
-  const opacity = trashRef.current?.style.opacity!;
-  if (opacity === '1') return;
-  Style.set(trashRef, 'zIndex', '10');
-  Style.set(trashRef, 'opacity', '1');
-  displayRefs.xButtonRef.current?.click();
+  ClassList.remove(trashRef, 'opacity-0', 'ml-[100%]');
 }
 
 export function showHome() {
   const trashRef = displayRefs.trashRef;
-  const opacity = trashRef.current?.style.opacity!;
-  if (opacity === '0') return;
-  Style.set(trashRef, 'opacity', '0');
-  setTimeout(() => {
-    Style.set(trashRef, 'zIndex', '0');
-  }, 800);
+  ClassList.add(trashRef, 'opacity-0', 'ml-[100%]');
 }

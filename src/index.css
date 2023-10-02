@@ -61,11 +61,6 @@ html {
     transition: all ease 0.3s;
   }
 
-  .tr-d-3 {
-    transition: opacity ease 0.7s;
-    transition-delay: 0.1s;
-  }
-
   .no-notifi {
     top: -200px;
   }

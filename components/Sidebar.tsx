@@ -44,7 +44,7 @@ const Sidebar = ({ sidebar, setSidebar }: SidebarProps) => {
     >
       {/* quick menu */}
       <section className="w-full h-fit flex justify-between items-start">
-        <MenuButtons />
+        <MenuButtons {...{ setSidebar }} />
         <button
           className="w-fit-h-fit border-none md:hidden "
           on:click={() => setSidebar(false)}

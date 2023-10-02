@@ -1,8 +1,13 @@
 import { showHome, showTrash } from '@utils/functions';
 import Icon from '@utils/nixix-heroicon';
 import { calendar, check, home, trash } from '@utils/nixix-heroicon/outline';
+import { SetSignalDispatcher } from 'nixix/primitives';
 
-const MenuButtons = () => {
+type MenuButtonsProps = {
+  setSidebar: SetSignalDispatcher<boolean>;
+};
+
+const MenuButtons = ({ setSidebar }: MenuButtonsProps) => {
   const menuButtons: ButtonArray = [
     { button: 'Home', path: home, onclick: showHome },
     { button: 'Upcoming', path: calendar },
@@ -17,7 +22,13 @@ const MenuButtons = () => {
           className={`btn h-fit border-none w-full flex items-center space-x-2 text-lg cursor-pointer stroke-black dark:stroke-gray-200 dark:text-gray-200 ${
             menuButton.button === 'Home' ? 'hidden lg:flex ' : ''
           } `}
-          on:click={menuButton.onclick || (() => '')}
+          on:click={
+            menuButton.onclick &&
+            ((e) => {
+              setSidebar(false);
+              menuButton.onclick?.(e);
+            })
+          }
         >
           <Icon
             path={menuButton.path}
