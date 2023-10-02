@@ -30,6 +30,10 @@ html {
     @apply shadow-blue-300 bg-blue-500 stroke-white dark:shadow-none dark:bg-gray-200 dark:stroke-blue-500;
   }
 
+  .body-overlay {
+    @apply after:w-full after:h-full after:bg-[rgba(0,0,0,.1)] after:absolute after:right-0 after:top-0 after:block;
+  }
+
   .center {
     left: 50%;
     transform: translateX(-50%);
@@ -41,6 +45,10 @@ html {
 
   .shadow-round {
     box-shadow: 0 0 1px 0 rgb(249 250 251);
+  }
+
+  .trans-bg-tr {
+    transition: background-color 30ms ease 900ms, transform 900ms ease;
   }
 
   .opa-black {
@@ -59,11 +67,6 @@ html {
 
   .tr-3 {
     transition: all ease 0.3s;
-  }
-
-  .tr-d-3 {
-    transition: opacity ease 0.7s;
-    transition-delay: 0.1s;
   }
 
   .no-notifi {
@@ -92,17 +95,6 @@ html {
 
   .tr-4 {
     transition: opacity ease 0.9s;
-  }
-
-  .left-t {
-    transform: translateX(-100%);
-    opacity: 0;
-    transition: all ease 900ms;
-  }
-
-  .left-t.right-t {
-    transform: translateX(0%);
-    opacity: 1;
   }
 
   .tr-1 {

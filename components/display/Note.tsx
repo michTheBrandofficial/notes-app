@@ -46,13 +46,15 @@ const Note = ({ title, time, body, key, createdDate }: NoteProps) => {
     });
   }
   effect(() => {
-    const clickandhold = new ClickAndHold(selectNote, 500, handleClick);
-    clickandhold.apply(articleRef.current as any);
+    const clickandhold = new ClickAndHold(selectNote, 700, handleClick);
+    clickandhold.apply(articleRef.current!);
   }, 'once');
 
   return (
     <div
-      className={'w-[250px] min-w-[250px] h-[300px] relative rounded-[20px] '}
+      className={
+        'w-[250px] min-w-[250px] h-[300px] relative rounded-[20px] last:mr-3 '
+      }
     >
       <article
         bind:ref={articleRef}

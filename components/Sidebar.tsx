@@ -1,11 +1,28 @@
+import { ClassList } from '@utils/classes';
 import Icon from '@utils/nixix-heroicon';
-import { plus } from '@utils/nixix-heroicon/outline';
+import { plus, x } from '@utils/nixix-heroicon/outline';
 import { useStorage } from '@utils/useStorage';
-import { callReaction, callSignal } from 'nixix/primitives';
-import { ThemeButton, MenuButtons } from './buttons';
-import { displayRefs } from '@utils/refs';
+import {
+  SetSignalDispatcher,
+  SignalObject,
+  callReaction,
+  callRef,
+  callSignal,
+} from 'nixix/primitives';
+import { MenuButtons, ThemeButton } from './buttons';
 
-const Sidebar = () => {
+type SidebarProps<T = boolean> = {
+  sidebar: SignalObject<T>;
+  setSidebar: SetSignalDispatcher<T>;
+};
+
+const Sidebar = ({ sidebar, setSidebar }: SidebarProps) => {
+  const asideRef = callRef<HTMLElement>();
+  callReaction(() => {
+    if (sidebar.value) {
+      ClassList.remove(asideRef.current, 'translate-x-[-100%]');
+    } else ClassList.add(asideRef.current, 'translate-x-[-100%]');
+  }, [sidebar]);
   const [getTheme, setTheme] = useStorage<'light' | 'dark'>('theme');
   const [themeState, setThemeState] = callSignal<'light' | 'dark'>(
     getTheme() || 'light'
@@ -13,7 +30,6 @@ const Sidebar = () => {
   callReaction(() => {
     setTheme(themeState.value);
   }, [themeState]);
-
   function switchTheme() {
     document.body.classList.toggle('dark');
     // if the classList contains dark, then dark mode is enabled.
@@ -23,19 +39,41 @@ const Sidebar = () => {
 
   return (
     <aside
-      className="w-[25%] min-w-[250px] max-w-[300px] h-screen font-HantenGrotesk flex-col content-between items-center border-r px-6 py-10 absolute top-0 z-20 bg-white dark:bg-darkBlue dark:border-none bsm:min-w-[270px] hidden left-t md:right-t md:flex "
-      bind:ref={displayRefs.asideRef}
+      className=" h-screen font-HantenGrotesk absolute top-0 z-20 bg-transparent translate-x-[-100%] w-full transition-transform duration-[900ms] ease-in-out md:max-w-[300px] md:translate-x-0 "
+      on:click={(e) => {
+        setSidebar(false);
+      }}
+      bind:ref={asideRef}
     >
-      {/* quick menu */}
-      <MenuButtons />
+      <section
+        on:click={(e) => e.stopPropagation()}
+        className={
+          'w-[25%] min-w-[250px] max-w-[300px] h-screen flex flex-grow flex-col content-between items-center border-r px-6 pt-8 pb-10 bg-white dark:bg-darkBlue dark:border-none bsm:min-w-[270px] md:w-[100%] md:pt-10 md:ml-0 '
+        }
+      >
+        {/* quick menu */}
+        <section className="w-full h-fit flex justify-between items-start">
+          <MenuButtons {...{ setSidebar }} />
+          <button
+            className="w-fit-h-fit border-none md:hidden x-icon "
+            on:click={() => setSidebar(false)}
+          >
+            <Icon
+              className="stroke-blue-300 fill-none "
+              size={28}
+              path={x}
+            ></Icon>
+          </button>
+        </section>
 
-      <section className="w-full h-fit flex justify-between items-center mt-auto">
-        {/* add collection button */}
-        <button className="p-3 w-fit ml-auto rounded-full shadow-lg collections tr-4">
-          <Icon path={plus} size={30} className="stroke-inherit "></Icon>
-        </button>
-        {/* theme switcher button */}
-        <ThemeButton onclick={switchTheme} themeState={themeState} />
+        <section className="w-full h-fit flex justify-between items-center mt-auto">
+          {/* add collection button */}
+          <button className="p-3 w-fit ml-auto rounded-full shadow-lg collections tr-4">
+            <Icon path={plus} size={30} className="stroke-inherit "></Icon>
+          </button>
+          {/* theme switcher button */}
+          <ThemeButton onclick={switchTheme} themeState={themeState} />
+        </section>
       </section>
     </aside>
   );
