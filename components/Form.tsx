@@ -2,7 +2,7 @@ import { ClassList, CreateNote, Style } from '@utils/classes';
 import { closeForm, removeValue, splice } from '@utils/functions';
 import Icon from '@utils/nixix-heroicon';
 import { check, chevronLeft } from '@utils/nixix-heroicon/outline';
-import { displayRefs, formRef, notesRef } from '@utils/refs';
+import { notesRef } from '@utils/refs';
 import { callReaction, callRef, callSignal, effect } from 'nixix/primitives';
 import { FormEvent, TransitionEvent } from 'nixix/types/eventhandlers';
 import { editedNote, setNotes } from 'store';
@@ -10,10 +10,17 @@ import { formDisplay } from 'store/display';
 import Popup from './Popup';
 
 const Form = () => {
+  const sectionRef = callRef<HTMLElement>();
+  callReaction(() => {
+    if (formDisplay.value)
+      ClassList.remove(sectionRef.current, 'opacity-0', 'ml-[100%]');
+    else ClassList.add(sectionRef.current, 'opacity-0', 'ml-[100%]');
+  }, [formDisplay]);
+
   let inputs: Inputs = [];
   effect(() => {
-    inputs[0] = formRef?.current?.querySelector('input');
-    inputs[1] = formRef?.current?.querySelector('textarea');
+    inputs[0] = sectionRef?.current?.querySelector('input');
+    inputs[1] = sectionRef?.current?.querySelector('textarea');
   }, 'once');
 
   const popupRef = callRef<HTMLElement>();
@@ -74,20 +81,18 @@ const Form = () => {
   }
 
   function focusInput(e?: TransitionEvent<HTMLElement>) {
-    if (formDisplay.$$__value.opacity === '0') return;
+    e?.stopPropagation();
+    if (formDisplay.value === false) return;
     inputs[0]?.focus();
   }
 
   return (
     <section
-      className={'w-full h-screen bg-white absolute top-0 z-30 tr-1 '}
+      className={
+        'w-full h-screen bg-white absolute top-0 z-30 tr-1 ml-[100%]  opacity-0'
+      }
+      bind:ref={sectionRef}
       on:transitionend={focusInput}
-      style={{
-        display: 'none',
-        transform: formDisplay.transform,
-        opacity: formDisplay.opacity,
-      }}
-      bind:ref={displayRefs.formRef}
     >
       <Popup ref={popupRef} setAccepted={setAccepted} />
       <section className={'w-full h-full flex flex-col p-2 lg:px-12 '}>
@@ -114,7 +119,9 @@ const Form = () => {
 
           <button
             className={'ml-auto '}
-            on:click={() => formRef?.current?.requestSubmit()}
+            on:click={() =>
+              sectionRef?.current?.querySelector('form')?.requestSubmit()
+            }
           >
             <Icon
               className={'stroke-blue-400 fill-none stroke-[3px] '}
@@ -126,7 +133,6 @@ const Form = () => {
         </div>
         <form
           on:submit={handleSubmbit}
-          bind:ref={formRef}
           className={
             'w-full h-full flex flex-col text-darkBlue px-2 pt-2 space-y-2 '
           }

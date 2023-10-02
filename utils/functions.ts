@@ -5,23 +5,11 @@ import { ClassList, Style } from './classes';
 import { displayRefs, notesRef } from './refs';
 
 export function createNewNote() {
-  Style.set(displayRefs.formRef, 'display', 'block');
-  setTimeout(() => {
-    setformDisplay({
-      transform: 'translateX(0)',
-      opacity: '1',
-    });
-  }, 50);
+  setformDisplay(true);
 }
 
 export function closeForm() {
-  setformDisplay({
-    transform: 'translateX(100%)',
-    opacity: '0',
-  });
-  setTimeout(() => {
-    Style.set(displayRefs.formRef, 'display', 'none');
-  }, 500);
+  setformDisplay(false);
 }
 
 export function deleteNotes() {

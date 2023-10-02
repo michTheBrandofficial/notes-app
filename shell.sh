@@ -1,2 +1,2 @@
 git add .
-git commit -m "Project wide transition fix - Sidebar"
+git commit -m "Project wide transition fix - Form"

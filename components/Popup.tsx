@@ -8,6 +8,7 @@ type PopupProps = {
 
 const Popup = ({ ref, setAccepted }: PopupProps) => {
   function buttonFocus(e: TransitionEvent<HTMLElement>) {
+    e.stopPropagation();
     const button = e.currentTarget.querySelector('button');
     button?.focus();
   }

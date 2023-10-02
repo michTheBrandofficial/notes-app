@@ -5,9 +5,8 @@ type FormDisplay = {
   opacity: '0' | '1';
 };
 
-export const [formDisplay, setformDisplay] = callStore<FormDisplay>({
-  transform: 'translateX(100%)',
-  opacity: '0',
+export const [formDisplay, setformDisplay] = callSignal<boolean>(false, {
+  equals: true,
 });
 
 export const [selectOp, setSelectOp] = callSignal<'0' | '1'>('0');
