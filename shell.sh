@@ -1,3 +1,2 @@
 git add .
-git commit -m "[added] Storage using IndexedDB"
-git checkout idb-storage
+git commit -m "[accessibility-fix] for the Sidebar"
