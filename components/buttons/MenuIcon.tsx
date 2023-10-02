@@ -14,7 +14,10 @@ const MenuIcon = (menuIconProps: MenuIconProps) => {
   const buttonRef = callRef<HTMLButtonElement>();
   callReaction(() => {
     if (sidebar.value) ClassList.add(buttonRef.current, 'opacity-0');
-    else ClassList.remove(buttonRef.current, 'opacity-0');
+    else {
+      ClassList.remove(buttonRef.current, 'opacity-0');
+      buttonRef.current?.focus();
+    }
   }, [menuIconProps.sidebar]);
   return (
     <button

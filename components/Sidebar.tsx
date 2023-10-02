@@ -19,9 +19,9 @@ type SidebarProps<T = boolean> = {
 const Sidebar = ({ sidebar, setSidebar }: SidebarProps) => {
   const asideRef = callRef<HTMLElement>();
   callReaction(() => {
-    if (sidebar.value)
+    if (sidebar.value) {
       ClassList.remove(asideRef.current, 'translate-x-[-100%]');
-    else ClassList.add(asideRef.current, 'translate-x-[-100%]');
+    } else ClassList.add(asideRef.current, 'translate-x-[-100%]');
   }, [sidebar]);
   const [getTheme, setTheme] = useStorage<'light' | 'dark'>('theme');
   const [themeState, setThemeState] = callSignal<'light' | 'dark'>(
@@ -55,7 +55,7 @@ const Sidebar = ({ sidebar, setSidebar }: SidebarProps) => {
         <section className="w-full h-fit flex justify-between items-start">
           <MenuButtons {...{ setSidebar }} />
           <button
-            className="w-fit-h-fit border-none md:hidden "
+            className="w-fit-h-fit border-none md:hidden x-icon "
             on:click={() => setSidebar(false)}
           >
             <Icon
