@@ -68,6 +68,9 @@ export default defineConfig({
     jsxInject: "import Nixix from 'nixix/dom'",
     minifyIdentifiers: true,
   },
+  build: {
+    target: 'esnext',
+  },
   optimizeDeps: {
     force: true,
   },
