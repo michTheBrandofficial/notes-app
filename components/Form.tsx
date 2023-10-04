@@ -14,6 +14,10 @@ import { editedNote, setEditedNote, setNotes } from 'store';
 import { formDisplay } from 'store/display';
 import Popup from './Popup';
 
+// props for null
+// setEditedNote({bodyValue: null, inputValue: null})
+// Nixix not parsing null
+
 const Form = () => {
   const sectionRef = callRef<HTMLElement>();
   callReaction(() => {
@@ -153,7 +157,7 @@ const Form = () => {
             type="text"
             value={editedNote.inputValue}
             className={
-              'w-full h-12 font-semibold text-lg pl-2 focus:outline-none border-none '
+              'w-full h-12 font-semibold text-lg pl-2 focus:outline-none border-none selection:bg-[#d8b4fe] '
             }
             autocapitalize={'sentences'}
             spellcheck
@@ -169,7 +173,7 @@ const Form = () => {
             rows={10}
             placeholder={'Take a note...'}
             className={
-              'w-full h-full text-[15px] p-2 font-semibold focus:outline-none '
+              'w-full h-full text-[15px] p-2 font-semibold focus:outline-none selection:bg-[#d8b4fe] '
             }
           ></textarea>
         </form>
