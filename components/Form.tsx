@@ -10,7 +10,7 @@ import { check, chevronLeft } from '@utils/nixix-heroicon/outline';
 import { notesRef } from '@utils/refs';
 import { callReaction, callRef, callSignal, effect } from 'nixix/primitives';
 import { FormEvent, TransitionEvent } from 'nixix/types/eventhandlers';
-import { editedNote, setNotes } from 'store';
+import { editedNote, setEditedNote, setNotes } from 'store';
 import { formDisplay } from 'store/display';
 import Popup from './Popup';
 
@@ -36,8 +36,11 @@ const Form = () => {
       Style.set(popupRef, 'display', 'none');
       setTimeout(() => {
         if (accepted.value) {
+          setEditedNote({
+            bodyValue: '',
+            inputValue: '',
+          });
           closeForm();
-          removeValue(...(inputs as any));
         } else focusInput();
       }, 170);
     }, 100);
@@ -81,7 +84,10 @@ const Form = () => {
       left: 0,
     });
     setTimeout(() => {
-      removeValue(...(inputs as any));
+      setEditedNote({
+        bodyValue: '',
+        inputValue: '',
+      });
       closeForm();
     }, 100);
   }

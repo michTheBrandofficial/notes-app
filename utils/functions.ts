@@ -1,7 +1,7 @@
 import { selectedNotes, setNotes, setSelectedNotes } from 'store';
 import { setNotification, setSelectOp, setformDisplay } from 'store/display';
 import { getTrash, setTrashStore } from 'store/trash';
-import { ClassList, Style } from './classes';
+import { ClassList } from './classes';
 import { displayRefs, notesRef } from './refs';
 
 export function createNewNote() {
@@ -17,13 +17,16 @@ export function deleteNotes() {
   if (Boolean(toDelete.length)) {
     setNotes((prev) => {
       const persistentNotes: TNotes = [];
-      const trash: TTrash = prev?.filter((_, i) => {
-        let includes = toDelete.includes(i);
-        if (!includes) {
-          persistentNotes.push(_);
-          return !includes;
-        } else return includes;
-      }) as TNotes;
+      const trash: TTrash = [];
+
+      prev?.forEach((note, i) => {
+        let includes = Boolean(toDelete.includes(i));
+        if (includes === true) {
+          trash.push(note as unknown as TrashType);
+        } else {
+          persistentNotes.push(note);
+        }
+      });
       setTrashStore([...trash, ...(getTrash() || [])]);
       deselectNotes(toDelete);
       return persistentNotes as TNotes;
