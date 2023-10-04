@@ -5,13 +5,8 @@ import { clock } from '@utils/nixix-heroicon/outline';
 import { getStoreValue } from 'nixix/dom';
 import { callRef, effect } from 'nixix/primitives';
 import { type MouseEvent } from 'nixix/types/eventhandlers';
-import {
-  editedNote,
-  selectedNotes,
-  setEditedNote,
-  setSelectedNotes,
-} from 'store';
-import { setSelectOp, selectOp } from 'store/display';
+import { selectedNotes, setEditedNote, setSelectedNotes } from 'store';
+import { selectOp, setSelectOp } from 'store/display';
 
 type NoteProps = TNote & {
   key: number;
@@ -31,12 +26,12 @@ const Note = ({ title, time, body, key, createdDate }: NoteProps) => {
     if (Boolean(selectedNotes.$$__value.length)) {
       return selectNote();
     }
-    openForm();
     setEditedNote({
       inputValue: getStoreValue(title),
       bodyValue: getStoreValue(body),
       key: key,
     });
+    openForm();
   }
   const articleRef = callRef<HTMLElement>();
   function selectNote() {

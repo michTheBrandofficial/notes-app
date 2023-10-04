@@ -1,14 +1,15 @@
 import { ClassList, CreateNote, Style } from '@utils/classes';
-import {
-  closeForm,
-  removeValue,
-  showNotification,
-  splice,
-} from '@utils/functions';
+import { closeForm, showNotification, splice } from '@utils/functions';
 import Icon from '@utils/nixix-heroicon';
-import { check, chevronLeft } from '@utils/nixix-heroicon/outline';
+import { check, chevronLeft, pencil } from '@utils/nixix-heroicon/outline';
 import { notesRef } from '@utils/refs';
-import { callReaction, callRef, callSignal, effect } from 'nixix/primitives';
+import {
+  callEffect,
+  callReaction,
+  callRef,
+  callSignal,
+  effect,
+} from 'nixix/primitives';
 import { FormEvent, TransitionEvent } from 'nixix/types/eventhandlers';
 import { editedNote, setEditedNote, setNotes } from 'store';
 import { formDisplay } from 'store/display';
@@ -20,10 +21,17 @@ import Popup from './Popup';
 
 const Form = () => {
   const sectionRef = callRef<HTMLElement>();
+  const [readOnly, setReadOnly] = callSignal<boolean>(true);
   callReaction(() => {
-    if (formDisplay.value)
+    const key = editedNote.$$__value.key;
+    if (formDisplay.value) {
       ClassList.remove(sectionRef.current, 'opacity-0', 'translate-x-[100%]');
-    else ClassList.add(sectionRef.current, 'opacity-0', 'translate-x-[100%]');
+      if (key === null) {
+        setReadOnly(false);
+      } else {
+        setReadOnly(true);
+      }
+    } else ClassList.add(sectionRef.current, 'opacity-0', 'translate-x-[100%]');
   }, [formDisplay]);
 
   let inputs: Inputs = [];
@@ -53,6 +61,7 @@ const Form = () => {
   function handleSubmbit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
+    // @ts-ignore
     const data: TNote = {
       title: formData.get('title'),
       body: formData.get('body'),
@@ -102,6 +111,21 @@ const Form = () => {
     inputs[0]?.focus();
   }
 
+  callEffect(() => {
+    const editBtn =
+      sectionRef.current?.querySelector<HTMLButtonElement>('.edit-btn')!;
+    if (readOnly.value) {
+      ClassList.add(editBtn.nextElementSibling as HTMLButtonElement, 'hidden');
+      ClassList.remove(editBtn, 'hidden');
+    } else {
+      ClassList.remove(
+        editBtn.nextElementSibling as HTMLButtonElement,
+        'hidden'
+      );
+      ClassList.add(editBtn, 'hidden');
+    }
+  }, [readOnly]);
+
   return (
     <section
       className={
@@ -134,10 +158,24 @@ const Form = () => {
           <p className="text-blue-400 text-[20px] font-bold ">Design</p>
 
           <button
+            className={'ml-auto edit-btn hidden'}
+            on:click={() => {
+              setReadOnly(false);
+              inputs[0]?.focus();
+            }}
+          >
+            <Icon
+              className={'stroke-blue-400 fill-none stroke-[3px] '}
+              path={pencil}
+              size={28}
+              stroke:width={2.5}
+            />
+          </button>
+          <button
             className={'ml-auto '}
-            on:click={() =>
-              sectionRef?.current?.querySelector('form')?.requestSubmit()
-            }
+            on:click={() => {
+              sectionRef?.current?.querySelector('form')?.requestSubmit();
+            }}
           >
             <Icon
               className={'stroke-blue-400 fill-none stroke-[3px] '}
@@ -161,11 +199,13 @@ const Form = () => {
             }
             autocapitalize={'sentences'}
             spellcheck
+            readonly={readOnly}
             name={'title'}
             placeholder={'Title'}
           />
           <textarea
             spellcheck
+            readonly={readOnly}
             value={editedNote.bodyValue as any}
             autocapitalize={'sentences'}
             name="body"
