@@ -7,7 +7,7 @@ import { useStorage } from '@utils/useStorage';
 import { migrateDatabase } from 'database';
 import { callSignal, effect } from 'nixix/primitives';
 
-const App = () => {
+const View = () => {
   // state for theme.
   const [getTheme] = useStorage<string>('theme');
   effect(() => {
@@ -31,4 +31,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default View;

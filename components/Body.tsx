@@ -4,10 +4,22 @@ import {
   SignalObject,
   callReaction,
   callRef,
+  effect,
 } from 'nixix/primitives';
 import Header from './Header';
 import Notes from './Notes';
 import Quicktools from './Quicktools';
+import TinyGesture from 'tinygesture';
+
+const options: SwipeOptions = {
+  threshold(type, self) {
+    return 20;
+  },
+  velocityThreshold: 10,
+  diagonalSwipes: false,
+  mouseSupport: false,
+  diagonalLimit: 0,
+};
 
 type BodyProps<T = boolean> = {
   toggleMenu: [SignalObject<T>, SetSignalDispatcher<T>];
@@ -15,11 +27,18 @@ type BodyProps<T = boolean> = {
 
 const Body = ({ toggleMenu }: BodyProps) => {
   const bodyRef = callRef<HTMLElement>();
-  const [sidebar] = toggleMenu;
+  const [sidebar, setSidebar] = toggleMenu;
   callReaction(() => {
     if (sidebar.value) ClassList.add(bodyRef.current, 'body-overlay');
     else ClassList.remove(bodyRef.current, 'body-overlay');
   }, [sidebar]);
+
+  effect(() => {
+    const gesture = new TinyGesture(bodyRef.current!, options as any);
+    gesture.on('swiperight', () => {
+      setSidebar(true);
+    });
+  }, 'once');
   return (
     <section
       bind:ref={bodyRef}

@@ -1,5 +1,5 @@
 import { render } from 'nixix/dom';
-import App from './App';
+import View from './View';
 import './index.css';
 
-render(<App />, document.body);
+render(<View />, document.body);
