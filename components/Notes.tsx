@@ -3,13 +3,18 @@ import Icon from '@utils/nixix-heroicon';
 import { x } from '@utils/nixix-heroicon/outline';
 import { notesRef } from '@utils/refs';
 import { For } from 'nixix/hoc';
-import { effect } from 'nixix/primitives';
+import { SetSignalDispatcher, callRef, effect } from 'nixix/primitives';
 import { notes, selectedNotes, setSelectedNotes } from 'store';
 import { selectOp, setSelectOp } from 'store/display';
 import { NotesFallback } from './buttons';
 import { Note } from './display';
+import SwipeGesture from './SwipeGesture';
 
-const Notes = () => {
+const Notes = ({
+  setSidebar,
+}: {
+  setSidebar: SetSignalDispatcher<boolean>;
+}) => {
   effect(() => {
     if (notes.$$__value.length === 0) {
       notesRef.current?.classList.add('pr-4', 'lg:pr-12');
@@ -23,6 +28,8 @@ const Notes = () => {
       return [];
     });
   }
+
+  const gestureRef = callRef<HTMLElement>();
 
   return (
     <section className={'w-full h-full flex flex-col content-between '}>
@@ -44,9 +51,7 @@ const Notes = () => {
         />
       </section>
       <section
-        className={
-          'w-full h-full flex mt-8 gap-3 overflow-x-scroll no-scroll  '
-        }
+        className={'w-full h-fit flex mt-8 gap-3 overflow-x-scroll no-scroll  '}
         bind:ref={notesRef}
       >
         <For each={notes} fallback={<NotesFallback />}>
@@ -56,6 +61,15 @@ const Notes = () => {
           }}
         </For>
       </section>
+      <SwipeGesture
+        gestureRef={gestureRef}
+        on:swiperight={() => setSidebar(true)}
+      >
+        <section
+          className="swipe-area w-full flex-grow "
+          bind:ref={gestureRef}
+        ></section>
+      </SwipeGesture>
     </section>
   );
 };
