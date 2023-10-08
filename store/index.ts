@@ -7,7 +7,9 @@ callReaction(() => {
   setStorageNotes(notes.$$__value);
 }, [notes]);
 
-export const [editedNote, setEditedNote] = callStore<EditedNote>({
+export const [editedNote, setEditedNote] = callStore<
+  Optional<EditedNote, 'bodyValue' | 'inputValue'>
+>({
   bodyValue: '',
   inputValue: '',
   key: null,

@@ -1,3 +1,4 @@
+import { createNewNote } from '@utils/functions';
 import { SetSignalDispatcher, SignalObject, callRef } from 'nixix/primitives';
 import { MouseEvent } from 'nixix/types/eventhandlers';
 import SwipeGesture from './SwipeGesture';
@@ -35,6 +36,7 @@ const Header = ({ toggleMenu }: HeaderProps) => {
 
   return (
     <SwipeGesture
+      on:swipeleft={() => createNewNote()}
       on:swiperight={() => setSidebar(true)}
       gestureRef={gestureRef}
     >

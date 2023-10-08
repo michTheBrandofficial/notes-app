@@ -26,6 +26,7 @@ const Form = () => {
     const key = editedNote.$$__value.key;
     if (formDisplay.value) {
       ClassList.remove(sectionRef.current, 'opacity-0', 'translate-x-[100%]');
+      console.log(key);
       if (key === null) {
         setReadOnly(false);
       } else {
@@ -49,8 +50,9 @@ const Form = () => {
       setTimeout(() => {
         if (accepted.value) {
           setEditedNote({
-            bodyValue: '',
-            inputValue: '',
+            bodyValue: null,
+            inputValue: null,
+            key: null,
           });
           closeForm();
         } else focusInput();
@@ -80,7 +82,6 @@ const Form = () => {
     setNotes((prev) => {
       if (typeof key === 'number') {
         const update = splice(prev as TNotes, key);
-        editedNote.$$__value.key = null;
         if (update) {
           update.body = data.body;
           update.title = data.title;
@@ -98,8 +99,9 @@ const Form = () => {
     });
     setTimeout(() => {
       setEditedNote({
-        bodyValue: '',
-        inputValue: '',
+        bodyValue: null,
+        inputValue: null,
+        key: null,
       });
       closeForm();
     }, 100);

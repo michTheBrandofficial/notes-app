@@ -1,4 +1,4 @@
-import { deselectNotes } from '@utils/functions';
+import { createNewNote, deselectNotes } from '@utils/functions';
 import Icon from '@utils/nixix-heroicon';
 import { x } from '@utils/nixix-heroicon/outline';
 import { notesRef } from '@utils/refs';
@@ -63,6 +63,7 @@ const Notes = ({
       </section>
       <SwipeGesture
         gestureRef={gestureRef}
+        on:swipeleft={() => createNewNote()}
         on:swiperight={() => setSidebar(true)}
       >
         <section

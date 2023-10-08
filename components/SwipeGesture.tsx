@@ -2,23 +2,25 @@ import { MutableRefObject, effect } from 'nixix/primitives';
 import TinyGesture from 'tinygesture';
 
 type SwipeGestureProps = {
-  'on:swiperight'?: () => void;
-  'on:swipeleft'?: () => void;
+  'on:swiperight': () => void;
+  'on:swipeleft': () => void;
   children?: any;
   gestureRef: MutableRefObject<HTMLElement | null>;
 };
 
 const options: SwipeOptions = {
   threshold(type, self) {
-    return 20;
+    return 50;
   },
-  velocityThreshold: 10,
+  velocityThreshold: 100,
   diagonalSwipes: false,
   mouseSupport: false,
   diagonalLimit: 0,
 };
 
-const SwipeGesture = (props: Optional<SwipeGestureProps, 'on:swiperight'>) => {
+const SwipeGesture = (
+  props: Optional<SwipeGestureProps, 'on:swiperight' | 'on:swipeleft'>
+) => {
   const { gestureRef } = props;
   if (!gestureRef) throw new Error('gestureRef argument not passed');
   effect(() => {
