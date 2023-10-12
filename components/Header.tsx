@@ -1,9 +1,7 @@
-import {
-  SetSignalDispatcher,
-  SignalObject,
-  callReaction,
-} from 'nixix/primitives';
+import { createNewNote } from '@utils/functions';
+import { SetSignalDispatcher, SignalObject, callRef } from 'nixix/primitives';
 import { MouseEvent } from 'nixix/types/eventhandlers';
+import SwipeGesture from './SwipeGesture';
 import { MenuIcon } from './buttons';
 
 type HeaderProps<T = boolean> = {
@@ -12,6 +10,7 @@ type HeaderProps<T = boolean> = {
 
 const Header = ({ toggleMenu }: HeaderProps) => {
   const [sidebar, setSidebar] = toggleMenu;
+  const gestureRef = callRef<HTMLElement>();
   const filters = ['All', '1h', '2h', 'Work'];
   function filterActive(e: MouseEvent<HTMLButtonElement>) {
     const sectionEl = e.currentTarget.parentElement;
@@ -36,16 +35,25 @@ const Header = ({ toggleMenu }: HeaderProps) => {
   }
 
   return (
-    <header className="w-full h-fit flex items-center pr-4 justify-between lg:pr-12 ">
-      <h1 className=" text-[35px] ">Design</h1>
-      {/* filters */}
-      <section className="w-fit flex items-center stroke-blue-300 fill-none dark:stroke-blue-500 space-x-2  ">
-        <div className={'w-fit flex lg:hidden relative '}>
-          <MenuIcon on:click={() => setSidebar(true)} sidebar={sidebar} />
-        </div>
-        {getFilters()}
-      </section>
-    </header>
+    <SwipeGesture
+      on:swipeleft={() => createNewNote()}
+      on:swiperight={() => setSidebar(true)}
+      gestureRef={gestureRef}
+    >
+      <header
+        className="w-full h-fit flex items-center pr-4 justify-between lg:pr-12 "
+        bind:ref={gestureRef}
+      >
+        <h1 className=" text-[35px] ">Design</h1>
+        {/* filters */}
+        <section className="w-fit flex items-center stroke-blue-300 fill-none dark:stroke-blue-500 space-x-2  ">
+          <div className={'w-fit flex lg:hidden relative '}>
+            <MenuIcon on:click={() => setSidebar(true)} sidebar={sidebar} />
+          </div>
+          {getFilters()}
+        </section>
+      </header>
+    </SwipeGesture>
   );
 };
 

@@ -4,9 +4,9 @@ import Icon from '@utils/nixix-heroicon';
 import { clock } from '@utils/nixix-heroicon/outline';
 import { getStoreValue } from 'nixix/dom';
 import { callRef, effect } from 'nixix/primitives';
-import { MouseEvent } from 'nixix/types/eventhandlers';
+import { type MouseEvent } from 'nixix/types/eventhandlers';
 import { selectedNotes, setEditedNote, setSelectedNotes } from 'store';
-import { setSelectOp, selectOp } from 'store/display';
+import { selectOp, setSelectOp } from 'store/display';
 
 type NoteProps = TNote & {
   key: number;
@@ -26,12 +26,12 @@ const Note = ({ title, time, body, key, createdDate }: NoteProps) => {
     if (Boolean(selectedNotes.$$__value.length)) {
       return selectNote();
     }
-    openForm();
     setEditedNote({
       inputValue: getStoreValue(title),
       bodyValue: getStoreValue(body),
       key: key,
     });
+    openForm();
   }
   const articleRef = callRef<HTMLElement>();
   function selectNote() {
@@ -52,6 +52,11 @@ const Note = ({ title, time, body, key, createdDate }: NoteProps) => {
 
   return (
     <div
+      tabindex={1}
+      on:keyup={(e) => {
+        if (e.key === 'Enter')
+          articleRef.current?.dispatchEvent(new MouseEvent('click'));
+      }}
       className={
         'w-[250px] min-w-[250px] h-[300px] relative rounded-[20px] last:mr-3 '
       }
