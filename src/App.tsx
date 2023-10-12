@@ -17,6 +17,7 @@ const App = () => {
   const [sidebar, setSidebar] = callSignal<boolean>(false, {
     equals: true,
   });
+
   // Ask the user to migrate the database is there is any
   migrateDatabase();
 

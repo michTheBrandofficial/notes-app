@@ -10,6 +10,11 @@ import { raise } from '../errors';
 
 const dbNameRequestMap: Map<string, IDBOpenDBRequest> = new Map();
 
+// Map { ['notes-app', 'notes']: [() => void, () => void] }
+
+const snapShotListenerMap: Map<`${string}_${string}`, CallableFunction[]> =
+  new Map();
+
 function openDB(dbName: string, version?: number | undefined) {
   const openedDB = indexedDB.open(dbName, version);
   return openedDB;
@@ -188,8 +193,9 @@ export async function setRecord<
   const DB = store.transaction.db;
   const newActiveTransaction = await transaction(DB, storeName);
   const objectStore = await getObjectStore(newActiveTransaction, storeName);
-  objectStore.put(value, key);
-  newActiveTransaction.commit();
+  objectStore.put(value, key).addEventListener('success', () => {
+    snapShotListenerMap.get(`${DB.name}_${storeName}`)?.forEach((fn) => fn());
+  });
 }
 
 /**
@@ -216,8 +222,9 @@ export async function addRecord<
   const DB = store.transaction.db;
   const newActiveTransaction = await transaction(DB, storeName);
   const objectStore = await getObjectStore(newActiveTransaction, storeName);
-  objectStore.add(value, key);
-  newActiveTransaction.commit();
+  objectStore.add(value, key).addEventListener('success', () => {
+    snapShotListenerMap.get(`${DB.name}_${storeName}`)?.forEach((fn) => fn());
+  });
 }
 
 /**
@@ -238,8 +245,9 @@ export async function clearRecords(store: IBaseObjectStore<any, string>) {
   const DB = store.transaction.db;
   const newActiveTransaction = await transaction(DB, storeName);
   const objectStore = await getObjectStore(newActiveTransaction, storeName);
-  objectStore.clear();
-  newActiveTransaction.commit();
+  objectStore.clear().addEventListener('success', () => {
+    snapShotListenerMap.get(`${DB.name}_${storeName}`)?.forEach((fn) => fn());
+  });
 }
 
 /**
@@ -321,8 +329,9 @@ export async function deleteRecord(
   const DB = store.transaction.db;
   const newActiveTransaction = await transaction(DB, storeName);
   const objectStore = await getObjectStore(newActiveTransaction, storeName);
-  objectStore.delete(key);
-  newActiveTransaction.commit();
+  objectStore.delete(key).addEventListener('success', () => {
+    snapShotListenerMap.get(`${DB.name}_${storeName}`)?.forEach((fn) => fn());
+  });
 }
 
 /**
@@ -394,4 +403,20 @@ export async function indexContains(
   const newActiveTransaction = await transaction(DB, storeName);
   const objectStore = await getObjectStore(newActiveTransaction, storeName);
   return objectStore.indexNames.contains(name);
+}
+
+type UnSubscribe = () => void;
+
+export function onSnapShot(
+  store: IBaseObjectStore<any, any>,
+  fn: (query?: any) => void
+): UnSubscribe {
+  const mapKey = `${store.transaction.db.name}_${store.name}` as const;
+  const fnArray = snapShotListenerMap.get(mapKey);
+  if (!snapShotListenerMap.has(mapKey)) snapShotListenerMap.set(mapKey, [fn]);
+  else fnArray?.push(fn);
+
+  return () => {
+    fnArray?.splice?.(fnArray?.indexOf(fn), 1);
+  };
 }

@@ -3,6 +3,8 @@ import {
   createObjectStore,
   objectStore,
   setRecord,
+  onSnapShot,
+  deleteRecord,
 } from '@utils/indexbase';
 import type { IBaseVersionChangeEvent } from '@utils/indexbase/types';
 import { useStorage } from '@utils/useStorage';
