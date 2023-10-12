@@ -42,7 +42,7 @@ export const VStack = (props: ViewComponentType): someView => {
 export const TextField = (
   props: ViewComponentType<InputHTMLAttributes<HTMLInputElement>>
 ): someView => {
-  const { children } = removeUnusedProps(props, 'children');
+  removeUnusedProps(props, 'children');
 
   return (
     <input spellcheck autocapitalize={'sentences'} type={'text'} {...props} />
