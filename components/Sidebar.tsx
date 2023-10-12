@@ -17,7 +17,7 @@ type SidebarProps<T = boolean> = {
   setSidebar: SetSignalDispatcher<T>;
 };
 
-const Sidebar = ({ sidebar, setSidebar }: SidebarProps) => {
+const Sidebar = ({ sidebar, setSidebar }: SidebarProps): someView => {
   const asideRef = callRef<HTMLElement>();
   callReaction(() => {
     if (sidebar.value) {

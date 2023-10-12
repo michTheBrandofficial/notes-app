@@ -56,7 +56,9 @@ export default defineConfig({
       '@assets': resolve('./assets'),
       '@utils': resolve('./utils'),
       store: resolve('./store'),
+      '@hooks': resolve('./hooks'),
       database: resolve('./database'),
+      'view-components': resolve('./view-components/index.tsx'),
     },
   },
   esbuild: {
@@ -65,7 +67,7 @@ export default defineConfig({
     jsxImportSource: 'nixix',
     jsxDev: false,
     jsx: 'transform',
-    jsxInject: "import Nixix from 'nixix/dom'",
+    jsxInject: "import Nixix from 'nixix/dom';",
     minifyIdentifiers: true,
   },
   build: {

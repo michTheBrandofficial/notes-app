@@ -20,7 +20,7 @@ const options: SwipeOptions = {
 
 const SwipeGesture = (
   props: Optional<SwipeGestureProps, 'on:swiperight' | 'on:swipeleft'>
-) => {
+): someView => {
   const { gestureRef } = props;
   if (!gestureRef) throw new Error('gestureRef argument not passed');
   effect(() => {

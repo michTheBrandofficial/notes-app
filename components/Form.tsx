@@ -1,64 +1,42 @@
+import { getPopupPermission, setFormEffect, setInputReadOnly } from '@hooks';
 import { ClassList, CreateNote, Style } from '@utils/classes';
 import { closeForm, showNotification, splice } from '@utils/functions';
 import Icon from '@utils/nixix-heroicon';
 import { check, chevronLeft, pencil } from '@utils/nixix-heroicon/outline';
 import { notesRef } from '@utils/refs';
-import {
-  callEffect,
-  callReaction,
-  callRef,
-  callSignal,
-  effect,
-} from 'nixix/primitives';
+import { callRef, callSignal, effect } from 'nixix/primitives';
 import { FormEvent, TransitionEvent } from 'nixix/types/eventhandlers';
 import { editedNote, setEditedNote, setNotes } from 'store';
 import { formDisplay } from 'store/display';
+import {
+  Button,
+  HStack,
+  Paragrapgh,
+  TextArea,
+  TextField,
+  VStack,
+} from 'view-components';
 import Popup from './Popup';
 
-// props for null
-// setEditedNote({bodyValue: null, inputValue: null})
-// Nixix not parsing null
-
-const Form = () => {
+const Form = (): someView => {
   const sectionRef = callRef<HTMLElement>();
+  const popupRef = callRef<HTMLElement>();
   const [readOnly, setReadOnly] = callSignal<boolean>(true);
-  callReaction(() => {
-    const key = editedNote.$$__value.key;
-    if (formDisplay.value) {
-      ClassList.remove(sectionRef.current, 'opacity-0', 'translate-x-[100%]');
-      console.log(key);
-      if (key === null) {
-        setReadOnly(false);
-      } else {
-        setReadOnly(true);
-      }
-    } else ClassList.add(sectionRef.current, 'opacity-0', 'translate-x-[100%]');
-  }, [formDisplay]);
-
-  let inputs: Inputs = [];
+  const inputs: Inputs = [] as any;
   effect(() => {
-    inputs[0] = sectionRef?.current?.querySelector('input');
-    inputs[1] = sectionRef?.current?.querySelector('textarea');
+    inputs[0] = sectionRef?.current?.querySelector?.('input');
+    inputs[1] = sectionRef?.current?.querySelector?.('textarea');
   }, 'once');
 
-  const popupRef = callRef<HTMLElement>();
-  const [accepted, setAccepted] = callSignal<boolean>(false, { equals: true });
-  callReaction(() => {
-    ClassList.remove(popupRef, 'scale-up');
-    setTimeout(() => {
-      Style.set(popupRef, 'display', 'none');
-      setTimeout(() => {
-        if (accepted.value) {
-          setEditedNote({
-            bodyValue: null,
-            inputValue: null,
-            key: null,
-          });
-          closeForm();
-        } else focusInput();
-      }, 170);
-    }, 100);
-  }, [accepted]);
+  const [, setAccepted] = getPopupPermission(popupRef, focusInput);
+
+  setFormEffect({
+    formDisplaySignal: formDisplay,
+    editedNote,
+    parentRef: sectionRef,
+    setReadOnly,
+  });
+  setInputReadOnly({ parentRef: sectionRef, readOnlySignal: readOnly });
 
   function handleSubmbit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -113,23 +91,8 @@ const Form = () => {
     inputs[0]?.focus();
   }
 
-  callEffect(() => {
-    const editBtn =
-      sectionRef.current?.querySelector<HTMLButtonElement>('.edit-btn')!;
-    if (readOnly.value) {
-      ClassList.add(editBtn.nextElementSibling as HTMLButtonElement, 'hidden');
-      ClassList.remove(editBtn, 'hidden');
-    } else {
-      ClassList.remove(
-        editBtn.nextElementSibling as HTMLButtonElement,
-        'hidden'
-      );
-      ClassList.add(editBtn, 'hidden');
-    }
-  }, [readOnly]);
-
   return (
-    <section
+    <VStack
       className={
         'w-full h-full bg-white absolute top-0 z-30 tr-1 translate-x-[100%]  opacity-0'
       }
@@ -137,9 +100,9 @@ const Form = () => {
       on:transitionend={focusInput}
     >
       <Popup ref={popupRef} setAccepted={setAccepted} />
-      <section className={'w-full h-full flex flex-col p-2 lg:px-12 '}>
-        <div className={'w-full h-fit flex items-center justify-between '}>
-          <button
+      <VStack className={'h-full p-2 lg:px-12 '}>
+        <HStack className={'w-full h-fit flex items-center justify-between '}>
+          <Button
             on:click={() => {
               if (Boolean(inputs[0]?.value) || Boolean(inputs[1]?.value)) {
                 Style.set(popupRef, 'display', 'flex');
@@ -156,10 +119,12 @@ const Form = () => {
               size={28}
               stroke:width={2.5}
             />
-          </button>
-          <p className="text-blue-400 text-[20px] font-bold ">Design</p>
+          </Button>
+          <Paragrapgh className="text-blue-400 text-[20px] font-bold ">
+            Design
+          </Paragrapgh>
 
-          <button
+          <Button
             className={'ml-auto edit-btn hidden'}
             on:click={() => {
               setReadOnly(false);
@@ -172,8 +137,8 @@ const Form = () => {
               size={28}
               stroke:width={2.5}
             />
-          </button>
-          <button
+          </Button>
+          <Button
             className={'ml-auto '}
             on:click={() => {
               sectionRef?.current?.querySelector('form')?.requestSubmit();
@@ -185,42 +150,35 @@ const Form = () => {
               size={28}
               stroke:width={2.5}
             />
-          </button>
-        </div>
+          </Button>
+        </HStack>
         <form
           on:submit={handleSubmbit}
           className={
             'w-full h-full flex flex-col text-darkBlue px-2 pt-2 space-y-2 '
           }
         >
-          <input
-            type="text"
+          <TextField
             value={editedNote.inputValue}
             className={
               'w-full h-12 font-semibold text-lg pl-2 focus:outline-none border-none selection:bg-[#d8b4fe] '
             }
-            autocapitalize={'sentences'}
-            spellcheck
             readonly={readOnly}
             name={'title'}
             placeholder={'Title'}
           />
-          <textarea
-            spellcheck
+          <TextArea
             readonly={readOnly}
             value={editedNote.bodyValue as any}
-            autocapitalize={'sentences'}
             name="body"
-            cols={30}
-            rows={10}
             placeholder={'Take a note...'}
             className={
               'w-full h-full text-[15px] p-2 font-semibold focus:outline-none selection:bg-[#d8b4fe] '
             }
-          ></textarea>
+          />
         </form>
-      </section>
-    </section>
+      </VStack>
+    </VStack>
   );
 };
 

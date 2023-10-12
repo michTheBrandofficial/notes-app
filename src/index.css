@@ -56,12 +56,12 @@ html {
     display: none;
   }
 
-  .opa-black > div {
+  .opa-black > .trans-el {
     transition: all ease 0.4s;
     transform: scale(0);
   }
 
-  .opa-black.scale-up > div {
+  .opa-black.scale-up > .trans-el {
     transform: scale(1);
   }
 

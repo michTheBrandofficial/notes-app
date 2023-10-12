@@ -42,7 +42,7 @@ declare global {
   }
   type StorageKey = 'notes' | 'theme' | 'trash' | (string & {});
 
-  type Inputs = [] | [Null<HTMLInputElement>, Null<HTMLTextAreaElement>];
+  type Inputs = [Null<HTMLInputElement>, Null<HTMLTextAreaElement>];
 
   type TNote = {
     title?: string | FormDataEntryValue | null;

@@ -4,6 +4,7 @@
       "@styles/*": ["./styles/*"],
       "@components/*": ["./components/*"],
       "@assets/*": ["./assets/*"],
+      "@hooks": ["./hooks/index"],
       "@utils/*": ["./utils/*"]
     },
     "resolveJsonModule": true,

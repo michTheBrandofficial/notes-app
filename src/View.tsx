@@ -7,7 +7,7 @@ import { useStorage } from '@utils/useStorage';
 import { migrateDatabase } from 'database';
 import { callSignal, effect } from 'nixix/primitives';
 
-const View = () => {
+const View = (): someView => {
   // state for theme.
   const [getTheme] = useStorage<string>('theme');
   effect(() => {
