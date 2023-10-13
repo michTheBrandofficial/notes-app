@@ -4,7 +4,7 @@ import Sidebar from '@components/Sidebar';
 import Trash from '@components/Trash';
 import { Notification } from '@components/display';
 import { useStorage } from '@utils/useStorage';
-import { migrateDatabase } from 'database';
+import { Suspense } from 'nixix/hoc';
 import { callSignal, effect } from 'nixix/primitives';
 
 const View = (): someView => {
@@ -18,15 +18,14 @@ const View = (): someView => {
     equals: true,
   });
 
-  // Ask the user to migrate the database is there is any
-  migrateDatabase();
-
   return (
     <>
       <Sidebar {...{ sidebar, setSidebar }} />
       <Notification />
       <Body toggleMenu={[sidebar, setSidebar]} />
-      <Trash />
+      <Suspense>
+        <Trash />
+      </Suspense>
       <Form />
     </>
   );

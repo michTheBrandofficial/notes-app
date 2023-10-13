@@ -1,4 +1,5 @@
 import { ClassList, Style } from '@utils/classes';
+import { raise } from '@utils/errors';
 import { closeForm } from '@utils/functions';
 import {
   MutableRefObject,
@@ -8,6 +9,7 @@ import {
   callEffect,
   callReaction,
   callSignal,
+  callStore,
 } from 'nixix/primitives';
 import { setEditedNote } from 'store';
 
@@ -83,4 +85,30 @@ export function getPopupPermission(
     SignalObject<boolean>,
     SetSignalDispatcher<boolean>
   ];
+}
+
+function checkType<T>(value: any) {
+  if (typeof value === 'function')
+    raise(`Cannot pass a function as a reactive value.`);
+  if (['boolean', 'number', 'string'].includes(typeof value))
+    return callSignal<T>(value);
+  if (typeof value === 'object') return callStore<T>(value);
+}
+
+type Primitives = string | number | boolean;
+
+export function callMemo<T>(
+  fn: () => T,
+  deps: (SignalObject<any> | StoreObject<any>)[]
+) {
+  const value = fn();
+  if (value === null || value === undefined)
+    raise(`Memoized value cannot be null or undefined`);
+  const [memo, setMemo] = checkType<T>(value)!;
+  callReaction(() => {
+    setMemo(fn());
+  }, deps);
+  return memo as unknown as T extends Primitives
+    ? SignalObject<T>
+    : StoreObject<T>;
 }

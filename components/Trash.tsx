@@ -9,8 +9,13 @@ import { TrashButton } from './buttons';
 import Deleted from './display/Deleted';
 import TrashFallback from './display/TrashFallback';
 import { Button, HStack, Paragrapgh, VStack } from 'view-components';
+import { objectStore } from '@utils/indexbase';
+import { DB } from 'database';
 
-const Trash = (): someView => {
+const Trash = async (): Promise<someView> => {
+  const DBTrash = await objectStore<TrashType, 'trashId'>(DB, 'trash', {
+    keyPath: 'trashId',
+  });
   const [disabled, setDisabled] = callSignal<boolean>(false, { equals: true });
   callEffect(() => {
     setDisabled(!Boolean(trashStore.$$__value.length));
