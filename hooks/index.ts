@@ -62,8 +62,8 @@ export function setFormEffect({
 
 export function getPopupPermission(
   popupRef: MutableRefObject<HTMLElement | null>,
-  callbackFn: CallableFunction
-) {
+  fn: CallableFunction
+): [SignalObject<boolean>, SetSignalDispatcher<boolean>] {
   const [accepted, setAccepted] = callSignal<boolean>(false, { equals: true });
   callReaction(() => {
     ClassList.remove(popupRef, 'scale-up');
@@ -77,38 +77,9 @@ export function getPopupPermission(
             key: null,
           });
           closeForm();
-        } else callbackFn();
+        } else fn();
       }, 170);
     }, 100);
   }, [accepted]);
-  return [accepted, setAccepted] as [
-    SignalObject<boolean>,
-    SetSignalDispatcher<boolean>
-  ];
-}
-
-function checkType<T>(value: any) {
-  if (typeof value === 'function')
-    raise(`Cannot pass a function as a reactive value.`);
-  if (['boolean', 'number', 'string'].includes(typeof value))
-    return callSignal<T>(value);
-  if (typeof value === 'object') return callStore<T>(value);
-}
-
-type Primitives = string | number | boolean;
-
-export function callMemo<T>(
-  fn: () => T,
-  deps: (SignalObject<any> | StoreObject<any>)[]
-) {
-  const value = fn();
-  if (value === null || value === undefined)
-    raise(`Memoized value cannot be null or undefined`);
-  const [memo, setMemo] = checkType<T>(value)!;
-  callReaction(() => {
-    setMemo(fn());
-  }, deps);
-  return memo as unknown as T extends Primitives
-    ? SignalObject<T>
-    : StoreObject<T>;
+  return [accepted, setAccepted];
 }

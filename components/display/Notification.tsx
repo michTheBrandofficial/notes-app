@@ -2,11 +2,8 @@ import Icon from '@utils/nixix-heroicon';
 import { informationCircle } from '@utils/nixix-heroicon/solid';
 import { displayRefs } from '@utils/refs';
 import { notification } from 'store/display';
-import { HStack, Paragrapgh, VStack } from 'view-components';
+import { HStack, Paragragh, VStack } from 'view-components';
 
-/**
- * download the latest version of nixixjs
- */
 const Notification = (): someView => {
   return (
     <VStack
@@ -23,11 +20,11 @@ const Notification = (): someView => {
           size={28}
           className={'fill-blue-400 stroke-none '}
         />
-        <Paragrapgh
+        <Paragragh
           className={'text-[#081b336b] mt-[-7px] font-semibold letter-1 '}
         >
           {notification.message}
-        </Paragrapgh>
+        </Paragragh>
       </HStack>
     </VStack>
   );

@@ -16,6 +16,6 @@
     "strict": true,
     "types": ["nixix/router", "nixix/dom", "nixix/primitives", "nixix/hoc"],
     "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node"
+    "moduleResolution": "Bundler"
   }
 }

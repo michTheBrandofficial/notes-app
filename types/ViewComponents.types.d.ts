@@ -1,8 +1,11 @@
-import { HTMLAttributes } from 'nixix';
+import { HTMLAttributes, NixixNode } from 'nixix';
 
 export {};
 
 declare global {
-  type ViewComponentType<T = HTMLAttributes<HTMLElement>> = T &
-    JSX.IntrinsicAttributes;
+  type Children = {
+    children?: NixixNode;
+  };
+
+  type ViewComponentType<T = HTMLAttributes<HTMLElement>> = T & Children;
 }

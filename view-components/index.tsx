@@ -5,10 +5,10 @@ import {
   TextareaHTMLAttributes,
 } from 'nixix';
 
-function removeUnusedProps<
-  T extends JSX.IntrinsicAttributes,
-  K extends keyof JSX.IntrinsicAttributes
->(props: T, ...propNames: K[]) {
+function removeUnusedProps<T extends Children, K extends keyof T>(
+  props: T,
+  ...propNames: K[]
+) {
   const newProps: { [index: string]: any } = {};
   for (const propName of propNames) {
     newProps[propName as string] = props[propName];
@@ -75,7 +75,7 @@ export const Button = (
   return <button {...props}>{children}</button>;
 };
 
-export const Paragrapgh = (
+export const Paragragh = (
   props: ViewComponentType<HTMLAttributes<HTMLParagraphElement>>
 ): someView => {
   const { children } = removeUnusedProps(props, 'children');

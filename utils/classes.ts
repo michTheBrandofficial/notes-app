@@ -49,6 +49,18 @@ export class ClassList {
   }
 
   /**
+   * removes classes from the ref passed to it
+   */
+  static replace<T extends HTMLElement | null>(
+    ref: MutableRefObject<T> | T,
+    ...classList: [string, string]
+  ) {
+    if (ref instanceof Node)
+      (ref as HTMLElement).classList.replace(...classList);
+    else (ref as MutableRefObject<T>).current?.classList.replace(...classList);
+  }
+
+  /**
    * add classes to the ref passed to it
    */
   static add<T extends HTMLElement | null>(

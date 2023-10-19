@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "vite build && cp -r assets/pwa/*.png assets/pwa/*.ico dist/ ",
+    "build": "vite build && npm run pwa",
     "start": "vite",
-    "pwa": "cp -r assets/pwa/*.png assets/pwa/*.ico dist/",
+    "pwa": "cp -r assets/pwa/*.png assets/pwa/*.ico dist/  && npm run assets:process",
+    "assets:process": "node asset-vite-plugin/index.js",
     "preview": "vite preview --port 5174"
   },
   "repository": {

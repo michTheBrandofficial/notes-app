@@ -3,23 +3,34 @@ import Icon from '@utils/nixix-heroicon';
 import { x } from '@utils/nixix-heroicon/outline';
 import { notesRef } from '@utils/refs';
 import { For } from 'nixix/hoc';
-import { SetSignalDispatcher, callRef, effect } from 'nixix/primitives';
+import {
+  SetSignalDispatcher,
+  callEffect,
+  callRef,
+  effect,
+} from 'nixix/primitives';
 import { notes, selectedNotes, setSelectedNotes } from 'store';
 import { selectOp, setSelectOp } from 'store/display';
 import { NotesFallback } from './buttons';
 import { Note } from './display';
 import SwipeGesture from './SwipeGesture';
+import { ClassList } from '@utils/classes';
 
 const Notes = ({
   setSidebar,
 }: {
   setSidebar: SetSignalDispatcher<boolean>;
 }) => {
-  effect(() => {
+  callEffect(() => {
     if (notes.$$__value.length === 0) {
-      notesRef.current?.classList.add('pr-4', 'lg:pr-12');
+      ClassList.add(notesRef.current, 'pr-4', 'lg:pr-12');
+      ClassList.replace(notesRef.current, 'h-fit', 'h-full');
+      ClassList.remove(gestureRef.current, 'swipe-area');
+    } else {
+      ClassList.replace(notesRef.current, 'h-full', 'h-fit');
+      ClassList.add(gestureRef.current, 'swipe-area');
     }
-  });
+  }, [notes]);
 
   function deselect() {
     setSelectedNotes(() => {
@@ -28,7 +39,6 @@ const Notes = ({
       return [];
     });
   }
-
   const gestureRef = callRef<HTMLElement>();
 
   return (

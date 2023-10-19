@@ -11,12 +11,13 @@ import { formDisplay } from 'store/display';
 import {
   Button,
   HStack,
-  Paragrapgh,
+  Paragragh,
   TextArea,
   TextField,
   VStack,
 } from 'view-components';
 import Popup from './Popup';
+import {} from '../../michthebrand-store/node_modules/solid-js/jsx-runtime';
 
 const Form = (): someView => {
   const sectionRef = callRef<HTMLElement>();
@@ -24,8 +25,10 @@ const Form = (): someView => {
   const [readOnly, setReadOnly] = callSignal<boolean>(true);
   const inputs: Inputs = [] as any;
   effect(() => {
-    inputs[0] = sectionRef?.current?.querySelector?.('input');
-    inputs[1] = sectionRef?.current?.querySelector?.('textarea');
+    const querySelector = sectionRef?.current?.querySelector.bind(
+      sectionRef.current
+    );
+    inputs.push(...[querySelector?.('input'), querySelector?.('textarea')]);
   }, 'once');
 
   const [, setAccepted] = getPopupPermission(popupRef, focusInput);
@@ -120,9 +123,9 @@ const Form = (): someView => {
               stroke:width={2.5}
             />
           </Button>
-          <Paragrapgh className="text-blue-400 text-[20px] font-bold ">
+          <Paragragh className="text-blue-400 text-[20px] font-bold ">
             Design
-          </Paragrapgh>
+          </Paragragh>
 
           <Button
             className={'ml-auto edit-btn hidden'}

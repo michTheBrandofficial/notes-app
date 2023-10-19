@@ -1,4 +1,6 @@
 {
   "workbench.colorTheme": "Bearded Theme Arc Blueberry",
-  "editor.fontFamily": "operator mono"
+  "path-intellisense.absolutePathToWorkspace": false,
+  "path-intellisense.absolutePathTo": "",
+  "path-intellisense.showOnAbsoluteSlash": false
 }

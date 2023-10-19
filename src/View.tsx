@@ -8,11 +8,11 @@ import { Suspense } from 'nixix/hoc';
 import { callSignal, effect } from 'nixix/primitives';
 
 const View = (): someView => {
-  // state for theme.
-  const [getTheme] = useStorage<string>('theme');
   effect(() => {
+    // state for theme.
+    const [getTheme] = useStorage<string>('theme');
     const theme = getTheme();
-    if (theme) document.body.classList.add(theme);
+    document.body.classList.add(theme || 'light');
   }, 'once');
   const [sidebar, setSidebar] = callSignal<boolean>(false, {
     equals: true,

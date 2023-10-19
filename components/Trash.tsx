@@ -5,17 +5,12 @@ import { displayRefs } from '@utils/refs';
 import { For } from 'nixix/hoc';
 import { callEffect, callSignal } from 'nixix/primitives';
 import { setTrashStore, trashStore } from 'store/trash';
+import { Button, HStack, Paragragh, VStack } from 'view-components';
 import { TrashButton } from './buttons';
 import Deleted from './display/Deleted';
 import TrashFallback from './display/TrashFallback';
-import { Button, HStack, Paragrapgh, VStack } from 'view-components';
-import { objectStore } from '@utils/indexbase';
-import { DB } from 'database';
 
 const Trash = async (): Promise<someView> => {
-  const DBTrash = await objectStore<TrashType, 'trashId'>(DB, 'trash', {
-    keyPath: 'trashId',
-  });
   const [disabled, setDisabled] = callSignal<boolean>(false, { equals: true });
   callEffect(() => {
     setDisabled(!Boolean(trashStore.$$__value.length));
@@ -53,12 +48,12 @@ const Trash = async (): Promise<someView> => {
             />
           </VStack>
           <VStack className="space-y-4 w-full h-fit">
-            <Paragrapgh
+            <Paragragh
               className={'text-[#081b336b] text-[15px] lg:text-[17px] '}
             >
               Items that have been in Trash more than 30 days will be
               automatically deleted.
-            </Paragrapgh>
+            </Paragragh>
             <TrashButton on:click={() => setTrashStore([])} disabled={disabled}>
               Empty trash now
             </TrashButton>
@@ -71,7 +66,8 @@ const Trash = async (): Promise<someView> => {
         }
       >
         <For each={trashStore} fallback={<TrashFallback />}>
-          {(item: typeof trashStore, i: number) => {
+          {(item, i) => {
+            // @ts-ignore
             return <Deleted {...item[i]} key={i} />;
           }}
         </For>

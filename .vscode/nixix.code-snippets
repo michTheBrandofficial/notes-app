@@ -1,15 +1,27 @@
 {
   "Nixix default Functional Component": {
     "prefix": "edfc",
-    "body": "type ${1:${TM_FILENAME_BASE}}Props = {\n\n$0}; \n\nconst ${1:${TM_FILENAME_BASE}} = (${2:props}: ${1:${TM_FILENAME_BASE}}Props) => {\n\treturn (\n\t\t${3:<div />}\n\t)\n}\n\nexport default ${1:${TM_FILENAME_BASE}};",
-    "scope": "typescriptreact,javascriptreact",
+    "body": "const ${1:${TM_FILENAME_BASE}} = (${2:props}) => {\n\treturn (\n\t\t${3:<div />}\n\t)\n}\n\nexport default ${1:${TM_FILENAME_BASE}};",
+    "scope": "javascriptreact",
+    "description": "Functional Component to return JSX."
+  },
+  "Nixix default Functional Component Typescript": {
+    "prefix": "edfc",
+    "body": "type ${1:${TM_FILENAME_BASE}}Props = { $0 };\n\nconst ${1:${TM_FILENAME_BASE}} = (${2:props}: ${1:${TM_FILENAME_BASE}}Props): someView => {\n\treturn (\n\t\t${3:<div />}\n\t)\n}\n\nexport default ${1:${TM_FILENAME_BASE}};",
+    "scope": "typescriptreact",
     "description": "Functional Component to return JSX."
   },
   "Nixix Functional Component": {
     "prefix": "efc",
-    "body": "export const ${1:Component} = (${2:props}) => {\n\treturn (\n\t\t${3:<div />}\n\t)\n};",
-    "scope": "typescriptreact,javascriptreact",
-    "description": ""
+    "body": "export const ${1:${TM_FILENAME_BASE}} = (${2:props}) => {\n\treturn (\n\t\t${3:<div />}\n\t)\n};",
+    "scope": "javascriptreact",
+    "description": "Functional Component to return JSX."
+  },
+  "Nixix Functional Component Typescript": {
+    "prefix": "efc",
+    "body": "type ${1:${TM_FILENAME_BASE}}Props = { $0 };\n\nexport const ${1:${TM_FILENAME_BASE}} = (${2:props}: ${1:${TM_FILENAME_BASE}}Props): someView => {\n\treturn (\n\t\t${3:<div />}\n\t)\n};",
+    "scope": "typescriptreact",
+    "description": "Functional Component to return JSX."
   },
   "callSignalSnippet": {
     "prefix": "callSignalSnippet",
@@ -22,6 +34,12 @@
     "body": "const [${1:initValue}, set${1/(.*)/${1:/capitalize}/}] = callStore(${2:objectOrArray});",
     "scope": "javascriptreact,javascript",
     "description": "callStore snippet"
+  },
+  "memoSnippet": {
+    "prefix": "memoSnippet",
+    "body": "const ${1:derivedSignal} = memo(() => {\n\treturn ${2:initValue};\n}, [${3:deps}])",
+    "scope": "typescriptreact,javascriptreact,javascript,typescript",
+    "description": "memo snippet"
   },
   "callRefSnippet": {
     "prefix": "callRefSnippet",
@@ -49,16 +67,32 @@
   },
   "effectSnippet": {
     "prefix": "effectSnippet",
-    "body": "effect(() => {\n\t\t$1\n\t},\n\t${2|'once',null|},\n\t[${3:furtherDependents}]\n)",
+    "body": "effect(() => {\n\t\t$1\n\t},\n\t${2|'once',null|},\n\t[${3:furtherDeps}]\n)",
     "scope": "typescriptreact,javascriptreact,typescript,javascript",
     "description": "effect snippet"
   },
   "renderEffectSnippet": {
     "prefix": "renderEffectSnippet",
-    "body": "renderEffect(() => {\n\t\t$1\n\t},\n\t${2|'once',null|},\n\t[${3:furtherDependents}]\n)",
+    "body": "renderEffect(() => {\n\t\t$1\n\t},\n\t${2|'once',null|},\n\t[${3:furtherDeps}]\n)",
     "scope": "typescriptreact,javascriptreact,typescript,javascript",
     "description": "renderEffect snippet"
   },
+  "callEffectSnippet": {
+    "prefix": "callEffectSnippet",
+    "body": "callEffect(() => {\n\t\t$1\n\t},\n[${2:deps}]\n)",
+    "scope": "typescriptreact,javascriptreact,javascript,typescript",
+    "description": "call effect snippet"
+  },
+  "callReactionSnippet": {
+    "prefix": "callReactionSnippet",
+    "body": "callReaction(() => {\n\t\t$1\n\t},\n[${2:deps}]\n)",
+    "scope": "typescriptreact,javascriptreact,javascript,typescript",
+    "description": "call reaction snippet"
+  },
+
+  // HOC
+
+  // async values
   "asyncComponentTS": {
     "prefix": "asyncComponent",
     "body": "type AsyncProps = {$1};\n\nconst ${2:Component} = asyncComponent<AsyncProps>(${3:async} (${4:props}) => {\n\treturn $5\n});",
@@ -77,10 +111,18 @@
     "scope": "typescriptreact,javascriptreact",
     "description": "Suspense Component"
   },
+  // Loops
   "For": {
     "prefix": "For",
-    "body": "<For each={${1:storeArray}} parent={${2:<div />}} fallback={${3:fallback}}>\n\t{\n\t\t(${4:props}) => {\n\t\t\treturn (\n\t\t\t\t${5:<div />}\n\t\t\t)\n\t\t}\n\t}\n</For>",
+    "body": "<For each={${1:storeArray}} fallback={${3:fallback}}>\n\t{\n\t\t(storeArray, i) => {\n\t\t\treturn (\n\t\t\t\t${5:<div />}\n\t\t\t)\n\t\t}\n\t}\n</For>",
     "scope": "typescriptreact,javascriptreact",
     "description": "For Component"
+  },
+  // Conditional
+  "Show": {
+    "prefix": "Show",
+    "body": "<Show when={${1:signal}} fallback={${2:fallback}}>\n\t<div />\n</Show>",
+    "scope": "typescriptreact,javascriptreact",
+    "description": "Show Component"
   }
 }
