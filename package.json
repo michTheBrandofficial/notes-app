@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/michTheBrandofficial/notes-app#readme",
   "dependencies": {
-    "nixix": "^1.5.19",
+    "nixix": "^1.5.20",
     "tinygesture": "^2.0.0"
   },
   "devDependencies": {
