@@ -66,7 +66,7 @@ const Settings = async (): Promise<someView> => {
   return (
     <VStack
       className={
-        'h-screen w-full flex flex-col top-0 z-50 /translate-x-[-100%] /opacity-0 transition-all duration-1000 ease-in-out absolute font-HantenGrotesk bg-white '
+        'h-screen w-full flex flex-col top-0 z-50 translate-x-[-100%] opacity-0 transition-all duration-1000 ease-in-out absolute font-HantenGrotesk bg-white '
       }
       bind:ref={displayRefs.settingsRef}
     >
