@@ -1,34 +1,63 @@
+import Popup from '@components/Popup';
 import { getPopupPermission, setFormEffect, setInputReadOnly } from '@hooks';
 import { ClassList, CreateNote, Style } from '@utils/classes';
-import { closeForm, showNotification, splice } from '@utils/functions';
+import {
+  closeForm,
+  createLesserSize,
+  showNotification,
+  splice,
+} from '@utils/functions';
 import Icon from '@utils/nixix-heroicon';
 import { check, chevronLeft, pencil } from '@utils/nixix-heroicon/outline';
 import { notesRef } from '@utils/refs';
+import { UserSettings } from 'database';
 import { callRef, callSignal, effect } from 'nixix/primitives';
-import { FormEvent, TransitionEvent } from 'nixix/types/eventhandlers';
+import {
+  FormEvent,
+  KeyboardEvent,
+  TransitionEvent,
+} from 'nixix/types/eventhandlers';
 import { editedNote, setEditedNote, setNotes } from 'store';
 import { formDisplay } from 'store/display';
 import {
   Button,
+  FormField,
   HStack,
   Paragragh,
   TextArea,
   TextField,
   VStack,
 } from 'view-components';
-import Popup from './Popup';
-import {} from '../../michthebrand-store/node_modules/solid-js/jsx-runtime';
 
 const Form = (): someView => {
+  const settingsInstance = new UserSettings();
+  const userSettings: IUserSettings | null = settingsInstance?._settings;
+  const baseSize = userSettings?.['font size']?.default || '18px';
+  let sizes = [baseSize, createLesserSize(baseSize)];
+  let bp = userSettings?.['bullet points']?.default || 'none';
+  settingsInstance?.addEventListener('get:font size', (e) => {
+    inputs[0]!.style.fontSize = e.default;
+    inputs[1]!.style.fontSize = createLesserSize(e.default);
+  });
+
+  settingsInstance?.addEventListener('get:bullet points', (e) => {
+    bp = e.default;
+    if (bp === 'none' || bp === 'None') {
+      inputs[1]?.removeEventListener('keyup', addBP as any);
+    }
+  });
+
+  // ui
   const sectionRef = callRef<HTMLElement>();
   const popupRef = callRef<HTMLElement>();
   const [readOnly, setReadOnly] = callSignal<boolean>(true);
   const inputs: Inputs = [] as any;
   effect(() => {
-    const querySelector = sectionRef?.current?.querySelector.bind(
-      sectionRef.current
-    );
-    inputs.push(...[querySelector?.('input'), querySelector?.('textarea')]);
+    const qs = sectionRef?.current?.querySelector.bind(sectionRef.current);
+    inputs.push(...[qs?.('input'), qs?.('textarea')]);
+    if (bp !== 'none' && bp !== 'None') {
+      inputs[1]?.addEventListener('keyup', addBP as any);
+    }
   }, 'once');
 
   const [, setAccepted] = getPopupPermission(popupRef, focusInput);
@@ -40,6 +69,8 @@ const Form = (): someView => {
     setReadOnly,
   });
   setInputReadOnly({ parentRef: sectionRef, readOnlySignal: readOnly });
+
+  // func
 
   function handleSubmbit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -88,6 +119,12 @@ const Form = (): someView => {
     }, 100);
   }
 
+  function addBP(e: KeyboardEvent<HTMLTextAreaElement>) {
+    if (e.key === 'Enter') {
+      e.currentTarget.value = `${e.currentTarget.value.trimEnd()}\n\n${bp} `;
+    }
+  }
+
   function focusInput(e?: TransitionEvent<HTMLElement>) {
     e?.stopPropagation();
     if (formDisplay.value === false) return;
@@ -97,7 +134,7 @@ const Form = (): someView => {
   return (
     <VStack
       className={
-        'w-full h-full bg-white absolute top-0 z-30 tr-1 translate-x-[100%]  opacity-0'
+        'w-full h-full font-HantenGrotesk bg-white dark:bg-stone-700 absolute top-0 z-30 tr-1 translate-x-[100%]  opacity-0'
       }
       bind:ref={sectionRef}
       on:transitionend={focusInput}
@@ -107,6 +144,14 @@ const Form = (): someView => {
         <HStack className={'w-full h-fit flex items-center justify-between '}>
           <Button
             on:click={() => {
+              if (readOnly.value) {
+                setEditedNote({
+                  bodyValue: null,
+                  inputValue: null,
+                  key: null,
+                });
+                return closeForm();
+              }
               if (Boolean(inputs[0]?.value) || Boolean(inputs[1]?.value)) {
                 Style.set(popupRef, 'display', 'flex');
                 return setTimeout(() => {
@@ -117,13 +162,13 @@ const Form = (): someView => {
             }}
           >
             <Icon
-              className={'stroke-blue-400 fill-none  '}
+              className={'stroke-peach fill-none  '}
               path={chevronLeft}
               size={28}
               stroke:width={2.5}
             />
           </Button>
-          <Paragragh className="text-blue-400 text-[20px] font-bold ">
+          <Paragragh className="text-peach text-[20px] font-bold ">
             Design
           </Paragragh>
 
@@ -135,7 +180,7 @@ const Form = (): someView => {
             }}
           >
             <Icon
-              className={'stroke-blue-400 fill-none stroke-[3px] '}
+              className={'stroke-peach fill-none stroke-[3px] '}
               path={pencil}
               size={28}
               stroke:width={2.5}
@@ -148,24 +193,27 @@ const Form = (): someView => {
             }}
           >
             <Icon
-              className={'stroke-blue-400 fill-none stroke-[3px] '}
+              className={'stroke-peach fill-none stroke-[3px] '}
               path={check}
               size={28}
               stroke:width={2.5}
             />
           </Button>
         </HStack>
-        <form
+        <FormField
           on:submit={handleSubmbit}
           className={
-            'w-full h-full flex flex-col text-darkBlue px-2 pt-2 space-y-2 '
+            'w-full h-full flex flex-col text-darkBlue dark:text-slate-300 px-2 pt-2 space-y-2 '
           }
         >
           <TextField
             value={editedNote.inputValue}
             className={
-              'w-full h-12 font-semibold text-lg pl-2 focus:outline-none border-none selection:bg-[#d8b4fe] '
+              'w-full h-12 font-HantenGrotesk font-semibold dark:bg-inherit text-lg pl-2 focus:outline-none border-none selection:bg-peach '
             }
+            style={{
+              fontSize: sizes[0],
+            }}
             readonly={readOnly}
             name={'title'}
             placeholder={'Title'}
@@ -174,12 +222,13 @@ const Form = (): someView => {
             readonly={readOnly}
             value={editedNote.bodyValue as any}
             name="body"
+            style={{ fontSize: sizes[1] }}
             placeholder={'Take a note...'}
             className={
-              'w-full h-full text-[15px] p-2 font-semibold focus:outline-none selection:bg-[#d8b4fe] '
+              'w-full h-full font-HantenGrotesk text-[15px] dark:bg-inherit p-2 font-semibold focus:outline-none selection:bg-peach '
             }
           />
-        </form>
+        </FormField>
       </VStack>
     </VStack>
   );

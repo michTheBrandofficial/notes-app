@@ -39,35 +39,36 @@ export class ClassList {
   /**
    * removes classes from the ref passed to it
    */
-  static remove<T extends HTMLElement | null>(
+  static remove<T extends HTMLElement | SVGElement | null>(
     ref: MutableRefObject<T> | T,
     ...classList: string[]
   ) {
     if (ref instanceof Node)
-      (ref as HTMLElement).classList.remove(...classList);
+      (ref as HTMLElement | SVGElement).classList.remove(...classList);
     else (ref as MutableRefObject<T>).current?.classList.remove(...classList);
   }
 
   /**
    * removes classes from the ref passed to it
    */
-  static replace<T extends HTMLElement | null>(
+  static replace<T extends HTMLElement | SVGElement | null>(
     ref: MutableRefObject<T> | T,
     ...classList: [string, string]
   ) {
     if (ref instanceof Node)
-      (ref as HTMLElement).classList.replace(...classList);
+      (ref as HTMLElement | SVGElement).classList.replace(...classList);
     else (ref as MutableRefObject<T>).current?.classList.replace(...classList);
   }
 
   /**
    * add classes to the ref passed to it
    */
-  static add<T extends HTMLElement | null>(
+  static add<T extends HTMLElement | SVGElement | null>(
     ref: MutableRefObject<T> | T,
     ...classList: string[]
   ) {
-    if (ref instanceof Node) (ref as HTMLElement).classList.add(...classList);
+    if (ref instanceof Node)
+      (ref as HTMLElement | SVGElement).classList.add(...classList);
     else (ref as MutableRefObject<T>).current?.classList.add(...classList);
   }
 }
@@ -75,7 +76,7 @@ export class ClassList {
 export class Style {
   static set<
     P extends keyof CSSProperties,
-    T extends HTMLElement | null = HTMLElement
+    T extends HTMLElement | SVGElement | null = HTMLElement | SVGElement
   >(ref: MutableRefObject<T> | T, prop: P, value: CSSProperties[P]) {
     if (ref instanceof Node) (ref as any).style[prop] = value;
     // @ts-ignore

@@ -1,8 +1,12 @@
+import { UserSettings } from 'database';
+import { MutableRefObject } from 'nixix/primitives';
 import { selectedNotes, setNotes, setSelectedNotes } from 'store';
 import { setNotification, setSelectOp, setformDisplay } from 'store/display';
 import { getTrash, setTrashStore } from 'store/trash';
 import { ClassList } from './classes';
 import { displayRefs, notesRef } from './refs';
+
+const settingsInstance: Null<UserSettings> = new UserSettings();
 
 export function createNewNote() {
   setformDisplay(true);
@@ -12,6 +16,13 @@ export function closeForm() {
   setformDisplay(false);
 }
 
+let permanentDeletionSetting: boolean = isNull(
+  settingsInstance?._settings?.['permanent deletion'],
+  false
+);
+settingsInstance.addEventListener('get:permanent deletion', (e) => {
+  permanentDeletionSetting = e;
+});
 export function deleteNotes() {
   const toDelete = selectedNotes.$$__value;
   if (Boolean(toDelete.length)) {
@@ -27,7 +38,8 @@ export function deleteNotes() {
           persistentNotes.push(note);
         }
       });
-      setTrashStore([...trash, ...(getTrash() || [])]);
+      permanentDeletionSetting === false &&
+        setTrashStore([...trash, ...(getTrash() || [])]);
       deselectNotes(toDelete);
       return persistentNotes as TNotes;
     });
@@ -62,15 +74,55 @@ export function splice<T extends any[]>(array: T, index: number): T[number] {
   return value;
 }
 
+export function lowerCase<T extends string>(str: T): Lowercase<T> {
+  return str.toLowerCase() as Lowercase<T>;
+}
+
+export function removeLast(arr: string[]) {
+  if (arr.length > 3) arr.length = 3;
+  return arr as IUserSettings['font size']['recentOptions'];
+}
+
+export function getDefault<T extends keyof IUserSettings>(
+  settings: T,
+  def: IUserSettings
+): IUserSettings[T] {
+  return def[settings];
+}
+
+export function createLesserSize(str: `${string}px`) {
+  return (Number(str.replace('px', '')) - 3).toString().concat('px');
+}
+
+export function bindMethod<T extends { [index: string]: any }>(
+  that: T,
+  met: keyof T
+) {
+  return that[met].bind(that);
+}
+
+export function isNull(val: any, def?: boolean) {
+  if (val === null || val === undefined) return def === false ? false : true;
+  else return val;
+}
+
+let notificationSetting: boolean = isNull(
+  settingsInstance?._settings?.notifications
+);
+settingsInstance?.addEventListener('get:notifications', (e) => {
+  notificationSetting = e;
+});
 export function showNotification(message: string) {
-  setNotification({
-    message,
-  });
-  const notifiEl = displayRefs.notificationRef.current;
-  notifiEl?.classList.add('notifi');
-  setTimeout(() => {
-    notifiEl?.classList.remove('notifi');
-  }, 3000);
+  if (notificationSetting) {
+    setNotification({
+      message,
+    });
+    const notifiEl = displayRefs.notificationRef.current;
+    notifiEl?.classList.add('notifi');
+    setTimeout(() => {
+      notifiEl?.classList.remove('notifi');
+    }, 3000);
+  }
 }
 
 export function showTrash() {
@@ -79,7 +131,14 @@ export function showTrash() {
   trashRef.current?.querySelector('button')?.focus();
 }
 
-export function showHome() {
-  const trashRef = displayRefs.trashRef;
-  ClassList.add(trashRef, 'opacity-0', 'translate-x-[100%]');
+export function showSettings() {
+  const settingsRef = displayRefs.settingsRef;
+  ClassList.remove(settingsRef, ...['translate-x-[-100%]', 'opacity-0']);
+}
+
+export function showHome(
+  ref: MutableRefObject<HTMLElement | null>,
+  { classes }: { classes: string[] }
+) {
+  ClassList.add(ref, ...classes);
 }

@@ -6,12 +6,14 @@ type TrashFallbackProps = {};
 const TrashFallback = (props: TrashFallbackProps): someView => {
   return (
     <HStack
-      className={'w-full h-full flex items-center justify-center bg-white '}
+      className={
+        'w-full h-full flex items-center justify-center bg-white dark:bg-stone-700 '
+      }
     >
       <VStack className="w-fit h-fit flex flex-col items-center font-medium text-lg lg:text-2xl ">
         <img
           src={EmptyTrash}
-          className={'w-fit h-fit '}
+          className={'w-fit h-fit dark:mix-blend-color-burn '}
           alt="Empty trash can"
         />
         <h1>Nothing in Trash</h1>

@@ -8,6 +8,11 @@
 }
 
 @font-face {
+  font-family: Rubik;
+  src: url(../assets/fonts/Rubik/static/Rubik-SemiBold.ttf);
+}
+
+@font-face {
   font-family: Inter;
   src: url(../assets/fonts/Inter/static/Inter-Regular.ttf);
 }
@@ -27,7 +32,7 @@ html {
 
 @layer components {
   .collections {
-    @apply shadow-blue-300 bg-blue-500 stroke-white dark:shadow-none dark:bg-gray-200 dark:stroke-blue-500;
+    @apply bg-peach stroke-white;
   }
 
   .body-overlay {
@@ -71,6 +76,30 @@ html {
 
   .no-notifi {
     top: -200px;
+  }
+
+  .modalOpen {
+    animation: bounce_2 500ms ease;
+    animation-fill-mode: forwards;
+  }
+
+  .blur-shadow {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+  }
+
+  @keyframes bounce_2 {
+    25% {
+      transform: scale(0.8);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    75% {
+      transform: scale(0.8);
+    }
+    100% {
+      transform: scale(1);
+    }
   }
 
   .no-notifi.notifi {

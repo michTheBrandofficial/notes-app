@@ -18,7 +18,7 @@ const Notification = (): someView => {
         <Icon
           path={informationCircle}
           size={28}
-          className={'fill-blue-400 stroke-none '}
+          className={'fill-peach stroke-none '}
         />
         <Paragragh
           className={'text-[#081b336b] mt-[-7px] font-semibold letter-1 '}

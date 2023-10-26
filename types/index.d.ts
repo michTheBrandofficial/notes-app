@@ -35,11 +35,6 @@ declare global {
     | 'pressThreshold'
   >;
 
-  type Themes = 'light' | 'dark' | (string & {});
-  interface ThemeProps {
-    theme: SignalObject<Themes>;
-    setTheme: SetSignalDispatcher<Themes>;
-  }
   type StorageKey = 'notes' | 'theme' | 'trash' | (string & {});
 
   type Inputs = [Null<HTMLInputElement>, Null<HTMLTextAreaElement>];

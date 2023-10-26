@@ -46,7 +46,7 @@ const Header = ({ toggleMenu }: HeaderProps) => {
       >
         <h1 className=" text-[35px] ">Design</h1>
         {/* filters */}
-        <section className="w-fit flex items-center stroke-blue-300 fill-none dark:stroke-blue-500 space-x-2  ">
+        <section className="w-fit flex items-center stroke-peach fill-none dark:stroke-peach space-x-2  ">
           <div className={'w-fit flex lg:hidden relative '}>
             <MenuIcon on:click={() => setSidebar(true)} sidebar={sidebar} />
           </div>

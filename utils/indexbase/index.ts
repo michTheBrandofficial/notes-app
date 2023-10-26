@@ -189,12 +189,15 @@ export async function setRecord<
   value: StoreValue<S>,
   key?: IDBValidKey | undefined
 ): Promise<void> {
-  const storeName = store.name;
-  const DB = store.transaction.db;
-  const newActiveTransaction = await transaction(DB, storeName);
-  const objectStore = await getObjectStore(newActiveTransaction, storeName);
-  objectStore.put(value, key).addEventListener('success', () => {
-    snapShotListenerMap.get(`${DB.name}_${storeName}`)?.forEach((fn) => fn());
+  return new Promise<any>(async (resolve, reject) => {
+    const storeName = store.name;
+    const DB = store.transaction.db;
+    const newActiveTransaction = await transaction(DB, storeName);
+    const objectStore = await getObjectStore(newActiveTransaction, storeName);
+    objectStore.put(value, key).addEventListener('success', () => {
+      snapShotListenerMap.get(`${DB.name}_${storeName}`)?.forEach((fn) => fn());
+      resolve(1);
+    });
   });
 }
 

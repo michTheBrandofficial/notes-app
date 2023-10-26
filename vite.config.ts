@@ -67,6 +67,7 @@ export default defineConfig({
       '@components': resolve('./components'),
       '@assets': resolve('./assets'),
       '@utils': resolve('./utils'),
+      '@pages': resolve('./pages'),
       store: resolve('./store'),
       '@hooks': resolve('./hooks'),
       database: resolve('./database'),
@@ -75,6 +76,7 @@ export default defineConfig({
   },
   esbuild: {
     ...esbuildOptions,
+    legalComments: 'none',
   },
   server: {
     hmr: {

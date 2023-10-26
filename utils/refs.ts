@@ -9,4 +9,5 @@ export const displayRefs = {
   formRef: callRef<HTMLElement>(),
   notificationRef: callRef<HTMLElement>(),
   trashRef: callRef<HTMLElement>(),
+  settingsRef: callRef<HTMLElement>(),
 };

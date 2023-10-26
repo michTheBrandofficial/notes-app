@@ -6,7 +6,7 @@ const NotesFallback = () => {
   return (
     <button
       className={
-        'mx-auto h-[120px] w-[120px] border-[3px] border-dashed border-[#081b336b] rounded-[23px] self-center flex flex-col items-center justify-center gap-2 lg:w-[190px] lg:h-[190px] lg:border-[3px] lg:text-[20px] lg:rounded-[40px] '
+        'mx-auto h-[120px] w-[120px] border-[2px] border-solid border-[#081b336b] rounded-[28px] self-center flex flex-col items-center justify-center gap-2 lg:w-[190px] lg:h-[190px] lg:border-[3px] lg:text-[20px] lg:rounded-[40px] '
       }
       on:click={createNewNote}
     >

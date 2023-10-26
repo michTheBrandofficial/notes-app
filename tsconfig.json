@@ -5,6 +5,7 @@
       "@components/*": ["./components/*"],
       "@assets/*": ["./assets/*"],
       "@hooks": ["./hooks/index"],
+      "@pages/*": ["./pages/*"],
       "@utils/*": ["./utils/*"]
     },
     "resolveJsonModule": true,
@@ -16,6 +17,6 @@
     "strict": true,
     "types": ["nixix/router", "nixix/dom", "nixix/primitives", "nixix/hoc"],
     "allowSyntheticDefaultImports": true,
-    "moduleResolution": "Bundler"
+    "moduleResolution": "Node"
   }
 }

@@ -12,10 +12,14 @@ module.exports = {
       fontFamily: {
         HantenGrotesk: ['Hanten_Grotesk', 'sans-serif'],
         Inter: ['Inter', 'sans-serif'],
+        Rubik: ['Rubik', 'sans-serif'],
       },
       colors: {
         darkBlue: {
           DEFAULT: '#081b33',
+        },
+        peach: {
+          DEFAULT: '#d8b4fe',
         },
       },
       screens: {

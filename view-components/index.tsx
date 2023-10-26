@@ -1,5 +1,6 @@
 import {
   ButtonHTMLAttributes,
+  FormHTMLAttributes,
   HTMLAttributes,
   InputHTMLAttributes,
   TextareaHTMLAttributes,
@@ -23,7 +24,10 @@ export const HStack = (props: ViewComponentType): someView => {
   const { children } = removeUnusedProps(props, 'children');
 
   return (
-    <section className={props.className ?? ''} {...props}>
+    <section
+      {...props}
+      className={`flex ${props.className ? props.className : ''}`}
+    >
       {children}
     </section>
   );
@@ -37,6 +41,30 @@ export const VStack = (props: ViewComponentType): someView => {
       {children}
     </section>
   );
+};
+
+export const Article = (props: ViewComponentType): someView => {
+  const { children } = removeUnusedProps(props, 'children');
+
+  return <article {...props}>{children}</article>;
+};
+
+export const Aside = (props: ViewComponentType): someView => {
+  const { children } = removeUnusedProps(props, 'children');
+
+  return (
+    <aside {...props} className={props.className ?? ''}>
+      {children}
+    </aside>
+  );
+};
+
+export const FormField = (
+  props: ViewComponentType<FormHTMLAttributes<HTMLFormElement>>
+): someView => {
+  const { children } = removeUnusedProps(props, 'children');
+
+  return <form {...props}>{children}</form>;
 };
 
 export const TextField = (
@@ -80,5 +108,5 @@ export const Paragragh = (
 ): someView => {
   const { children } = removeUnusedProps(props, 'children');
 
-  return <p {...props}>{children}</p>;
+  return <p {...props}>{children || []}</p>;
 };

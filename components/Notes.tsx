@@ -1,20 +1,15 @@
+import { ClassList } from '@utils/classes';
 import { createNewNote, deselectNotes } from '@utils/functions';
 import Icon from '@utils/nixix-heroicon';
 import { x } from '@utils/nixix-heroicon/outline';
 import { notesRef } from '@utils/refs';
 import { For } from 'nixix/hoc';
-import {
-  SetSignalDispatcher,
-  callEffect,
-  callRef,
-  effect,
-} from 'nixix/primitives';
+import { SetSignalDispatcher, callEffect, callRef } from 'nixix/primitives';
 import { notes, selectedNotes, setSelectedNotes } from 'store';
 import { selectOp, setSelectOp } from 'store/display';
+import SwipeGesture from './SwipeGesture';
 import { NotesFallback } from './buttons';
 import { Note } from './display';
-import SwipeGesture from './SwipeGesture';
-import { ClassList } from '@utils/classes';
 
 const Notes = ({
   setSidebar,
@@ -46,14 +41,14 @@ const Notes = ({
       <section className="flex items-center justify-between w-full pr-4 h-fit lg:pr-12">
         <h1
           className={
-            'text-lg w-fit mt-2 relative after:w-3/4 after:mt-1 after:h-[3px] after:bg-blue-300 after:rounded-full after:absolute after:right-0 after:block dark:after:bg-yellow-300 '
+            'text-lg w-fit mt-2 relative after:w-3/4 after:mt-1 after:h-[3px] after:bg-blue-300 after:rounded-full after:absolute after:right-0 after:block dark:after:bg-peach '
           }
         >
           Notes
         </h1>
         <Icon
           path={x}
-          className={'stroke-blue-400 tr-3 fill-none '}
+          className={'stroke-peach tr-3 fill-none '}
           on:click={deselect}
           style={{
             opacity: selectOp,
