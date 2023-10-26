@@ -1,4 +1,3 @@
-/// <reference types="vite/client" />
 import Sidebar from '@components/Sidebar';
 import { Notification } from '@components/display';
 import Body from '@pages/Body';

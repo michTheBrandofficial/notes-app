@@ -30,7 +30,17 @@ html {
   scrollbar-width: none;
 }
 
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
 @layer components {
+  .active-btn:active {
+    scale: 1.2;
+  }
+
   .collections {
     @apply bg-peach stroke-white;
   }

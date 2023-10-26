@@ -27,7 +27,7 @@ const InputSelect = (props: InputSelectProps): someView => {
       {icon && (
         <Icon path={icon} className={'stroke-peach fill-none mr-4'} size={30} />
       )}
-      <p className="text-inherit text-xl">{text}</p>
+      <p className="text-inherit  ">{text}</p>
       <HStack
         className={
           'w-fit h-fit items-center ml-auto justify-normal gap-1 stroke-slate-300 text-slate-500 dark:text-inherit '
@@ -62,6 +62,7 @@ const InputSelect = (props: InputSelectProps): someView => {
           className={'stroke-inherit fill-none transition-all duration-500 '}
           path={chevronRight}
           stroke:width={3.5}
+          size={22}
         />
       </HStack>
     </HStack>

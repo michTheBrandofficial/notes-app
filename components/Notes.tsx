@@ -10,6 +10,7 @@ import { selectOp, setSelectOp } from 'store/display';
 import SwipeGesture from './SwipeGesture';
 import { NotesFallback } from './buttons';
 import { Note } from './display';
+import { HStack, VStack } from 'view-components';
 
 const Notes = ({
   setSidebar,
@@ -37,8 +38,8 @@ const Notes = ({
   const gestureRef = callRef<HTMLElement>();
 
   return (
-    <section className={'w-full h-full flex flex-col content-between '}>
-      <section className="flex items-center justify-between w-full pr-4 h-fit lg:pr-12">
+    <VStack className={'w-full h-full flex flex-col content-between '}>
+      <HStack className="items-center justify-between w-full pr-4 h-fit lg:pr-12">
         <h1
           className={
             'text-lg w-fit mt-2 relative after:w-3/4 after:mt-1 after:h-[3px] after:bg-blue-300 after:rounded-full after:absolute after:right-0 after:block dark:after:bg-peach '
@@ -54,9 +55,9 @@ const Notes = ({
             opacity: selectOp,
           }}
         />
-      </section>
-      <section
-        className={'w-full h-fit flex mt-8 gap-3 overflow-x-scroll no-scroll  '}
+      </HStack>
+      <HStack
+        className={'w-full h-fit mt-8 gap-3 overflow-x-scroll no-scroll  '}
         bind:ref={notesRef}
       >
         <For each={notes} fallback={<NotesFallback />}>
@@ -65,18 +66,18 @@ const Notes = ({
             return <Note {...note} createdDate={note.createdDate} key={i} />;
           }}
         </For>
-      </section>
+      </HStack>
       <SwipeGesture
         gestureRef={gestureRef}
         on:swipeleft={() => createNewNote()}
         on:swiperight={() => setSidebar(true)}
       >
-        <section
+        <VStack
           className="swipe-area w-full flex-grow "
           bind:ref={gestureRef}
-        ></section>
+        ></VStack>
       </SwipeGesture>
-    </section>
+    </VStack>
   );
 };
 

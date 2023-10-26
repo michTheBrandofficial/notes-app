@@ -1,7 +1,7 @@
 import { ClassList } from '@utils/classes';
 import Icon from '@utils/nixix-heroicon';
 import { MouseEventHandler } from 'nixix/types/eventhandlers';
-import { Button, HStack } from 'view-components';
+import { Button, HStack, Paragragh } from 'view-components';
 
 type ToggleProps = {
   'on:click'?: MouseEventHandler<HTMLButtonElement>;
@@ -26,8 +26,11 @@ const Toggle = (props: ToggleProps): someView => {
           size={30}
         />
       )}
-      <p className="text-inherit text-xl">{props?.text}</p>
+      <Paragragh className="text-inherit ">{props?.text}</Paragragh>
       <Button
+        className={`w-[44px] h-fit ml-auto ${transition} flex active:outline-none active:bg-transparent focus:outline-none rounded-full p-[2px] ${
+          on ? 'bg-peach' : 'bg-slate-300'
+        } lg:w-[40px] lg:p-[2px] `}
         on:click={(e) => {
           const querySelector = e.currentTarget.querySelector.bind(
             e.currentTarget
@@ -44,12 +47,9 @@ const Toggle = (props: ToggleProps): someView => {
 
           props?.['on:click']?.(e);
         }}
-        className={`w-[54px] h-fit ml-auto ${transition} flex active:outline-none active:bg-transparent focus:outline-none rounded-full p-[4px] ${
-          on ? 'bg-peach' : 'bg-slate-300'
-        } lg:w-[40px] lg:p-[2px] `}
       >
         <div
-          className={`h-[23px] w-[23px] ${transition} ${
+          className={`h-[20px] w-[20px] ${transition} ${
             on && translate
           } bg-white shadow-lg rounded-full lg:h-[18px] lg:w-[18px] `}
         ></div>

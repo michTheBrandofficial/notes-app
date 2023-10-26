@@ -7,6 +7,7 @@ import { callRef, effect } from 'nixix/primitives';
 import { type MouseEvent } from 'nixix/types/eventhandlers';
 import { selectedNotes, setEditedNote, setSelectedNotes } from 'store';
 import { selectOp, setSelectOp } from 'store/display';
+import { Article, Paragragh, TextArea, VStack } from 'view-components';
 
 type NoteProps = TNote & {
   key: number;
@@ -51,7 +52,7 @@ const Note = ({ title, time, body, key, createdDate }: NoteProps) => {
   }, 'once');
 
   return (
-    <div
+    <VStack
       tabindex={1}
       on:keyup={(e) => {
         if (e.key === 'Enter')
@@ -61,40 +62,42 @@ const Note = ({ title, time, body, key, createdDate }: NoteProps) => {
         'w-[250px] min-w-[250px] h-[300px] relative rounded-[20px] last:mr-3 '
       }
     >
-      <article
+      <Article
         bind:ref={articleRef}
         className={`h-full w-full min-w-full cursor-pointer flex flex-col py-6 px-5 ${color} rounded-[20px] py-6 text-[15px] text-[#081b336b] last:mr-4 lg:last:mr-12  `}
       >
-        <div
+        <VStack
           className={
             'w-full relative text-darkBlue after:w-4/5 after:mt-3 after:h-[2px] after:bg-[#081b336b] after:absolute after:right-0 after:rounded-full after:block '
           }
         >
           <h1 className={'text-[#081b336b] text-xs '}>{createdDate}</h1>
-          <h1 className={'w-full line-clamp-1 mt-1 text-[19px]'}>{title}</h1>
-        </div>
+          <h1 className={'w-full line-clamp-1 mt-1 text-[19px]'}>
+            {title as any}
+          </h1>
+        </VStack>
 
-        <div className={'mt-8 flex-grow w-full '}>
-          <textarea
+        <VStack className={'mt-8 flex-grow w-full '}>
+          <TextArea
             className={
               'line-clamp-6 h-full w-full cursor-pointer bg-inherit focus:outline-none '
             }
             readonly
           >
-            {body}
-          </textarea>
-        </div>
+            {body as any}
+          </TextArea>
+        </VStack>
 
-        <div className={'w-full h-fit mt-2 flex items-center gap-2 '}>
+        <VStack className={'w-full h-fit mt-2 flex items-center gap-2 '}>
           <Icon
             path={clock}
             className={'stroke-[#081b336b] fill-none '}
             size={20}
           />
-          <p>{time}</p>
-        </div>
-      </article>
-    </div>
+          <Paragragh>{time}</Paragragh>
+        </VStack>
+      </Article>
+    </VStack>
   );
 };
 

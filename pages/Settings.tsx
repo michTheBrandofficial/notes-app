@@ -19,15 +19,14 @@ import {
 } from '@utils/nixix-heroicon/outline';
 import { displayRefs } from '@utils/refs';
 import { UserSettings } from 'database';
-import { callReaction, callSignal, callStore } from 'nixix/primitives';
+import { callReaction, callSignal, callStore, effect } from 'nixix/primitives';
 import { Button, VStack } from 'view-components';
 
 type NewSetting = {
   resolvePromise: StringResolver | InputStringResolver | null;
 };
-type SettingsProps = {};
 
-const Settings = async (props: SettingsProps): Promise<someView> => {
+const Settings = async (): Promise<someView> => {
   const settingsInstance = new UserSettings();
   const userSettings = settingsInstance._settings;
   let newSetting: NewSetting = {
@@ -36,13 +35,11 @@ const Settings = async (props: SettingsProps): Promise<someView> => {
   const [modalOptions, setModalOptions] = callStore<string[]>([], {
     equals: true,
   });
-  callReaction(() => {
-    modalSignal[1]?.(true);
-  }, [modalOptions]);
   const modalSignal = callSignal<boolean>(false);
   const [inputOptions, setInputOptions] = callStore<string[]>([], {
     equals: true,
   });
+  const inputSignal = callSignal<boolean>(false);
   const {
     toggleNotifications,
     toggleOfflineReading,
@@ -56,15 +53,20 @@ const Settings = async (props: SettingsProps): Promise<someView> => {
     newSetting,
     setInputOptions,
   });
-  callReaction(() => {
-    inputSignal?.[1]?.(true);
-  }, [inputOptions]);
-  const inputSignal = callSignal<boolean>(false);
+
+  effect(function setupReaction() {
+    callReaction(() => {
+      modalSignal[1]?.(true);
+    }, [modalOptions]);
+    callReaction(() => {
+      inputSignal?.[1]?.(true);
+    }, [inputOptions]);
+  }, 'once');
 
   return (
     <VStack
       className={
-        'h-screen w-full flex flex-col top-0 z-50 translate-x-[-100%] opacity-0 transition-all duration-1000 ease-in-out absolute font-HantenGrotesk bg-white '
+        'h-screen w-full flex flex-col top-0 z-50 /translate-x-[-100%] /opacity-0 transition-all duration-1000 ease-in-out absolute font-HantenGrotesk bg-white '
       }
       bind:ref={displayRefs.settingsRef}
     >
