@@ -151,8 +151,12 @@ html {
     transition: all ease 1s;
   }
 
+  .overlay {
+    @apply after:w-full after:h-full after:absolute after:top-0;
+  }
+
   .selected {
-    @apply after:w-full after:h-full after:rounded-[inherit] after:opacity-[.3] after:bg-black after:absolute after:top-0;
+    @apply overlay after:rounded-[inherit] after:opacity-[.3] after:bg-black;
   }
 
   .filterActive {

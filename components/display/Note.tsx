@@ -46,6 +46,7 @@ const Note = ({ title, time, body, key, createdDate }: NoteProps) => {
       return prev as number[];
     });
   }
+
   effect(() => {
     const clickandhold = new ClickAndHold(selectNote, 700, handleClick);
     clickandhold.apply(articleRef.current!);
@@ -77,8 +78,17 @@ const Note = ({ title, time, body, key, createdDate }: NoteProps) => {
           </h1>
         </VStack>
 
-        <VStack className={'mt-8 flex-grow w-full flex flex-col '}>
+        <VStack
+          className={
+            'mt-8 flex-grow w-full flex flex-col relative overlay after:bg-transparent after:select-none '
+          }
+        >
           <TextArea
+            style={{
+              userSelect: 'none',
+              MozUserSelect: 'none',
+              WebkitUserSelect: 'none',
+            }}
             className={
               'line-clamp-6 flex-grow w-full cursor-pointer bg-inherit focus:outline-none '
             }
