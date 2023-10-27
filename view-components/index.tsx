@@ -83,13 +83,7 @@ export const TextArea = (
   const { children } = removeUnusedProps(props, 'children');
 
   return (
-    <textarea
-      spellcheck
-      autocapitalize={'sentences'}
-      rows={10}
-      cols={30}
-      {...props}
-    >
+    <textarea spellcheck autocapitalize={'sentences'} {...props}>
       {children}
     </textarea>
   );
@@ -100,7 +94,11 @@ export const Button = (
 ): someView => {
   const { children } = removeUnusedProps(props, 'children');
 
-  return <button {...props}>{children}</button>;
+  return (
+    <button style={{ cursor: 'pointer' }} {...props}>
+      {children}
+    </button>
+  );
 };
 
 export const Paragragh = (

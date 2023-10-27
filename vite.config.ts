@@ -5,6 +5,7 @@ import path from 'path';
 // @ts-ignore
 import viteJsconfigPaths from 'vite-jsconfig-paths';
 import { VitePWA } from 'vite-plugin-pwa';
+import manifest from './pwa.manifest';
 import HMR from './asset-vite-plugin/hmr';
 
 // @ts-ignore
@@ -23,37 +24,7 @@ const pwaSetup = [
       'assets/*.ttf',
       'assets/*.png',
     ],
-    manifest: {
-      start_url: '/',
-      short_name: 'NotesRus',
-      name: 'NotesRus',
-      description: 'A Note taking app with rich features',
-      icons: [
-        {
-          src: '/android-chrome-192x192.png',
-          sizes: '192x192',
-          type: 'image/png',
-          purpose: 'maskable any',
-        },
-        {
-          src: '/android-chrome-512x512.png',
-          sizes: '512x512',
-          type: 'image/png',
-          purpose: 'maskable',
-        },
-        {
-          src: '/apple-touch-icon.png',
-          sizes: '180x180',
-          type: 'image/png',
-          purpose: 'apple touch icon',
-        },
-      ],
-      display: 'standalone',
-      theme_color: '#d8b4fe',
-      background_color: '#fff',
-      scope: '/',
-      orientation: 'portrait',
-    },
+    manifest,
     minify: false,
   }),
 ];

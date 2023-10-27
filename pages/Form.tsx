@@ -203,7 +203,7 @@ const Form = (): someView => {
         <FormField
           on:submit={handleSubmbit}
           className={
-            'w-full h-full flex flex-col text-darkBlue dark:text-slate-300 px-2 pt-2 space-y-2 '
+            'w-full h-full flex flex-col text-darkBlue dark:text-slate-300 p-2 pb-10 space-y-2 '
           }
         >
           <TextField

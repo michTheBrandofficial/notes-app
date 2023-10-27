@@ -77,10 +77,10 @@ const Note = ({ title, time, body, key, createdDate }: NoteProps) => {
           </h1>
         </VStack>
 
-        <VStack className={'mt-8 flex-grow w-full '}>
+        <VStack className={'mt-8 flex-grow w-full flex flex-col '}>
           <TextArea
             className={
-              'line-clamp-6 h-full w-full cursor-pointer bg-inherit focus:outline-none '
+              'line-clamp-6 flex-grow w-full cursor-pointer bg-inherit focus:outline-none '
             }
             readonly
           >

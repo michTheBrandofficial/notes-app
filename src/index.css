@@ -30,9 +30,20 @@ html {
   scrollbar-width: none;
 }
 
+@viewport {
+  user-zoom: fixed;
+}
+
+@-ms-viewport {
+  user-zoom: fixed;
+}
+
 @layer base {
   * {
     -webkit-tap-highlight-color: transparent;
+  }
+
+  @media all and (display-mode: standalone) {
   }
 }
 

@@ -58,6 +58,11 @@ const Notes = ({
       </HStack>
       <HStack
         className={'w-full h-fit mt-8 gap-3 overflow-x-scroll no-scroll  '}
+        style={{
+          userSelect: 'none',
+          MozUserSelect: 'none',
+          WebkitUserSelect: 'none',
+        }}
         bind:ref={notesRef}
       >
         <For each={notes} fallback={<NotesFallback />}>
