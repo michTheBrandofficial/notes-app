@@ -19,11 +19,7 @@ import {
 } from 'nixix/types/eventhandlers';
 import { editedNote, setEditedNote, setNotes } from 'store';
 import { formDisplay } from 'store/display';
-import {
-  FormField, TextArea,
-  TextField,
-  VStack
-} from 'view-components';
+import { FormField, TextArea, TextField, VStack } from 'view-components';
 
 const Form = (): someView => {
   const settingsInstance = new UserSettings();
@@ -127,6 +123,12 @@ const Form = (): someView => {
     inputs[0]?.focus();
   }
 
+  function closeFocus() {
+    closeForm();
+    inputs[0]?.blur?.();
+    focus();
+  }
+
   function goHome() {
     if (readOnly.value) {
       setEditedNote({
@@ -134,7 +136,8 @@ const Form = (): someView => {
         inputValue: null,
         key: null,
       });
-      return closeForm();
+
+      return closeFocus();
     }
     if (Boolean(inputs[0]?.value) || Boolean(inputs[1]?.value)) {
       Style.set(popupRef, 'display', 'flex');
@@ -142,7 +145,7 @@ const Form = (): someView => {
         ClassList.add(popupRef, 'scale-up');
       }, 100);
     }
-    closeForm();
+    closeFocus();
   }
 
   return (
