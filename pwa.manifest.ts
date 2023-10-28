@@ -27,7 +27,7 @@ const manifest: Partial<ManifestOptions> = {
   ],
   display: 'standalone',
   theme_color: '#d8b4fe',
-  background_color: '#fff',
+  background_color: '#d8b4fe',
   scope: '/',
   orientation: 'portrait',
 };
