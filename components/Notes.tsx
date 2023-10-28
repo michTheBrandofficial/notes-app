@@ -73,7 +73,6 @@ const Notes = ({
         </For>
       </HStack>
       <SwipeGesture
-        gestureRef={gestureRef}
         on:swipeleft={() => createNewNote()}
         on:swiperight={() => setSidebar(true)}
       >

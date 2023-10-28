@@ -1,3 +1,4 @@
+import SwipeGesture from '@components/SwipeGesture';
 import {
   Header,
   InputField,
@@ -63,78 +64,86 @@ const Settings = async (): Promise<someView> => {
     }, [inputOptions]);
   }, 'once');
 
+  function goHome() {
+    showHome(displayRefs.settingsRef, {
+      classes: ['translate-x-[-100%]', 'opacity-0'],
+    });
+  }
+
   return (
-    <VStack
-      className={
-        'h-screen w-full flex flex-col top-0 z-50 translate-x-[-100%] opacity-0 transition-all duration-1000 ease-in-out absolute font-HantenGrotesk bg-white '
-      }
-      bind:ref={displayRefs.settingsRef}
-    >
+    <SwipeGesture on:swipeleft={goHome}>
       <VStack
-        className={'h-screen w-full flex flex-col relative top-0 bg-white '}
+        className={
+          'h-screen w-full flex flex-col top-0 z-50 translate-x-[-100%] opacity-0 transition-all duration-1000 ease-in-out absolute font-HantenGrotesk bg-white '
+        }
+        bind:ref={displayRefs.settingsRef}
       >
-        <SelectModal
-          options={modalOptions}
-          callback={(e) => {
-            (newSetting.resolvePromise as StringResolver)!(e);
-          }}
-          modalSignal={modalSignal}
-        />
-        <InputField
-          callback={(e) => {
-            (newSetting.resolvePromise as InputStringResolver)!(e!);
-          }}
-          inputSignal={inputSignal}
-          inputOptions={inputOptions}
-        />
-        <Header />
         <VStack
-          className={
-            'w-full flex-grow flex flex-col px-8 bg-white pt-4 pb-6 space-y-5 overflow-y-scroll no-scroll text-slate-400 dark:text-slate-50 dark:bg-stone-700 '
-          }
+          className={'h-screen w-full flex flex-col relative top-0 bg-white '}
         >
-          <SettingsGroup name="Option">
-            <Toggle
-              text="Notifications"
-              icon={bell}
-              toggle={userSettings?.notifications}
-              on:click={toggleNotifications}
-            />
-            <Select
-              text="Theme mode"
-              icon={sun}
-              globalSettings={userSettings}
-              on:click={selectTheme}
-            />
-            <Toggle
-              text="Offline reading"
-              icon={bookOpen}
-              toggle={userSettings?.['offline reading']}
-              on:click={toggleOfflineReading}
-            />
-            <Toggle
-              toggle={isNull(userSettings?.['permanent deletion'], false)}
-              icon={trash}
-              text="Permanent deletion"
-              on:click={togglePermanentDelete}
-            />
-          </SettingsGroup>
-          <SettingsGroup name="Typography">
-            <InputSelect
-              globalSettings={userSettings}
-              text="Font size"
-              on:click={inputFontSize}
-              suffix="px"
-            />
-            <InputSelect
-              globalSettings={userSettings}
-              text="Bullet points"
-              on:click={inputBP}
-            />
-          </SettingsGroup>
+          <SelectModal
+            options={modalOptions}
+            callback={(e) => {
+              (newSetting.resolvePromise as StringResolver)!(e);
+            }}
+            modalSignal={modalSignal}
+          />
+          <InputField
+            callback={(e) => {
+              (newSetting.resolvePromise as InputStringResolver)!(e!);
+            }}
+            inputSignal={inputSignal}
+            inputOptions={inputOptions}
+          />
+          <Header goHome={goHome} />
+          <VStack
+            className={
+              'w-full flex-grow flex flex-col px-8 bg-white pt-4 pb-6 space-y-5 overflow-y-scroll no-scroll text-slate-400 dark:text-slate-50 dark:bg-stone-700 '
+            }
+          >
+            <SettingsGroup name="Option">
+              <Toggle
+                text="Notifications"
+                icon={bell}
+                toggle={userSettings?.notifications}
+                on:click={toggleNotifications}
+              />
+              <Select
+                text="Theme mode"
+                icon={sun}
+                globalSettings={userSettings}
+                on:click={selectTheme}
+              />
+              <Toggle
+                text="Offline reading"
+                icon={bookOpen}
+                toggle={userSettings?.['offline reading']}
+                on:click={toggleOfflineReading}
+              />
+              <Toggle
+                toggle={isNull(userSettings?.['permanent deletion'], false)}
+                icon={trash}
+                text="Permanent deletion"
+                on:click={togglePermanentDelete}
+              />
+            </SettingsGroup>
+            <SettingsGroup name="Typography">
+              <InputSelect
+                globalSettings={userSettings}
+                text="Font size"
+                on:click={inputFontSize}
+                suffix="px"
+              />
+              <InputSelect
+                globalSettings={userSettings}
+                text="Bullet points"
+                on:click={inputBP}
+              />
+            </SettingsGroup>
+          </VStack>
         </VStack>
       </VStack>
-    </VStack>
+    </SwipeGesture>
   );
 };
 

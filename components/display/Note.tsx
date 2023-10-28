@@ -60,7 +60,7 @@ const Note = ({ title, time, body, key, createdDate }: NoteProps) => {
           articleRef.current?.dispatchEvent(new MouseEvent('click'));
       }}
       className={
-        'w-[250px] min-w-[250px] h-[300px] relative rounded-[20px] last:mr-3 '
+        'w-[250px] min-w-[250px] h-[300px] relative rounded-[20px] after:transition-all after:duration-700 last:mr-3 '
       }
     >
       <Article
@@ -84,11 +84,7 @@ const Note = ({ title, time, body, key, createdDate }: NoteProps) => {
           }
         >
           <TextArea
-            style={{
-              userSelect: 'none',
-              MozUserSelect: 'none',
-              WebkitUserSelect: 'none',
-            }}
+            name={'body'}
             className={
               'line-clamp-6 flex-grow w-full cursor-pointer bg-inherit focus:outline-none '
             }

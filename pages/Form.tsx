@@ -1,4 +1,6 @@
 import Popup from '@components/Popup';
+import SwipeGesture from '@components/SwipeGesture';
+import { Header } from '@components/form';
 import { getPopupPermission, setFormEffect, setInputReadOnly } from '@hooks';
 import { ClassList, CreateNote, Style } from '@utils/classes';
 import {
@@ -7,8 +9,6 @@ import {
   showNotification,
   splice,
 } from '@utils/functions';
-import Icon from '@utils/nixix-heroicon';
-import { check, chevronLeft, pencil } from '@utils/nixix-heroicon/outline';
 import { notesRef } from '@utils/refs';
 import { UserSettings } from 'database';
 import { callRef, callSignal, effect } from 'nixix/primitives';
@@ -20,13 +20,9 @@ import {
 import { editedNote, setEditedNote, setNotes } from 'store';
 import { formDisplay } from 'store/display';
 import {
-  Button,
-  FormField,
-  HStack,
-  Paragragh,
-  TextArea,
+  FormField, TextArea,
   TextField,
-  VStack,
+  VStack
 } from 'view-components';
 
 const Form = (): someView => {
@@ -131,106 +127,77 @@ const Form = (): someView => {
     inputs[0]?.focus();
   }
 
-  return (
-    <VStack
-      className={
-        'w-full h-full font-HantenGrotesk bg-white dark:bg-stone-700 absolute top-0 z-30 tr-1 translate-x-[100%]  opacity-0'
-      }
-      bind:ref={sectionRef}
-      on:transitionend={focusInput}
-    >
-      <Popup ref={popupRef} setAccepted={setAccepted} />
-      <VStack className={'h-full p-2 lg:px-12 '}>
-        <HStack className={'w-full h-fit flex items-center justify-between '}>
-          <Button
-            on:click={() => {
-              if (readOnly.value) {
-                setEditedNote({
-                  bodyValue: null,
-                  inputValue: null,
-                  key: null,
-                });
-                return closeForm();
-              }
-              if (Boolean(inputs[0]?.value) || Boolean(inputs[1]?.value)) {
-                Style.set(popupRef, 'display', 'flex');
-                return setTimeout(() => {
-                  ClassList.add(popupRef, 'scale-up');
-                }, 100);
-              }
-              closeForm();
-            }}
-          >
-            <Icon
-              className={'stroke-peach fill-none  '}
-              path={chevronLeft}
-              size={28}
-              stroke:width={2.5}
-            />
-          </Button>
-          <Paragragh className="text-peach text-[20px] font-bold ">
-            Design
-          </Paragragh>
+  function goHome() {
+    if (readOnly.value) {
+      setEditedNote({
+        bodyValue: null,
+        inputValue: null,
+        key: null,
+      });
+      return closeForm();
+    }
+    if (Boolean(inputs[0]?.value) || Boolean(inputs[1]?.value)) {
+      Style.set(popupRef, 'display', 'flex');
+      return setTimeout(() => {
+        ClassList.add(popupRef, 'scale-up');
+      }, 100);
+    }
+    closeForm();
+  }
 
-          <Button
-            className={'ml-auto edit-btn hidden'}
-            on:click={() => {
+  return (
+    <SwipeGesture on:swiperight={goHome}>
+      <VStack
+        className={
+          'w-full h-full font-HantenGrotesk bg-white dark:bg-stone-700 absolute top-0 z-30 tr-1 translate-x-[100%]  opacity-0'
+        }
+        bind:ref={sectionRef}
+        on:transitionend={focusInput}
+      >
+        <Popup ref={popupRef} setAccepted={setAccepted} />
+        <VStack className={'h-full p-2 lg:px-12 '}>
+          <Header
+            edit={() => {
               setReadOnly(false);
               inputs[0]?.focus();
             }}
-          >
-            <Icon
-              className={'stroke-peach fill-none stroke-[3px] '}
-              path={pencil}
-              size={28}
-              stroke:width={2.5}
-            />
-          </Button>
-          <Button
-            className={'ml-auto '}
-            on:click={() => {
+            save={() => {
               sectionRef?.current?.querySelector('form')?.requestSubmit();
             }}
+            goHome={goHome}
+          />
+          <FormField
+            on:submit={handleSubmbit}
+            className={
+              'w-full h-full flex flex-col text-darkBlue dark:text-slate-300 p-2 pb-10 space-y-2 '
+            }
           >
-            <Icon
-              className={'stroke-peach fill-none stroke-[3px] '}
-              path={check}
-              size={28}
-              stroke:width={2.5}
+            <TextField
+              value={editedNote.inputValue}
+              className={
+                'w-full h-12 font-HantenGrotesk font-semibold dark:bg-inherit text-lg pl-2 focus:outline-none border-none selection:bg-peach '
+              }
+              style={{
+                fontSize: sizes[0],
+              }}
+              readonly={readOnly}
+              name={'title'}
+              placeholder={'Title'}
             />
-          </Button>
-        </HStack>
-        <FormField
-          on:submit={handleSubmbit}
-          className={
-            'w-full h-full flex flex-col text-darkBlue dark:text-slate-300 p-2 pb-10 space-y-2 '
-          }
-        >
-          <TextField
-            value={editedNote.inputValue}
-            className={
-              'w-full h-12 font-HantenGrotesk font-semibold dark:bg-inherit text-lg pl-2 focus:outline-none border-none selection:bg-peach '
-            }
-            style={{
-              fontSize: sizes[0],
-            }}
-            readonly={readOnly}
-            name={'title'}
-            placeholder={'Title'}
-          />
-          <TextArea
-            readonly={readOnly}
-            value={editedNote.bodyValue as any}
-            name="body"
-            style={{ fontSize: sizes[1] }}
-            placeholder={'Take a note...'}
-            className={
-              'w-full h-full font-HantenGrotesk text-[15px] dark:bg-inherit p-2 font-semibold focus:outline-none selection:bg-peach '
-            }
-          />
-        </FormField>
+            <TextArea
+              readonly={readOnly}
+              value={editedNote.bodyValue as any}
+              name="body"
+              style={{ fontSize: sizes[1] }}
+              placeholder={'Take a note...'}
+              className={
+                'w-full h-full font-HantenGrotesk text-[15px] dark:bg-inherit p-2 font-semibold focus:outline-none selection:bg-peach '
+              }
+            />
+          </FormField>
+        </VStack>
       </VStack>
-    </VStack>
+    </SwipeGesture>
   );
 };
 

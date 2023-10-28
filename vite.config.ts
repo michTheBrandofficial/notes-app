@@ -1,12 +1,11 @@
 import { defineConfig } from 'vite';
 // @ts-ignore
-import { esbuildOptions } from 'nixix/vite-plugin';
+import HMR, { esbuildOptions } from 'nixix/vite-plugin';
 import path from 'path';
 // @ts-ignore
 import viteJsconfigPaths from 'vite-jsconfig-paths';
 import { VitePWA } from 'vite-plugin-pwa';
 import manifest from './pwa.manifest';
-import HMR from './asset-vite-plugin/hmr';
 
 // @ts-ignore
 function resolve(string) {
@@ -31,7 +30,7 @@ const pwaSetup = [
 
 export default defineConfig({
   base: './',
-  plugins: [viteJsconfigPaths(), pwaSetup, HMR()],
+  plugins: [viteJsconfigPaths(), pwaSetup, HMR(`src/index.tsx`)],
   resolve: {
     alias: {
       '@styles': resolve('./styles'),

@@ -156,7 +156,7 @@ html {
   }
 
   .selected {
-    @apply overlay after:rounded-[inherit] after:opacity-[.3] after:bg-black;
+    @apply overlay after:bg-[rgba(120,113,108,.5)] dark:after:bg-[rgba(120,113,108,.3)] after:rounded-[inherit];
   }
 
   .filterActive {

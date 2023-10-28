@@ -38,7 +38,6 @@ const Header = ({ toggleMenu }: HeaderProps) => {
     <SwipeGesture
       on:swipeleft={() => createNewNote()}
       on:swiperight={() => setSidebar(true)}
-      gestureRef={gestureRef}
     >
       <header
         className="w-full h-fit flex items-center pr-4 justify-between lg:pr-12 "

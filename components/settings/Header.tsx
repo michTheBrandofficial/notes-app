@@ -1,10 +1,12 @@
-import { showHome } from '@utils/functions';
 import Icon from '@utils/nixix-heroicon';
 import { chevronLeft } from '@utils/nixix-heroicon/outline';
-import { displayRefs } from '@utils/refs';
 import { Button, VStack } from 'view-components';
 
-const Header = (): someView => {
+type HeaderProps = {
+  goHome: () => void;
+};
+
+const Header = (props: HeaderProps): someView => {
   return (
     <VStack className={'w-full h-44 p-4 bg-peach '}>
       <VStack
@@ -13,11 +15,7 @@ const Header = (): someView => {
         }
       >
         <Button
-          on:click={() => {
-            showHome(displayRefs.settingsRef, {
-              classes: ['translate-x-[-100%]', 'opacity-0'],
-            });
-          }}
+          on:click={props.goHome}
           className="w-fit h-fit border-none lg:hidden active:outline-none active:bg-transparent "
         >
           <Icon

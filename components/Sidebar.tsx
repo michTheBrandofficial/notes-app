@@ -25,7 +25,7 @@ const Sidebar = ({ sidebar, setSidebar }: SidebarProps): someView => {
   }, [sidebar]);
 
   return (
-    <SwipeGesture gestureRef={asideRef} on:swipeleft={() => setSidebar(false)}>
+    <SwipeGesture on:swipeleft={() => setSidebar(false)}>
       <Aside
         className=" h-screen font-HantenGrotesk absolute top-0 z-20 bg-transparent translate-x-[-100%] w-full transition-transform duration-[900ms] ease-in-out md:max-w-[300px] md:translate-x-0 "
         on:click={(e) => {
