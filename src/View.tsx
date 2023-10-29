@@ -8,6 +8,7 @@ import { UserSettings } from 'database';
 import { Suspense } from 'nixix/hoc';
 import { callSignal, effect } from 'nixix/primitives';
 import { VStack } from 'view-components';
+import tasks from './tasks';
 
 const View = (): someView => {
   const userSettings = new UserSettings()._settings;
@@ -15,6 +16,9 @@ const View = (): someView => {
   effect(() => {
     const theme = userSettings?.['theme mode']?.toLowerCase();
     document.body.classList.add(theme || 'light');
+    const url = new URL(window.location.href);
+    const task = url.searchParams.get('task') as Shortcuts;
+    if (task) tasks[task]?.();
   }, 'once');
 
   const [sidebar, setSidebar] = callSignal<boolean>(false, {
