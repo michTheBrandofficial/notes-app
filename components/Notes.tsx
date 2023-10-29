@@ -7,10 +7,10 @@ import { For } from 'nixix/hoc';
 import { SetSignalDispatcher, callEffect, callRef } from 'nixix/primitives';
 import { notes, selectedNotes, setSelectedNotes } from 'store';
 import { selectOp, setSelectOp } from 'store/display';
+import { HStack, VStack } from 'view-components';
 import SwipeGesture from './SwipeGesture';
 import { NotesFallback } from './buttons';
 import { Note } from './display';
-import { HStack, VStack } from 'view-components';
 
 const Notes = ({
   setSidebar,

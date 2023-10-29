@@ -1,40 +1,50 @@
-import { NixixNode } from 'nixix';
-import { MutableRefObject, effect } from 'nixix/primitives';
+import { patchObject, removeUnusedProps } from '@utils/functions';
+import { effect } from 'nixix/primitives';
+import { cloneObject } from 'nixix/primitives/helpers';
 import TinyGesture from 'tinygesture';
 
 type SwipeGestureProps = {
   'on:swiperight': () => void;
   'on:swipeleft': () => void;
   children?: JSX.Element[] | JSX.Element;
-};
+} & SwipeOptions;
 
-const options: SwipeOptions = {
+const defaultOptions: SwipeOptions = {
   threshold(type, self) {
     return 25;
   },
-  velocityThreshold: 100,
+  velocityThreshold: 10,
   diagonalSwipes: false,
   mouseSupport: false,
   diagonalLimit: 0,
 };
 
-const SwipeGesture = (
-  props: Optional<SwipeGestureProps, 'on:swiperight' | 'on:swipeleft'>
-) => {
-  let { children } = props;
+const SwipeGesture = (props: Partial<SwipeGestureProps>) => {
+  const removedProps = removeUnusedProps<typeof props>(
+    props,
+    'children',
+    'on:swipeleft',
+    'on:swiperight'
+  );
+  const options = patchObject(defaultOptions, props);
+  console.log(options);
+  let { children } = removedProps;
   children = (children as JSX.Element[]).flat(Infinity);
   effect(() => {
     (children as JSX.Element[])?.forEach((e) => {
       if (!(e instanceof Node))
         throw new Error('Children should be an array of JSX.Element');
-      const gesture = new TinyGesture(e as any, options as any);
-      if (props['on:swiperight'])
+      const gesture = new TinyGesture(e as any, defaultOptions as any);
+      if (removedProps['on:swiperight'])
         gesture.on(
           'swiperight',
-          (props as SwipeGestureProps)['on:swiperight']!
+          (removedProps as SwipeGestureProps)['on:swiperight']!
         );
-      if (props['on:swipeleft'])
-        gesture.on('swipeleft', (props as SwipeGestureProps)['on:swipeleft']!);
+      if (removedProps['on:swipeleft'])
+        gesture.on(
+          'swipeleft',
+          (removedProps as SwipeGestureProps)['on:swipeleft']!
+        );
     });
   }, 'once');
 

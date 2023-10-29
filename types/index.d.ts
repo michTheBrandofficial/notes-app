@@ -5,6 +5,10 @@ import { Options } from 'tinygesture';
 export {};
 
 declare global {
+  type AnyObject = {
+    [index: string]: any;
+  };
+
   type Null<T> = T | null | undefined;
 
   type Optional<

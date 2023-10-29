@@ -1,3 +1,4 @@
+import { removeUnusedProps } from '@utils/functions';
 import {
   ButtonHTMLAttributes,
   FormHTMLAttributes,
@@ -6,22 +7,8 @@ import {
   TextareaHTMLAttributes,
 } from 'nixix';
 
-function removeUnusedProps<T extends Children, K extends keyof T>(
-  props: T,
-  ...propNames: K[]
-) {
-  const newProps: { [index: string]: any } = {};
-  for (const propName of propNames) {
-    newProps[propName as string] = props[propName];
-    delete props[propName];
-  }
-  return newProps as {
-    [index in K]: T[index];
-  };
-}
-
 export const HStack = (props: ViewComponentType): someView => {
-  const { children } = removeUnusedProps(props, 'children');
+  const { children } = removeUnusedProps<Children>(props, 'children');
 
   return (
     <section
@@ -34,7 +21,7 @@ export const HStack = (props: ViewComponentType): someView => {
 };
 
 export const VStack = (props: ViewComponentType): someView => {
-  const { children } = removeUnusedProps(props, 'children');
+  const { children } = removeUnusedProps<Children>(props, 'children');
 
   return (
     <section {...props} className={props.className ?? ''}>
@@ -44,13 +31,13 @@ export const VStack = (props: ViewComponentType): someView => {
 };
 
 export const Article = (props: ViewComponentType): someView => {
-  const { children } = removeUnusedProps(props, 'children');
+  const { children } = removeUnusedProps<Children>(props, 'children');
 
   return <article {...props}>{children}</article>;
 };
 
 export const Aside = (props: ViewComponentType): someView => {
-  const { children } = removeUnusedProps(props, 'children');
+  const { children } = removeUnusedProps<Children>(props, 'children');
 
   return (
     <aside {...props} className={props.className ?? ''}>
@@ -62,7 +49,7 @@ export const Aside = (props: ViewComponentType): someView => {
 export const FormField = (
   props: ViewComponentType<FormHTMLAttributes<HTMLFormElement>>
 ): someView => {
-  const { children } = removeUnusedProps(props, 'children');
+  const { children } = removeUnusedProps<Children>(props, 'children');
 
   return <form {...props}>{children}</form>;
 };
@@ -70,7 +57,7 @@ export const FormField = (
 export const TextField = (
   props: ViewComponentType<InputHTMLAttributes<HTMLInputElement>>
 ): someView => {
-  removeUnusedProps(props, 'children');
+  removeUnusedProps<Children>(props, 'children');
 
   return (
     <input spellcheck autocapitalize={'sentences'} type={'text'} {...props} />
@@ -80,7 +67,7 @@ export const TextField = (
 export const TextArea = (
   props: ViewComponentType<TextareaHTMLAttributes<HTMLTextAreaElement>>
 ): someView => {
-  const { children } = removeUnusedProps(props, 'children');
+  const { children } = removeUnusedProps<Children>(props, 'children');
 
   return (
     <textarea spellcheck autocapitalize={'sentences'} {...props}>
@@ -92,7 +79,7 @@ export const TextArea = (
 export const Button = (
   props: ViewComponentType<ButtonHTMLAttributes<HTMLButtonElement>>
 ): someView => {
-  const { children } = removeUnusedProps(props, 'children');
+  const { children } = removeUnusedProps<Children>(props, 'children');
 
   return (
     <button style={{ cursor: 'pointer' }} {...props}>
@@ -104,7 +91,7 @@ export const Button = (
 export const Paragragh = (
   props: ViewComponentType<HTMLAttributes<HTMLParagraphElement>>
 ): someView => {
-  const { children } = removeUnusedProps(props, 'children');
+  const { children } = removeUnusedProps<Children>(props, 'children');
 
   return <p {...props}>{children || []}</p>;
 };

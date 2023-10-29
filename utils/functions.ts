@@ -5,6 +5,7 @@ import { setNotification, setSelectOp, setformDisplay } from 'store/display';
 import { getTrash, setTrashStore } from 'store/trash';
 import { ClassList } from './classes';
 import { displayRefs, notesRef } from './refs';
+import { cloneObject } from 'nixix/primitives/helpers';
 
 const settingsInstance: Null<UserSettings> = new UserSettings();
 
@@ -59,6 +60,32 @@ export function deselectNotes(indexArray: number[]) {
   indexArray.forEach((index) => {
     ClassList.remove(selectedNotes?.item(index) as any, 'selected');
   });
+}
+
+export function patchObject<O extends AnyObject, N extends AnyObject>(
+  obj: O,
+  newObj: N
+) {
+  const clonedObject = cloneObject(obj);
+  Object.entries(newObj)?.forEach(([key, val]) => {
+    // @ts-ignore;
+    clonedObject[key] = val;
+  });
+  return clonedObject as O;
+}
+
+export function removeUnusedProps<
+  T extends AnyObject,
+  K extends keyof T = keyof T
+>(props: T, ...propNames: K[]) {
+  const newProps: { [index: string]: any } = {};
+  for (const propName of propNames) {
+    newProps[propName as string] = props[propName];
+    delete props[propName];
+  }
+  return newProps as {
+    [index in K]: T[index];
+  };
 }
 
 export function removeValue(
