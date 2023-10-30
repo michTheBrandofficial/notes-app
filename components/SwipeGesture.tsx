@@ -27,7 +27,6 @@ const SwipeGesture = (props: Partial<SwipeGestureProps>) => {
     'on:swiperight'
   );
   const options = patchObject(defaultOptions, props);
-  console.log(options);
   let { children } = removedProps;
   children = (children as JSX.Element[]).flat(Infinity);
   effect(() => {

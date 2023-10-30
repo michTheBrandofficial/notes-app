@@ -1,14 +1,15 @@
+import NotificationSound from '@assets/audio/mixkit-software-interface-start-2574.wav';
 import { UserSettings } from 'database';
 import { MutableRefObject } from 'nixix/primitives';
+import { cloneObject } from 'nixix/primitives/helpers';
 import { selectedNotes, setNotes, setSelectedNotes } from 'store';
 import { setNotification, setSelectOp, setformDisplay } from 'store/display';
 import { getTrash, setTrashStore } from 'store/trash';
 import { ClassList } from './classes';
 import { displayRefs, notesRef } from './refs';
-import { cloneObject } from 'nixix/primitives/helpers';
 
 const settingsInstance: Null<UserSettings> = new UserSettings();
-
+settingsInstance._settings;
 export function createNewNote() {
   setformDisplay(true);
 }
@@ -146,6 +147,8 @@ export function showNotification(message: string) {
     });
     const notifiEl = displayRefs.notificationRef.current;
     notifiEl?.classList.add('notifi');
+    const audio = new Audio(NotificationSound);
+    audio.play();
     setTimeout(() => {
       notifiEl?.classList.remove('notifi');
     }, 3000);
