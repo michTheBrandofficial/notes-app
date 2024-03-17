@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "vite build && npm run pwa",
-    "start": "vite",
+    "dev": "vite",
     "pwa": "cp -r assets/pwa/*.png assets/pwa/*.ico dist/  && npm run assets:process",
     "assets:process": "node asset-vite-plugin/index.cjs",
     "preview": "vite preview --port 5174"
@@ -29,7 +29,8 @@
   },
   "homepage": "https://github.com/michTheBrandofficial/notes-app#readme",
   "dependencies": {
-    "nixix": "^1.5.21",
+    "dexie": "^3.2.6",
+    "nixix": "^3.0.0",
     "tinygesture": "^2.0.0"
   },
   "devDependencies": {

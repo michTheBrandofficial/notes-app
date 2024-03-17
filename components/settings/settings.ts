@@ -1,6 +1,6 @@
-import { ClassList } from '@utils/classes';
-import { bindMethod } from '@utils/functions';
-import { UserSettings, changeSettings } from 'database';
+import { UserSettings, changeSettings } from '@/database';
+import { ClassList } from '@/src/utils/classes';
+import { bindMethod } from '@/src/utils/functions';
 import { SetStoreDispatcher } from 'nixix/primitives';
 import { cloneObject } from 'nixix/primitives/helpers';
 

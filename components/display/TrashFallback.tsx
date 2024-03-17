@@ -1,5 +1,5 @@
-import EmptyTrash from '@assets/images/935d25727c6032e4b85d3e633d5912a1.png';
-import { HStack, VStack } from 'view-components';
+import EmptyTrash from '@/assets/images/935d25727c6032e4b85d3e633d5912a1.png';
+import { HStack, Heading, VStack } from 'nixix/view-components';
 
 type TrashFallbackProps = {};
 
@@ -16,7 +16,7 @@ const TrashFallback = (props: TrashFallbackProps): someView => {
           className={'w-fit h-fit dark:mix-blend-color-burn '}
           alt="Empty trash can"
         />
-        <h1>Nothing in Trash</h1>
+        <Heading>Nothing in Trash</Heading>
       </VStack>
     </HStack>
   );

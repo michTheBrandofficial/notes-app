@@ -1,6 +1,6 @@
-import Icon from '@utils/nixix-heroicon';
-import { chevronLeft } from '@utils/nixix-heroicon/outline';
-import { Button, VStack } from 'view-components';
+import Icon from '@/src/utils/nixix-heroicon';
+import { chevronLeft } from '@/src/utils/nixix-heroicon/outline';
+import { Button, VStack } from 'nixix/view-components';
 
 type HeaderProps = {
   goHome: () => void;

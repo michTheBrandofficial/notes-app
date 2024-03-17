@@ -1,26 +1,25 @@
-import { ClassList, Style } from '@utils/classes';
-import { raise } from '@utils/errors';
-import { closeForm } from '@utils/functions';
+import { setEditedNote } from '@/src/store';
+import { ClassList, Style } from '@/src/utils/classes';
+import { closeForm } from '@/src/utils/functions';
 import {
   MutableRefObject,
   SetSignalDispatcher,
-  SignalObject,
-  StoreObject,
-  callEffect,
+  Signal,
+  Store,
   callReaction,
   callSignal,
-  callStore,
+  effect,
+  reaction
 } from 'nixix/primitives';
-import { setEditedNote } from 'store';
 
 export function setInputReadOnly({
   parentRef,
   readOnlySignal,
 }: {
   parentRef: MutableRefObject<HTMLElement | null>;
-  readOnlySignal: SignalObject<boolean>;
+  readOnlySignal: Signal<boolean>;
 }) {
-  callEffect(() => {
+  reaction(() => {
     const editBtn =
       parentRef.current?.querySelector?.<HTMLButtonElement>('.edit-btn')!;
     if (readOnlySignal.value) {
@@ -42,14 +41,15 @@ export function setFormEffect({
   parentRef,
   setReadOnly,
 }: {
-  formDisplaySignal: SignalObject<boolean>;
+  formDisplaySignal: Signal<boolean>;
   parentRef: MutableRefObject<HTMLElement | null>;
-  editedNote: StoreObject<Optional<EditedNote, 'bodyValue' | 'inputValue'>>;
+  editedNote: Store<Optional<EditedNote, 'bodyValue' | 'inputValue'>>;
   setReadOnly: SetSignalDispatcher<boolean>;
 }) {
-  callReaction(() => {
-    const key = editedNote.$$__value.key;
-    if (formDisplaySignal.value) {
+  effect(() => {
+    const formDisplay = formDisplaySignal.value;
+    const key = editedNote.key?.value;
+    if (formDisplay) {
       ClassList.remove(parentRef.current, 'opacity-0', 'translate-x-[100%]');
       if (key === null) {
         setReadOnly(false);
@@ -57,13 +57,13 @@ export function setFormEffect({
         setReadOnly(true);
       }
     } else ClassList.add(parentRef.current, 'opacity-0', 'translate-x-[100%]');
-  }, [formDisplaySignal]);
+  });
 }
 
 export function getPopupPermission(
   popupRef: MutableRefObject<HTMLElement | null>,
   fn: CallableFunction
-): [SignalObject<boolean>, SetSignalDispatcher<boolean>] {
+): [Signal<boolean>, SetSignalDispatcher<boolean>] {
   const [accepted, setAccepted] = callSignal<boolean>(false, { equals: true });
   callReaction(() => {
     ClassList.remove(popupRef, 'scale-up');

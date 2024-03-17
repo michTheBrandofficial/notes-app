@@ -1,10 +1,10 @@
-import NotificationSound from '@assets/audio/mixkit-software-interface-start-2574.wav';
-import { UserSettings } from 'database';
+import NotificationSound from '@/assets/audio/mixkit-software-interface-start-2574.wav';
+import { UserSettings } from '@/database';
 import { MutableRefObject } from 'nixix/primitives';
 import { cloneObject } from 'nixix/primitives/helpers';
-import { selectedNotes, setNotes, setSelectedNotes } from 'store';
-import { setNotification, setSelectOp, setformDisplay } from 'store/display';
-import { getTrash, setTrashStore } from 'store/trash';
+import { selectedNotes, setNotes, setSelectedNotes } from '~/store';
+import { setNotification, setSelectOp, setformDisplay } from '~/store/display';
+import { getTrash, setTrashStore } from '~/store/trash';
 import { ClassList } from './classes';
 import { displayRefs, notesRef } from './refs';
 
@@ -26,7 +26,7 @@ settingsInstance.addEventListener('get:permanent deletion', (e) => {
   permanentDeletionSetting = e;
 });
 export function deleteNotes() {
-  const toDelete = selectedNotes.$$__value;
+  const toDelete = selectedNotes;
   if (Boolean(toDelete.length)) {
     setNotes((prev) => {
       const persistentNotes: TNotes = [];
@@ -63,7 +63,7 @@ export function deselectNotes(indexArray: number[]) {
   });
 }
 
-export function patchObject<O extends AnyObject, N extends AnyObject>(
+export function patchObject<O extends EmptyObject, N extends EmptyObject>(
   obj: O,
   newObj: N
 ) {
@@ -76,7 +76,7 @@ export function patchObject<O extends AnyObject, N extends AnyObject>(
 }
 
 export function removeUnusedProps<
-  T extends AnyObject,
+  T extends EmptyObject,
   K extends keyof T = keyof T
 >(props: T, ...propNames: K[]) {
   const newProps: { [index: string]: any } = {};

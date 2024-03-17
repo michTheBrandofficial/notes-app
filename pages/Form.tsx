@@ -1,25 +1,25 @@
-import Popup from '@components/Popup';
-import SwipeGesture from '@components/SwipeGesture';
-import { Header } from '@components/form';
-import { getPopupPermission, setFormEffect, setInputReadOnly } from '@hooks';
-import { ClassList, CreateNote, Style } from '@utils/classes';
+import Popup from '@/components/Popup';
+import SwipeGesture from '@/components/SwipeGesture';
+import { Header } from '@/components/form';
+import { UserSettings } from '@/database';
+import { getPopupPermission, setFormEffect, setInputReadOnly } from '@/src/hooks';
+import { editedNote, setEditedNote, setNotes } from '@/src/store';
+import { formDisplay } from '@/src/store/display';
+import { ClassList, CreateNote, Style } from '@/src/utils/classes';
 import {
   closeForm,
   createLesserSize,
   showNotification,
   splice,
-} from '@utils/functions';
-import { notesRef } from '@utils/refs';
-import { UserSettings } from 'database';
+} from '@/src/utils/functions';
+import { notesRef } from '@/src/utils/refs';
 import { callRef, callSignal, effect } from 'nixix/primitives';
 import {
   FormEvent,
   KeyboardEvent,
   TransitionEvent,
 } from 'nixix/types/eventhandlers';
-import { editedNote, setEditedNote, setNotes } from 'store';
-import { formDisplay } from 'store/display';
-import { FormField, TextArea, TextField, VStack } from 'view-components';
+import { FormField, TextArea, TextField, VStack } from 'nixix/view-components';
 
 const Form = (): someView => {
   const settingsInstance = new UserSettings();

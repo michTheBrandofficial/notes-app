@@ -1,70 +1,29 @@
+import Dexie, { Table } from 'dexie';
 import {
-  createObjectStore,
-  getIndexBase,
-  getRecord,
-  objectStore,
-  setRecord,
-} from '@utils/indexbase';
-import type { IBaseVersionChangeEvent } from '@utils/indexbase/types';
-import {
-  ChangeSettingsEvent,
-  UserSettings,
-  defaultUserSettings,
-} from './settings';
+  UserSettings
+} from "./settings";
 
-async function defineSchema(e: IBaseVersionChangeEvent) {
-  const db = e.currentTarget?.result!;
-  createObjectStore(db, 'notes', {
-    keyPath: 'noteId',
-  });
-  createObjectStore(db, 'trash', {
-    keyPath: 'trashId',
-  });
-  createObjectStore(db, 'settings', {
-    keyPath: 'settingsId',
-  }).then((val) => {
-    changeSettings(defaultUserSettings, null, val);
-  });
+class NotesrusDB extends Dexie {
+  public settings!: Table<IUserSettings, string>;
+
+  public constructor() {
+    super('NotesrusDB')
+    this.version(1).stores({
+      settings: `uuid`
+    })
+  }
 }
 
-export const DB = await getIndexBase(
-  'notes-app',
-  {
-    defineSchema,
-  },
-  1
-);
-const settingsStore = await objectStore<IUserSettings, 'settingsId'>(
-  DB,
-  'settings',
-  {
-    keyPath: 'settingsId',
-  }
-)
-  .then((val) => val)
-  .catch((err) => err);
+const db = new NotesrusDB()
 
-export let settings: IUserSettings = await getRecord<IUserSettings>(
-  settingsStore,
-  'settings'
-);
-
-const settingsInstance = new UserSettings(settings);
+const settingsInstance = new UserSettings(undefined);
 
 export function changeSettings(
   newSettings: IUserSettings | null,
   type: keyof ChangeSettingsEventMap | null,
-  store = settingsStore
+  store = ''
 ) {
-  if (newSettings) {
-    setRecord(store, {
-      ...newSettings,
-      settingsId: 'settings',
-    }).then(
-      () =>
-        type && settingsInstance?.dispatchEvent(new ChangeSettingsEvent(type))
-    );
-  }
+  return ''
 }
 
 export { UserSettings };

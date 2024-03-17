@@ -1,6 +1,6 @@
 import { MutableRefObject, SetSignalDispatcher } from 'nixix/primitives';
 import { MouseEvent, TransitionEvent } from 'nixix/types/eventhandlers';
-import { VStack, HStack } from 'view-components';
+import { HStack, VStack } from 'nixix/view-components';
 
 type PopupProps = {
   ref: MutableRefObject<HTMLElement | null>;

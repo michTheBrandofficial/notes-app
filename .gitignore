@@ -3,3 +3,4 @@ dist/
 firebase.json
 .firebaserc
 *.sh
+*.ps1

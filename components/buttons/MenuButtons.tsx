@@ -1,12 +1,12 @@
-import { showHome, showSettings, showTrash } from '@utils/functions';
-import Icon from '@utils/nixix-heroicon';
+import { showHome, showSettings, showTrash } from '@/src/utils//functions';
+import Icon from '@/src/utils//nixix-heroicon';
 import {
   calendar,
   check,
   cog,
   home,
   trash,
-} from '@utils/nixix-heroicon/outline';
+} from '@/src/utils//nixix-heroicon/outline';
 import { SetSignalDispatcher } from 'nixix/primitives';
 
 type MenuButtonsProps = {

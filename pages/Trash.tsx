@@ -1,19 +1,19 @@
-import SwipeGesture from '@components/SwipeGesture';
-import { TrashButton } from '@components/buttons';
-import { Deleted, TrashFallback } from '@components/display';
-import { showHome } from '@utils/functions';
-import Icon from '@utils/nixix-heroicon';
-import { chevronLeft, trash as trashIcon } from '@utils/nixix-heroicon/outline';
-import { displayRefs } from '@utils/refs';
+import SwipeGesture from '@/components/SwipeGesture';
+import { TrashButton } from '@/components/buttons';
+import { Deleted, TrashFallback } from '@/components/display';
+import { setTrashStore, trashStore } from '@/src/store/trash';
+import { showHome } from '@/src/utils/functions';
+import Icon from '@/src/utils/nixix-heroicon';
+import { chevronLeft, trash as trashIcon } from '@/src/utils/nixix-heroicon/outline';
+import { displayRefs } from '@/src/utils/refs';
 import { For } from 'nixix/hoc';
-import { callEffect, callSignal } from 'nixix/primitives';
-import { setTrashStore, trashStore } from 'store/trash';
-import { Button, HStack, Paragragh, VStack } from 'view-components';
+import { reaction, signal } from 'nixix/primitives';
+import { Button, HStack, Paragragh, VStack } from 'nixix/view-components';
 
 const Trash = async (): Promise<someView> => {
-  const [disabled, setDisabled] = callSignal<boolean>(false, { equals: true });
-  callEffect(() => {
-    setDisabled(!Boolean(trashStore.$$__value.length));
+  const [disabled, setDisabled] = signal<boolean>(false);
+  reaction(() => {
+    setDisabled(!Boolean(trashStore.length));
   }, [trashStore]);
   function goHome() {
     showHome(displayRefs.trashRef, {
@@ -42,7 +42,7 @@ const Trash = async (): Promise<someView> => {
               <Icon
                 className="stroke-inherit fill-none"
                 path={chevronLeft}
-                stroke:width={2.4}
+                stroke-width={2.4}
               ></Icon>
             </Button>
             <h1 className=" text-[32px] ">Trash</h1>

@@ -1,4 +1,4 @@
-import { useStorage } from '@utils/useStorage';
+import { useStorage } from '@/src/utils/useStorage';
 import { callReaction, callStore } from 'nixix/primitives';
 
 export const [getTrash, setTrash] = useStorage<TTrash>('trash');

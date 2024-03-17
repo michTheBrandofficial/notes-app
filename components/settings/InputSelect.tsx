@@ -1,9 +1,9 @@
-import { ClassList } from '@utils/classes';
-import { lowerCase } from '@utils/functions';
-import Icon from '@utils/nixix-heroicon';
-import { chevronRight } from '@utils/nixix-heroicon/outline';
-import { changeSettings } from 'database';
-import { HStack } from 'view-components';
+import { changeSettings } from '@/database';
+import { ClassList } from '@/src/utils/classes';
+import { lowerCase } from '@/src/utils/functions';
+import Icon from '@/src/utils/nixix-heroicon';
+import { chevronRight } from '@/src/utils/nixix-heroicon/outline';
+import { HStack } from 'nixix/view-components';
 
 type InputSelectProps = {
   globalSettings: IUserSettings | null;

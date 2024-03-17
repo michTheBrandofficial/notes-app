@@ -1,16 +1,9 @@
+import Nixix from 'nixix/vite-plugin';
+import { resolve } from 'path';
 import { defineConfig } from 'vite';
-// @ts-ignore
-import HMR, { esbuildOptions } from 'nixix/vite-plugin';
-import path from 'path';
-// @ts-ignore
 import viteJsconfigPaths from 'vite-jsconfig-paths';
 import { VitePWA } from 'vite-plugin-pwa';
-import manifest from './pwa.manifest';
-
-// @ts-ignore
-function resolve(string) {
-  return path.resolve(__dirname, string);
-}
+import manifest from './src/app-config/pwa.manifest';
 
 const pwaSetup = [
   ...VitePWA({
@@ -30,35 +23,19 @@ const pwaSetup = [
 
 export default defineConfig({
   base: './',
-  plugins: [viteJsconfigPaths(), pwaSetup, HMR(`src/index.tsx`)],
+  plugins: [viteJsconfigPaths(), pwaSetup, Nixix({
+    hmr: true
+  })],
   resolve: {
     alias: {
-      '@styles': resolve('./styles'),
-      '@components': resolve('./components'),
-      '@assets': resolve('./assets'),
-      '@utils': resolve('./utils'),
-      '@pages': resolve('./pages'),
-      store: resolve('./store'),
-      '@hooks': resolve('./hooks'),
-      database: resolve('./database'),
-      'view-components': resolve('./view-components/index.tsx'),
+      "@": resolve('./'),
+      "~": resolve('./src/')
     },
   },
-  esbuild: {
-    ...esbuildOptions,
-    legalComments: 'none',
-  },
-  server: {
-    hmr: {
-      overlay: true,
-      timeout: 1000,
-    },
-  },
-  appType: 'spa',
   build: {
     target: 'esnext',
   },
   optimizeDeps: {
-    force: true,
-  },
+    force: true
+  }
 });

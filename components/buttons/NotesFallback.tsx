@@ -1,6 +1,6 @@
-import Icon from '@utils/nixix-heroicon';
-import { pencilAlt } from '@utils/nixix-heroicon/outline';
-import { createNewNote } from '@utils/functions';
+import { createNewNote } from '@/src/utils/functions';
+import Icon from '@/src/utils/nixix-heroicon';
+import { pencilAlt } from '@/src/utils/nixix-heroicon/outline';
 
 const NotesFallback = () => {
   return (
@@ -12,7 +12,7 @@ const NotesFallback = () => {
     >
       <Icon
         path={pencilAlt}
-        stroke:width={2.3}
+        stroke-width={2.3}
         className={'stroke-[#0c2037e9] fill-none lg:h-[35px] lg:w-[35px] '}
       />
       <p>New Note</p>

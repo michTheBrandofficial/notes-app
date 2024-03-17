@@ -1,24 +1,24 @@
-import { ClassList } from '@utils/classes';
-import Icon from '@utils/nixix-heroicon';
-import { plus, x } from '@utils/nixix-heroicon/outline';
+import { ClassList } from '@/src/utils//classes';
+import Icon from '@/src/utils//nixix-heroicon';
+import { plus, x } from '@/src/utils//nixix-heroicon/outline';
 import {
   SetSignalDispatcher,
-  SignalObject,
-  callReaction,
+  Signal,
   callRef,
+  reaction,
 } from 'nixix/primitives';
-import { Aside, Button, HStack, VStack } from 'view-components';
+import { Aside, Button, HStack, VStack } from 'nixix/view-components';
 import SwipeGesture from './SwipeGesture';
 import { MenuButtons } from './buttons';
 
 type SidebarProps<T = boolean> = {
-  sidebar: SignalObject<T>;
+  sidebar: Signal<T>;
   setSidebar: SetSignalDispatcher<T>;
 };
 
 const Sidebar = ({ sidebar, setSidebar }: SidebarProps): someView => {
   const asideRef = callRef<HTMLElement>();
-  callReaction(() => {
+  reaction(() => {
     if (sidebar.value) {
       ClassList.remove(asideRef.current, 'translate-x-[-100%]');
     } else ClassList.add(asideRef.current, 'translate-x-[-100%]');

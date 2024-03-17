@@ -1,6 +1,5 @@
-import { patchObject, removeUnusedProps } from '@utils/functions';
+import { patchObject, removeUnusedProps } from '@/src/utils/functions';
 import { effect } from 'nixix/primitives';
-import { cloneObject } from 'nixix/primitives/helpers';
 import TinyGesture from 'tinygesture';
 
 type SwipeGestureProps = {
@@ -45,7 +44,7 @@ const SwipeGesture = (props: Partial<SwipeGestureProps>) => {
           (removedProps as SwipeGestureProps)['on:swipeleft']!
         );
     });
-  }, 'once');
+  });
 
   return children;
 };

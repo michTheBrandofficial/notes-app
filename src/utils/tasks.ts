@@ -1,5 +1,5 @@
-import { showSettings, showTrash } from '@utils/functions';
-import { setformDisplay } from 'store/display';
+import { setformDisplay } from '@/src/store/display';
+import { showSettings, showTrash } from '@/src/utils/functions';
 
 type Tasks = ShortcutHandlers;
 

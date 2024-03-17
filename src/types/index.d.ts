@@ -5,8 +5,8 @@ import { Options } from 'tinygesture';
 export {};
 
 declare global {
-  type AnyObject = {
-    [index: string]: any;
+  type EmptyObject<T = any> = {
+    [index: string | symbol | number]: T;
   };
 
   type Null<T> = T | null | undefined;

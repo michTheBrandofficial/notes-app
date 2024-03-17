@@ -1,12 +1,8 @@
 {
   "compilerOptions": {
     "paths": {
-      "@styles/*": ["./styles/*"],
-      "@components/*": ["./components/*"],
-      "@assets/*": ["./assets/*"],
-      "@hooks": ["./hooks/index"],
-      "@pages/*": ["./pages/*"],
-      "@utils/*": ["./utils/*"]
+      "@/*": ["./*"],
+      "~/*": ["./src/*"],
     },
     "resolveJsonModule": true,
     "baseUrl": ".",
@@ -15,8 +11,10 @@
     "module": "es2022",
     "target": "es2022",
     "strict": true,
-    "types": ["nixix/router", "nixix/dom", "nixix/primitives", "nixix/hoc"],
+    "types": ["nixix/router", "nixix/dom", "nixix/primitives", "nixix/hoc", "nixix/view-components"],
     "allowSyntheticDefaultImports": true,
-    "moduleResolution": "Node"
+    "moduleResolution": "Node",
+    "noEmit": true,
+    "skipLibCheck": true
   }
 }

@@ -1,20 +1,18 @@
-import ClickAndHold from '@utils/clickandhold';
-import { createNewNote } from '@utils/functions';
-import Icon from '@utils/nixix-heroicon';
-import { clock } from '@utils/nixix-heroicon/outline';
-import { getStoreValue } from 'nixix/dom';
+import ClickAndHold from '@/src/utils/clickandhold';
+import { createNewNote } from '@/src/utils/functions';
+import Icon from '@/src/utils/nixix-heroicon';
+import { clock } from '@/src/utils/nixix-heroicon/outline';
 import { callRef, effect } from 'nixix/primitives';
 import { type MouseEvent } from 'nixix/types/eventhandlers';
-import { selectedNotes, setEditedNote, setSelectedNotes } from 'store';
-import { selectOp, setSelectOp } from 'store/display';
-import { Article, Paragragh, TextArea, VStack } from 'view-components';
+import { Article, Paragragh, TextArea, VStack } from 'nixix/view-components';
+import { selectedNotes, setEditedNote, setSelectedNotes } from '~/store';
+import { selectOp, setSelectOp } from '~/store/display';
 
 type NoteProps = TNote & {
   key: number;
   createdDate?: string;
 };
 
-// pink, lime, blue. shade 200
 const colors = [
   'bg-pink-200 dark:bg-pink-500',
   'bg-lime-200 dark:bg-lime-500',
@@ -24,13 +22,13 @@ const openForm = createNewNote;
 const Note = ({ title, time, body, key, createdDate }: NoteProps) => {
   const color = colors[key % colors.length];
   function handleClick(e: MouseEvent<HTMLElement>) {
-    if (Boolean(selectedNotes.$$__value.length)) {
+    if (Boolean(selectedNotes.length)) {
       return selectNote();
     }
     setEditedNote({
-      inputValue: getStoreValue(title),
-      bodyValue: getStoreValue(body),
-      key: key,
+      inputValue: title,
+      bodyValue: body,
+      key
     });
     openForm();
   }
@@ -50,7 +48,7 @@ const Note = ({ title, time, body, key, createdDate }: NoteProps) => {
   effect(() => {
     const clickandhold = new ClickAndHold(selectNote, 700, handleClick);
     clickandhold.apply(articleRef.current!);
-  }, 'once');
+  });
 
   return (
     <VStack

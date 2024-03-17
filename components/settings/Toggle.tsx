@@ -1,7 +1,7 @@
-import { ClassList } from '@utils/classes';
-import Icon from '@utils/nixix-heroicon';
+import { ClassList } from '@/src/utils/classes';
+import Icon from '@/src/utils/nixix-heroicon';
 import { MouseEventHandler } from 'nixix/types/eventhandlers';
-import { Button, HStack, Paragragh } from 'view-components';
+import { Button, HStack, Paragragh } from 'nixix/view-components';
 
 type ToggleProps = {
   'on:click'?: MouseEventHandler<HTMLButtonElement>;

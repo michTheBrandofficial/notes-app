@@ -1,5 +1,5 @@
 import { type NixixNode } from 'nixix';
-import { VStack } from 'view-components';
+import { VStack } from 'nixix/view-components';
 
 type SettingsGroupProps = {
   name: string;

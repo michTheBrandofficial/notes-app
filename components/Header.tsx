@@ -1,4 +1,4 @@
-import { createNewNote } from '@utils/functions';
+import { createNewNote } from '@/src/utils/functions';
 import { SetSignalDispatcher, SignalObject, callRef } from 'nixix/primitives';
 import { MouseEvent } from 'nixix/types/eventhandlers';
 import SwipeGesture from './SwipeGesture';

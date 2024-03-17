@@ -1,6 +1,6 @@
-import { createNewNote, deleteNotes } from '@utils/functions';
-import Icon from '@utils/nixix-heroicon';
-import { plus, x } from '@utils/nixix-heroicon/outline';
+import { createNewNote, deleteNotes } from '@/src/utils/functions';
+import Icon from '@/src/utils/nixix-heroicon';
+import { plus, x } from '@/src/utils/nixix-heroicon/outline';
 
 const Quicktools = () => {
   const quicktools = [

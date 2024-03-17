@@ -1,23 +1,23 @@
-import Header from '@components/Header';
-import Notes from '@components/Notes';
-import Quicktools from '@components/Quicktools';
-import { ClassList } from '@utils/classes';
+import Header from '@/components/Header';
+import Notes from '@/components/Notes';
+import Quicktools from '@/components/Quicktools';
+import { ClassList } from '@/src/utils/classes';
 import {
   SetSignalDispatcher,
-  SignalObject,
-  callReaction,
+  Signal,
   callRef,
+  reaction,
 } from 'nixix/primitives';
-import { VStack } from 'view-components';
+import { VStack } from 'nixix/view-components';
 
 type BodyProps<T = boolean> = {
-  toggleMenu: [SignalObject<T>, SetSignalDispatcher<T>];
+  toggleMenu: [Signal<T>, SetSignalDispatcher<T>];
 };
 
 const Body = ({ toggleMenu }: BodyProps): someView => {
   const bodyRef = callRef<HTMLElement>();
   const [sidebar, setSidebar] = toggleMenu;
-  callReaction(() => {
+  reaction(() => {
     if (sidebar.value) ClassList.add(bodyRef.current, 'body-overlay');
     else ClassList.remove(bodyRef.current, 'body-overlay');
   }, [sidebar]);

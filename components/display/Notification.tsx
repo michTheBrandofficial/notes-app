@@ -1,8 +1,8 @@
-import Icon from '@utils/nixix-heroicon';
-import { informationCircle } from '@utils/nixix-heroicon/solid';
-import { displayRefs } from '@utils/refs';
-import { notification } from 'store/display';
-import { HStack, Paragragh, VStack } from 'view-components';
+import { notification } from '@/src/store/display';
+import Icon from '@/src/utils/nixix-heroicon';
+import { informationCircle } from '@/src/utils/nixix-heroicon/solid';
+import { displayRefs } from '@/src/utils/refs';
+import { HStack, Paragragh, VStack } from 'nixix/view-components';
 
 const Notification = (): someView => {
   return (

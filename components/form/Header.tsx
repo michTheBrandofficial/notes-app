@@ -1,6 +1,6 @@
-import Icon from '@utils/nixix-heroicon';
-import { check, chevronLeft, pencil } from '@utils/nixix-heroicon/outline';
-import { Button, HStack, Paragragh } from 'view-components';
+import Icon from '@/src/utils/nixix-heroicon';
+import { check, chevronLeft, pencil } from '@/src/utils/nixix-heroicon/outline';
+import { Button, HStack, Paragragh } from 'nixix/view-components';
 
 type HeaderProps = {
   goHome: VoidFunction;

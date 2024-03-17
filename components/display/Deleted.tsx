@@ -1,11 +1,10 @@
-import { splice } from '@utils/functions';
-import Icon from '@utils/nixix-heroicon';
-import { refresh, trash as trashIcon } from '@utils/nixix-heroicon/outline';
-import { setNotes } from 'store';
-import { setTrashStore } from 'store/trash';
-import { getStoreValue } from 'nixix/dom';
-import { Article, Button, HStack, Paragragh, VStack } from 'view-components';
-import { SetStoreDispatcher } from 'nixix/primitives';
+import { splice } from '@/src/utils/functions';
+import Icon from '@/src/utils/nixix-heroicon';
+import { refresh, trash as trashIcon } from '@/src/utils/nixix-heroicon/outline';
+import { SetStoreDispatcher } from "nixix/primitives";
+import { Article, Button, HStack, Paragragh, VStack } from 'nixix/view-components';
+import { setNotes } from '~/store';
+import { setTrashStore } from '~/store/trash';
 
 type DeletedProps = TNote & {
   key: number;
@@ -21,10 +20,10 @@ const Deleted = ({ body, createdDate, title, key, time }: DeletedProps) => {
   function restore() {
     (setNotes as unknown as SetStoreDispatcher<TTrash>)((prev) => {
       prev?.unshift({
-        body: getStoreValue(body),
-        createdDate: getStoreValue(createdDate),
-        title: getStoreValue(title),
-        time: getStoreValue(time),
+        body,
+        createdDate,
+        title,
+        time,
         trashId: key,
       });
       return prev as TTrash;

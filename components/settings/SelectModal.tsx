@@ -1,13 +1,13 @@
-import { ClassList } from '@utils/classes';
+import { ClassList } from '@/src/utils/classes';
 import { For } from 'nixix/hoc';
 import {
-  SetSignalDispatcher,
-  SignalObject,
-  StoreObject,
-  callReaction,
-  callRef,
+    SetSignalDispatcher,
+    SignalObject,
+    StoreObject,
+    callReaction,
+    callRef,
 } from 'nixix/primitives';
-import { VStack } from 'view-components';
+import { VStack } from 'nixix/view-components';
 
 type SelectModalProps = {
   options?: StoreObject<string[]>;

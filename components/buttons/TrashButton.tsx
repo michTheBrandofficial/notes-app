@@ -1,10 +1,10 @@
-import { ValueType } from 'nixix';
+import { Signal } from 'nixix/primitives';
 import { MouseEventHandler } from 'nixix/types/eventhandlers';
 
 type TrashButtonProps = {
   'on:click': MouseEventHandler<HTMLButtonElement>;
   children?: any;
-  disabled?: ValueType<boolean>;
+  disabled?: Signal<boolean>;
 };
 
 const TrashButton = (props: TrashButtonProps) => {

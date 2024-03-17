@@ -1,4 +1,4 @@
-import SwipeGesture from '@components/SwipeGesture';
+import SwipeGesture from '@/components/SwipeGesture';
 import {
   Header,
   InputField,
@@ -7,21 +7,19 @@ import {
   SelectModal,
   SettingsGroup,
   Toggle,
-} from '@components/settings';
-import { UserSettingsHandlers } from '@components/settings/settings';
-import { isNull, showHome } from '@utils/functions';
-import Icon from '@utils/nixix-heroicon';
+} from '@/components/settings';
+import { UserSettingsHandlers } from '@/components/settings/settings';
+import { UserSettings } from '@/database';
+import { isNull, showHome } from '@/src/utils/functions';
 import {
   bell,
   bookOpen,
-  chevronLeft,
   sun,
-  trash,
-} from '@utils/nixix-heroicon/outline';
-import { displayRefs } from '@utils/refs';
-import { UserSettings } from 'database';
+  trash
+} from '@/src/utils/nixix-heroicon/outline';
+import { displayRefs } from '@/src/utils/refs';
 import { callReaction, callSignal, callStore, effect } from 'nixix/primitives';
-import { Button, VStack } from 'view-components';
+import { VStack } from 'nixix/view-components';
 
 type NewSetting = {
   resolvePromise: StringResolver | InputStringResolver | null;
@@ -62,7 +60,7 @@ const Settings = async (): Promise<someView> => {
     callReaction(() => {
       inputSignal?.[1]?.(true);
     }, [inputOptions]);
-  }, 'once');
+  });
 
   function goHome() {
     showHome(displayRefs.settingsRef, {
