@@ -1,8 +1,7 @@
-import { SignalObject, SetSignalDispatcher } from 'nixix/primitives';
 import { MouseEventHandler } from 'nixix/types/eventhandlers';
 import { Options } from 'tinygesture';
 
-export {};
+export { };
 
 declare global {
   type EmptyObject<T = any> = {
@@ -26,6 +25,7 @@ declare global {
       path: string;
       outline: boolean;
     };
+    desktop?: boolean;
     onclick?: MouseEventHandler<HTMLButtonElement>;
   }>;
 

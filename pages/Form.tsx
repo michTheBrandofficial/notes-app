@@ -1,6 +1,5 @@
-import Popup from '@/components/Popup';
-import SwipeGesture from '@/components/SwipeGesture';
 import { Header } from '@/components/form';
+import { Popup, SwipeGesture } from '@/components/ui';
 import { UserSettings } from '@/database';
 import { getPopupPermission, setFormEffect, setInputReadOnly } from '@/src/hooks';
 import { editedNote, setEditedNote, setNotes } from '@/src/store';
@@ -21,7 +20,7 @@ import {
 } from 'nixix/types/eventhandlers';
 import { FormField, TextArea, TextField, VStack } from 'nixix/view-components';
 
-const Form = (): someView => {
+const Form: Nixix.FC = () => {
   const settingsInstance = new UserSettings();
   const userSettings: IUserSettings | null = settingsInstance?._settings;
   const baseSize = userSettings?.['font size']?.default || '18px';
@@ -50,7 +49,7 @@ const Form = (): someView => {
     if (bp !== 'none' && bp !== 'None') {
       inputs[1]?.addEventListener('keyup', addBP as any);
     }
-  }, 'once');
+  });
 
   const [, setAccepted] = getPopupPermission(popupRef, focusInput);
 
@@ -65,7 +64,6 @@ const Form = (): someView => {
   // func
 
   function handleSubmbit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
     const formData = new FormData(e.currentTarget);
     // @ts-ignore
     const data: TNote = {
@@ -79,8 +77,8 @@ const Form = (): someView => {
     }
     data.time = CreateNote.getUpdateTime();
 
-    const key = editedNote.$$__value.key;
-    if (key === null) {
+    const key = editedNote.key;
+    if (key?.value === null) {
       data.createdDate = CreateNote.getCreationDate();
     }
     setNotes((prev) => {
@@ -170,7 +168,7 @@ const Form = (): someView => {
             goHome={goHome}
           />
           <FormField
-            on:submit={handleSubmbit}
+            on:submit_preventDefault={handleSubmbit}
             className={
               'w-full h-full flex flex-col text-darkBlue dark:text-slate-300 p-2 pb-10 space-y-2 '
             }

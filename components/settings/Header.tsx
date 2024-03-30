@@ -22,7 +22,7 @@ const Header = (props: HeaderProps): someView => {
             className="stroke-black dark:stroke-stone-900 fill-none"
             path={chevronLeft}
             size={30}
-            stroke:width={2.4}
+            stroke-width={2.4}
           ></Icon>
         </Button>
         <h1 className="text-[35px] dark:text-stone-900 ">Settings</h1>

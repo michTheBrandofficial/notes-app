@@ -1,20 +1,17 @@
-import { callSignal, callStore } from 'nixix/primitives';
+import { signal, store } from 'nixix/primitives';
 
-type FormDisplay = {
-  transform: 'translateX(0)' | 'translateX(100%)' | 'translateX(-100%)';
-  opacity: '0' | '1';
-};
+export const [sidebar, setSidebar] = signal<boolean>(false);
 
-export const [formDisplay, setformDisplay] = callSignal<boolean>(false, {
+export const [formDisplay, setformDisplay] = signal<boolean>(false, {
   equals: true,
 });
 
-export const [selectOp, setSelectOp] = callSignal<'0' | '1'>('0');
+export const [selectOp, setSelectOp] = signal<'0' | '1'>('0');
 
 type Notification = {
   message?: string;
 };
 
-export const [notification, setNotification] = callStore<Notification>({
+export const [notification, setNotification] = store<Notification>({
   message: '',
 });

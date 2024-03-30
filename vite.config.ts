@@ -35,7 +35,7 @@ export default defineConfig({
   build: {
     target: 'esnext',
   },
-  optimizeDeps: {
-    force: true
-  }
+  server: {
+    hmr: true
+  },
 });

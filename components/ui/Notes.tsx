@@ -6,19 +6,19 @@ import Icon from '@/src/utils/nixix-heroicon';
 import { x } from '@/src/utils/nixix-heroicon/outline';
 import { notesRef } from '@/src/utils/refs';
 import { For } from 'nixix/hoc';
-import { SetSignalDispatcher, callEffect, callRef } from 'nixix/primitives';
+import { SetSignalDispatcher, callRef, reaction } from 'nixix/primitives';
 import { HStack, VStack } from 'nixix/view-components';
+import { NotesFallback } from '../buttons';
+import Note from './Note';
 import SwipeGesture from './SwipeGesture';
-import { NotesFallback } from './buttons';
-import { Note } from './display';
 
 const Notes = ({
   setSidebar,
 }: {
   setSidebar: SetSignalDispatcher<boolean>;
 }) => {
-  callEffect(() => {
-    if (notes.$$__value.length === 0) {
+  reaction(() => {
+    if (notes.length === 0) {
       ClassList.add(notesRef.current, 'pr-4', 'lg:pr-12');
       ClassList.replace(notesRef.current, 'h-fit', 'h-full');
       ClassList.remove(gestureRef.current, 'swipe-area');
@@ -30,7 +30,7 @@ const Notes = ({
 
   function deselect() {
     setSelectedNotes(() => {
-      deselectNotes(selectedNotes.$$__value);
+      deselectNotes(selectedNotes);
       setSelectOp('0');
       return [];
     });
@@ -66,8 +66,7 @@ const Notes = ({
         bind:ref={notesRef}
       >
         <For each={notes} fallback={<NotesFallback />}>
-          {(item: typeof notes, i: number) => {
-            const note = item[i];
+          {(note, i: number) => {
             return <Note {...note} createdDate={note.createdDate} key={i} />;
           }}
         </For>

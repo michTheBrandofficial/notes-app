@@ -54,7 +54,7 @@ const Select = (props: SelectProps): someView => {
           tabindex={1}
           className={'stroke-inherit fill-none transition-all duration-500 '}
           path={chevronRight}
-          stroke:width={3.5}
+          stroke-width={3.5}
           size={22}
         />
       </HStack>

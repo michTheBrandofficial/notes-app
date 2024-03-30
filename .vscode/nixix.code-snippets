@@ -124,5 +124,9 @@
     "body": "<Show when={${1:signal}} fallback={${2:fallback}}>\n\t<div />\n</Show>",
     "scope": "typescriptreact,javascriptreact",
     "description": "Show Component"
+  },
+  "barrel export": {
+    "prefix": "bard",
+    "body": "export { default as ${TM_SELECTED_TEXT}} from \"./${TM_SELECTED_TEXT}\"; "
   }
 }

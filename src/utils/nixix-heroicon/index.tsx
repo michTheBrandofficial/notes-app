@@ -16,10 +16,10 @@ type IconProps = {
 
 const Icon = (props: IconProps) => {
   const { className, stroke, size = 24, fill, path, ...rest } = props;
-  if ('stroke:width' in rest) {
+  if ('stroke-width' in rest) {
     path.path = path.path.replace(
       `stroke-width="2"`,
-      `stroke-width="${rest['stroke:width']}"`
+      `stroke-width="${rest['stroke-width']}"`
     );
   }
   const svg = (

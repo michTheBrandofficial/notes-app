@@ -10,6 +10,8 @@
     "jsxImportSource": "nixix/types",
     "module": "es2022",
     "target": "es2022",
+    "experimentalDecorators": true,
+    "noUnusedLocals": true,
     "strict": true,
     "types": ["nixix/router", "nixix/dom", "nixix/primitives", "nixix/hoc", "nixix/view-components"],
     "allowSyntheticDefaultImports": true,

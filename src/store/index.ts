@@ -1,5 +1,9 @@
 import { useStorage } from '@/src/utils/useStorage';
-import { reaction, store } from 'nixix/primitives';
+import { reaction, signal, store } from 'nixix/primitives';
+
+// Toggles here 
+export const [settingClass, setSettingsClass] = signal<'translate-x-[-100%] opacity-0' | ''>('translate-x-[-100%] opacity-0')
+
 
 export const [getStorageNotes, setStorageNotes] = useStorage<TNotes>('notes');
 export const [notes, setNotes] = store<TNotes>(getStorageNotes() || []);

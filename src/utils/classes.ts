@@ -71,6 +71,18 @@ export class ClassList {
       (ref as HTMLElement | SVGElement).classList.add(...classList);
     else (ref as MutableRefObject<T>).current?.classList.add(...classList);
   }
+
+  /**
+   * add classes to the ref passed to it
+   */
+  static toggle<T extends HTMLElement | SVGElement | null>(
+    ref: MutableRefObject<T> | T,
+    classList: string
+  ) {
+    if (ref instanceof Node)
+      (ref as HTMLElement | SVGElement).classList.toggle(classList);
+    else (ref as MutableRefObject<T>).current?.classList.toggle(classList);
+  }
 }
 
 export class Style {

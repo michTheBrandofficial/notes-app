@@ -1,5 +1,6 @@
 import Icon from '@/src/utils/nixix-heroicon';
 import { check, chevronLeft, pencil } from '@/src/utils/nixix-heroicon/outline';
+import Nixix from 'nixix';
 import { Button, HStack, Paragragh } from 'nixix/view-components';
 
 type HeaderProps = {
@@ -8,7 +9,7 @@ type HeaderProps = {
   save: VoidFunction;
 };
 
-const Header = (props: HeaderProps): someView => {
+const Header: Nixix.FC<HeaderProps> = (props) => {
   return (
     <HStack className={'w-full h-fit flex items-center justify-between '}>
       <Button on:click={props.goHome}>
@@ -16,7 +17,7 @@ const Header = (props: HeaderProps): someView => {
           className={'stroke-peach fill-none  '}
           path={chevronLeft}
           size={28}
-          stroke:width={2.5}
+          stroke-width={2.5}
         />
       </Button>
       <Paragragh className="text-peach text-[20px] font-bold ">
@@ -28,7 +29,7 @@ const Header = (props: HeaderProps): someView => {
           className={'stroke-peach fill-none stroke-[3px] '}
           path={pencil}
           size={28}
-          stroke:width={2.5}
+          stroke-width={2.5}
         />
       </Button>
       <Button className={'ml-auto '} on:click={props.save}>
@@ -36,7 +37,7 @@ const Header = (props: HeaderProps): someView => {
           className={'stroke-peach fill-none stroke-[3px] '}
           path={check}
           size={28}
-          stroke:width={2.5}
+          stroke-width={2.5}
         />
       </Button>
     </HStack>

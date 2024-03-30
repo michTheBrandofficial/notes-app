@@ -1,10 +1,8 @@
-import SettingsLayer from "@/components/SettingsLayer";
-import Sidebar from "@/components/Sidebar";
-import { Notification } from "@/components/display";
-import Body from "@/pages/Body";
-import Form from "@/pages/Form";
-import Settings from "@/pages/Settings";
-import Trash from "@/pages/Trash";
+import { Notification, SettingsLayer, Sidebar, Spinner } from "@/components/ui";
+import Body from "@/pages/body";
+import Form from "@/pages/form";
+import Settings from "@/pages/settings";
+import Trash from "@/pages/trash";
 import { Suspense } from "nixix/hoc";
 import { effect } from "nixix/primitives";
 import { VStack } from "nixix/view-components";
@@ -32,19 +30,16 @@ class View extends SettingsLayer {
     })
   }
 
-  sideBarState = View.State<boolean>(false)
-
-  jsx(): JSX.ElementType {
-    const [sidebar, setSidebar] = [this.sideBarState.get(), this.sideBarState.set]
+  jsx(): someView {
 
     return (
       <VStack className={"w-screen h-screen relative overflow-clip lg:flex"}>
-        <Sidebar {...{ sidebar, setSidebar }} />
-        <Suspense fallback={'I am a fallback'} >
-          <Body toggleMenu={[sidebar, setSidebar]} />
-          <Notification />
+        <Sidebar />
+        <Suspense fallback={<Spinner.Page />} >
+          <Body />
           <Settings />
           <Trash />
+          <Notification />
         </Suspense>
         <Form />
       </VStack>

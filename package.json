@@ -5,11 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "vite build && npm run pwa",
+    "build": "vite build",
     "dev": "vite",
-    "pwa": "cp -r assets/pwa/*.png assets/pwa/*.ico dist/  && npm run assets:process",
-    "assets:process": "node asset-vite-plugin/index.cjs",
+    "check": "tsc",
     "preview": "vite preview --port 5174"
   },
   "repository": {
@@ -29,14 +27,17 @@
   },
   "homepage": "https://github.com/michTheBrandofficial/notes-app#readme",
   "dependencies": {
-    "dexie": "^3.2.6",
-    "nixix": "^3.0.0",
-    "tinygesture": "^2.0.0"
+    "dexie": "^4.0.1",
+    "nixix": "^3.0.1",
+    "tailwindcss": "^3.4.3",
+    "tinygesture": "^3.0.0"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.14",
-    "postcss": "^8.4.22",
-    "tailwindcss": "^3.3.1",
-    "vite-plugin-pwa": "^0.16.5"
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "typescript": "5.4.3",
+    "vite": "^5.2.6",
+    "vite-jsconfig-paths": "^2.0.1",
+    "vite-plugin-pwa": "^0.19.7"
   }
 }

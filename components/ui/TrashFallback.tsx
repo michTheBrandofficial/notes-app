@@ -1,4 +1,4 @@
-import EmptyTrash from '@/assets/images/935d25727c6032e4b85d3e633d5912a1.png';
+import { stripPublicDir } from '@/lib';
 import { HStack, Heading, VStack } from 'nixix/view-components';
 
 type TrashFallbackProps = {};
@@ -12,7 +12,7 @@ const TrashFallback = (props: TrashFallbackProps): someView => {
     >
       <VStack className="w-fit h-fit flex flex-col items-center font-medium text-lg lg:text-2xl ">
         <img
-          src={EmptyTrash}
+          src={stripPublicDir('/public/images/935d25727c6032e4b85d3e633d5912a1.png')}
           className={'w-fit h-fit dark:mix-blend-color-burn '}
           alt="Empty trash can"
         />

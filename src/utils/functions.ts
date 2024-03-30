@@ -1,12 +1,17 @@
-import NotificationSound from '@/assets/audio/mixkit-software-interface-start-2574.wav';
-import { UserSettings } from '@/database';
-import { MutableRefObject } from 'nixix/primitives';
-import { cloneObject } from 'nixix/primitives/helpers';
-import { selectedNotes, setNotes, setSelectedNotes } from '~/store';
-import { setNotification, setSelectOp, setformDisplay } from '~/store/display';
-import { getTrash, setTrashStore } from '~/store/trash';
-import { ClassList } from './classes';
-import { displayRefs, notesRef } from './refs';
+import { UserSettings } from "@/database";
+import { stripPublicDir } from "@/lib";
+import { MutableRefObject } from "nixix/primitives";
+import { cloneObject } from "nixix/primitives/helpers";
+import {
+  selectedNotes,
+  setNotes,
+  setSelectedNotes,
+  setSettingsClass,
+} from "~/store";
+import { setNotification, setSelectOp, setformDisplay } from "~/store/display";
+import { getTrash, setTrashStore } from "~/store/trash";
+import { ClassList } from "./classes";
+import { displayRefs, notesRef } from "./refs";
 
 const settingsInstance: Null<UserSettings> = new UserSettings();
 settingsInstance._settings;
@@ -19,10 +24,10 @@ export function closeForm() {
 }
 
 let permanentDeletionSetting: boolean = isNull(
-  settingsInstance?._settings?.['permanent deletion'],
+  settingsInstance?._settings?.["permanent deletion"],
   false
 );
-settingsInstance.addEventListener('get:permanent deletion', (e) => {
+settingsInstance.addEventListener("get:permanent deletion", (e) => {
   permanentDeletionSetting = e;
 });
 export function deleteNotes() {
@@ -33,7 +38,7 @@ export function deleteNotes() {
       const trash: TTrash = [];
 
       prev?.forEach((note, i) => {
-        let includes = Boolean(toDelete.includes(i));
+        let includes = Boolean(toDelete.includes(i as any));
         if (includes === true) {
           trash.push(note as unknown as TrashType);
         } else {
@@ -45,21 +50,21 @@ export function deleteNotes() {
       deselectNotes(toDelete);
       return persistentNotes as TNotes;
     });
-    setSelectOp('0');
+    setSelectOp("0");
     setSelectedNotes([]);
     notesRef.current?.scroll({
-      behavior: 'smooth',
+      behavior: "smooth",
       left: 0,
     });
   } else {
-    showNotification('Please select notes to delete');
+    showNotification("Please select notes to delete");
   }
 }
 
 export function deselectNotes(indexArray: number[]) {
   const selectedNotes = notesRef.current?.children as HTMLCollection;
   indexArray.forEach((index) => {
-    ClassList.remove(selectedNotes?.item(index) as any, 'selected');
+    ClassList.remove(selectedNotes?.item(index) as any, "selected");
   });
 }
 
@@ -93,7 +98,7 @@ export function removeValue(
   ...elements: (HTMLInputElement | HTMLTextAreaElement)[]
 ) {
   elements.forEach((el) => {
-    el.value = '';
+    el.value = "";
   });
 }
 
@@ -108,7 +113,7 @@ export function lowerCase<T extends string>(str: T): Lowercase<T> {
 
 export function removeLast(arr: string[]) {
   if (arr.length > 3) arr.length = 3;
-  return arr as IUserSettings['font size']['recentOptions'];
+  return arr as IUserSettings["font size"]["recentOptions"];
 }
 
 export function getDefault<T extends keyof IUserSettings>(
@@ -119,7 +124,7 @@ export function getDefault<T extends keyof IUserSettings>(
 }
 
 export function createLesserSize(str: `${string}px`) {
-  return (Number(str.replace('px', '')) - 3).toString().concat('px');
+  return (Number(str.replace("px", "")) - 3).toString().concat("px");
 }
 
 export function bindMethod<T extends { [index: string]: any }>(
@@ -137,7 +142,7 @@ export function isNull(val: any, def?: boolean) {
 let notificationSetting: boolean = isNull(
   settingsInstance?._settings?.notifications
 );
-settingsInstance?.addEventListener('get:notifications', (e) => {
+settingsInstance?.addEventListener("get:notifications", (e) => {
   notificationSetting = e;
 });
 export function showNotification(message: string) {
@@ -146,24 +151,25 @@ export function showNotification(message: string) {
       message,
     });
     const notifiEl = displayRefs.notificationRef.current;
-    notifiEl?.classList.add('notifi');
-    const audio = new Audio(NotificationSound);
+    notifiEl?.classList.add("notifi");
+    const audio = new Audio(
+      stripPublicDir("/public/audio/mixkit-software-interface-start-2574.wav")
+    );
     audio.play();
     setTimeout(() => {
-      notifiEl?.classList.remove('notifi');
+      notifiEl?.classList.remove("notifi");
     }, 3000);
   }
 }
 
 export function showTrash() {
   const trashRef = displayRefs.trashRef;
-  ClassList.remove(trashRef, 'opacity-0', 'translate-x-[100%]');
-  trashRef.current?.querySelector('button')?.focus();
+  ClassList.remove(trashRef, "opacity-0", "translate-x-[100%]");
+  trashRef.current?.querySelector("button")?.focus();
 }
 
 export function showSettings() {
-  const settingsRef = displayRefs.settingsRef;
-  ClassList.remove(settingsRef, ...['translate-x-[-100%]', 'opacity-0']);
+  setSettingsClass("");
 }
 
 export function showHome(

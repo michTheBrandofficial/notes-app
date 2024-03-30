@@ -2,15 +2,16 @@ import ClickAndHold from '@/src/utils/clickandhold';
 import { createNewNote } from '@/src/utils/functions';
 import Icon from '@/src/utils/nixix-heroicon';
 import { clock } from '@/src/utils/nixix-heroicon/outline';
-import { callRef, effect } from 'nixix/primitives';
+import { Store, callRef, effect } from 'nixix/primitives';
 import { type MouseEvent } from 'nixix/types/eventhandlers';
 import { Article, Paragragh, TextArea, VStack } from 'nixix/view-components';
 import { selectedNotes, setEditedNote, setSelectedNotes } from '~/store';
 import { selectOp, setSelectOp } from '~/store/display';
 
-type NoteProps = TNote & {
-  key: number;
+type NoteProps = Store<TNote & {
   createdDate?: string;
+}> & {
+  key: number;
 };
 
 const colors = [

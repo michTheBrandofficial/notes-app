@@ -1,4 +1,3 @@
-import SwipeGesture from '@/components/SwipeGesture';
 import {
   Header,
   InputField,
@@ -9,16 +8,17 @@ import {
   Toggle,
 } from '@/components/settings';
 import { UserSettingsHandlers } from '@/components/settings/settings';
+import { SwipeGesture } from '@/components/ui';
 import { UserSettings } from '@/database';
-import { isNull, showHome } from '@/src/utils/functions';
+import { setSettingsClass, settingClass } from '@/src/store';
+import { isNull } from '@/src/utils/functions';
 import {
   bell,
   bookOpen,
   sun,
   trash
 } from '@/src/utils/nixix-heroicon/outline';
-import { displayRefs } from '@/src/utils/refs';
-import { callReaction, callSignal, callStore, effect } from 'nixix/primitives';
+import { callReaction, callSignal, callStore, concat, effect } from 'nixix/primitives';
 import { VStack } from 'nixix/view-components';
 
 type NewSetting = {
@@ -62,19 +62,12 @@ const Settings = async (): Promise<someView> => {
     }, [inputOptions]);
   });
 
-  function goHome() {
-    showHome(displayRefs.settingsRef, {
-      classes: ['translate-x-[-100%]', 'opacity-0'],
-    });
-  }
-
   return (
-    <SwipeGesture on:swipeleft={goHome}>
+    <SwipeGesture on:swipeleft={() => setSettingsClass('translate-x-[-100%] opacity-0')}>
       <VStack
         className={
-          'h-screen w-full flex flex-col top-0 z-50 translate-x-[-100%] opacity-0 transition-all duration-1000 ease-in-out absolute font-HantenGrotesk bg-white '
+          concat`h-screen w-full flex flex-col top-0 z-50 transition-all duration-1000 ease-in-out absolute font-HantenGrotesk bg-white ${settingClass} `
         }
-        bind:ref={displayRefs.settingsRef}
       >
         <VStack
           className={'h-screen w-full flex flex-col relative top-0 bg-white '}
@@ -93,7 +86,7 @@ const Settings = async (): Promise<someView> => {
             inputSignal={inputSignal}
             inputOptions={inputOptions}
           />
-          <Header goHome={goHome} />
+          <Header goHome={() => setSettingsClass('translate-x-[-100%] opacity-0')} />
           <VStack
             className={
               'w-full flex-grow flex flex-col px-8 bg-white pt-4 pb-6 space-y-5 overflow-y-scroll no-scroll text-slate-400 dark:text-slate-50 dark:bg-stone-700 '

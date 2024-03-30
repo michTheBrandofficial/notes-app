@@ -1,6 +1,13 @@
 {
-  "workbench.colorTheme": "poimandres",
-  "path-intellisense.absolutePathToWorkspace": false,
-  "path-intellisense.absolutePathTo": "",
-  "path-intellisense.showOnAbsoluteSlash": false
+  "workbench.colorTheme": "Bearded Theme Arc Blueberry",
+  "path-intellisense.showOnAbsoluteSlash": true,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+  },
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }

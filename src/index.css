@@ -4,38 +4,17 @@
 
 @font-face {
   font-family: Hanten_Grotesk;
-  src: url(../assets/fonts/Hanken_Grotesk/static/HankenGrotesk-Bold.ttf);
+  src: url(./fonts/Hanken_Grotesk/static/HankenGrotesk-Bold.ttf);
 }
 
 @font-face {
   font-family: Rubik;
-  src: url(../assets/fonts/Rubik/static/Rubik-SemiBold.ttf);
+  src: url(./fonts/Rubik/static/Rubik-SemiBold.ttf);
 }
 
 @font-face {
   font-family: Inter;
-  src: url(../assets/fonts/Inter/static/Inter-Regular.ttf);
-}
-
-.no-scroll::-webkit-scrollbar {
-  width: 0px;
-  -ms-overflow-style: none;
-}
-
-.no-scroll {
-  scrollbar-width: none;
-}
-
-html {
-  scrollbar-width: none;
-}
-
-@viewport {
-  user-zoom: fixed;
-}
-
-@-ms-viewport {
-  user-zoom: fixed;
+  src: url(./fonts/Inter/static/Inter-Regular.ttf);
 }
 
 @layer base {
@@ -48,6 +27,27 @@ html {
 }
 
 @layer components {
+  .no-scroll::-webkit-scrollbar {
+    width: 0px;
+    -ms-overflow-style: none;
+  }
+
+  .no-scroll {
+    scrollbar-width: none;
+  }
+
+  html {
+    scrollbar-width: none;
+  }
+
+  @viewport {
+    user-zoom: fixed;
+  }
+
+  @-ms-viewport {
+    user-zoom: fixed;
+  }
+
   .active-btn:active {
     scale: 1.2;
   }
@@ -167,5 +167,15 @@ html {
 
   .filterNotActive {
     @apply text-gray-500 dark:text-blue-400;
+  }
+
+  /* animations */
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .n-animate-spin {
+    animation: spin 1s ease-in-out infinite;
   }
 }

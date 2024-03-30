@@ -45,7 +45,7 @@ const Pannable = (props: PannableProps): someView => {
         node.style.opacity = '1';
       });
     });
-  }, 'once');
+  });
 
   return children;
 };

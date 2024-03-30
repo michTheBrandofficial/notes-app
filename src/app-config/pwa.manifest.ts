@@ -51,7 +51,7 @@ const manifest: Partial<ManifestOptions> = {
     },
   ],
   shortcuts,
-  display: 'standalone',
+  display: 'fullscreen',
   theme_color: '#d8b4fe',
   background_color: '#fff',
   scope: '/',
