@@ -52,7 +52,7 @@ const manifest: Partial<ManifestOptions> = {
   ],
   shortcuts,
   display: 'standalone',
-  theme_color: '#d8b4fe',
+  theme_color: '#27272A',
   background_color: '#fff',
   scope: '/',
   orientation: 'portrait',
